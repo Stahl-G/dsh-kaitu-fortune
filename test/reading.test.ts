@@ -4,14 +4,14 @@ import { join } from "node:path";
 import { expect, test } from "vitest";
 import { saveBirth } from "../src/birth.js";
 import { searchCities } from "../src/cities.js";
-import { type Llm, Readings } from "../src/reading.js";
+import { type Chunk, type Llm, type Reading, Readings } from "../src/reading.js";
 import { handle } from "../src/requests.js";
 
 const dir = () => mkdtempSync(join(tmpdir(), "fortune-reading-"));
 const route = { provider: "deepseek", model: "deepseek-chat" };
 
 /** DSH 模型服务的替身：记下收到的请求，按给定的分片流式回答；release 之前停在第一段之后。 */
-function fakeLlm(chunks: object[]) {
+function fakeLlm(chunks: Chunk[]) {
   const sent: object[] = [];
   let release = () => {};
   const gate = new Promise<void>((resolve) => {
@@ -34,6 +34,11 @@ function fakeLlm(chunks: object[]) {
   return { llm, sent, release };
 }
 const delta = (text: string) => ({ type: "text-delta", index: 0, text });
+const all = async (stream: AsyncIterable<Reading>) => {
+  const items: Reading[] = [];
+  for await (const item of stream) items.push(item);
+  return items;
+};
 
 async function withBirth() {
   const at = dir();
@@ -104,12 +109,12 @@ test("模型报错时存成没完成的一条，写明原因；没有模型服�
 
   const { llm, release } = fakeLlm([
     delta("## 计算"),
-    { type: "finish", reason: { kind: "error", failure: { code: "RATE_LIMIT", message: "请求太频繁" } } },
+    { type: "finish", reason: { kind: "error", failure: { message: "请求太频繁" } } },
   ]);
   readings.model = { llm, route: () => route };
   const started = await readings.start("astro");
   release();
-  const last = (await Array.fromAsync(readings.watch(started.id))).at(-1);
+  const last = (await all(readings.watch(started.id))).at(-1);
   expect(last).toMatchObject({ status: "failed", error: "请求太频繁", text: "## 计算" });
   expect(readings.read(started.id)).toMatchObject({ status: "failed", subject: "astro" });
   expect(last?.request.user).toMatch(/^这是西洋本命星盘的计算结果/);
@@ -126,7 +131,7 @@ test("塔罗解读用这次抽到的牌和当时问的事；一键删除连解�
   };
   const started = await readings.start("tarot", spread.drawId);
   release();
-  await Array.fromAsync(readings.watch(started.id));
+  await all(readings.watch(started.id));
   const user = (sent[0] as { messages: { content: { text: string }[] }[] }).messages[0]?.content[0]?.text;
   expect(user).toMatch(/^这是塔罗抽牌的计算结果（JSON）：\n问题：换工作\n/);
   expect(user).toContain(spread.cards[0]?.card.nameChinese);

@@ -10,15 +10,17 @@ const time = (iso: string) => new Date(iso).toLocaleString("zh-CN", { hour12: fa
 function Body({ text }: { text: string }) {
   return (
     <div className={own.body}>
-      {text.split(/\n{2,}|\n(?=## )/).map((block, index) =>
-        block.startsWith("## ") ? (
+      {text.split(/\n{2,}|\n(?=## )/).flatMap((block, index) => {
+        // 「## 小标题」那一行单独成标题，同一段里后面的文字照常是正文
+        const [first = "", ...rest] = block.split("\n");
+        const body = (first.startsWith("## ") ? rest.join("\n") : block).trim();
+        return [
           // biome-ignore lint/suspicious/noArrayIndexKey: 段落只追加不重排
-          <h3 key={index}>{block.slice(3).trim()}</h3>
-        ) : (
+          first.startsWith("## ") && <h3 key={`h${index}`}>{first.slice(3).trim()}</h3>,
           // biome-ignore lint/suspicious/noArrayIndexKey: 段落只追加不重排
-          <p key={index}>{block.trim()}</p>
-        ),
-      )}
+          body && <p key={`p${index}`}>{body}</p>,
+        ];
+      })}
     </div>
   );
 }

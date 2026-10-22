@@ -6,7 +6,7 @@ import { readDraw } from "./draws.js";
 import { compute } from "./tools.js";
 
 /** DSH 的模型服务（dsh-llm）里本插件用到的部分：准备一次调用，再流式拿回答。 */
-interface Chunk {
+export interface Chunk {
   type: string;
   text?: string;
   reason?: { kind: string; failure?: { message: string } };
