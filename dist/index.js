@@ -77555,8 +77555,8 @@ function cityById(geonameid) {
 // src/birth.ts
 var file = (dir) => join(dir, "birth.json");
 function chartArgs(birth, at) {
-  const only = birth.candidates?.length === 1 ? birth.candidates[0]?.at : void 0;
-  const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : only);
+  const chosen = birth.candidates?.[birth.candidates.length === 1 ? 0 : birth.picked ?? -1]?.at;
+  const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : chosen);
   if (!time) throw new Error("\u51FA\u751F\u65F6\u95F4\u4E0D\u786E\u5B9A\uFF0C\u9700\u8981\u5148\u9009\u4E00\u4E2A\u65F6\u8FB0");
   return {
     birthYear: time.year,
@@ -77643,6 +77643,15 @@ async function saveBirth(dir, input) {
   mkdirSync(dir, { recursive: true });
   writeFileSync(file(dir), JSON.stringify(birth, null, 2));
   return birth;
+}
+function pickCandidate(dir, index) {
+  const birth = readBirth(dir);
+  if (!birth) throw new Error("\u5148\u586B\u51FA\u751F\u4FE1\u606F");
+  if (index !== null && !birth.candidates?.[index]) throw new Error("\u6CA1\u6709\u8FD9\u4E2A\u65F6\u8FB0");
+  const { picked: _picked, ...rest } = birth;
+  const next = index === null ? rest : { ...rest, picked: index };
+  writeFileSync(file(dir), JSON.stringify(next, null, 2));
+  return next;
 }
 var readBirth = (dir) => existsSync(file(dir)) ? JSON.parse(readFileSync2(file(dir), "utf8")) : void 0;
 var deleteAll = (dir) => rmSync(dir, { recursive: true, force: true });
@@ -77789,7 +77798,7 @@ function fortuneTools(dir) {
     },
     {
       name: "fortune_my_birth",
-      description: "\u8BFB\u53D6\u7528\u6237\u5728\u63D2\u4EF6\u91CC\u586B\u597D\u7684\u51FA\u751F\u4FE1\u606F\u3002chartArgs \u53EF\u76F4\u63A5\u4F20\u7ED9 fortune_bazi\u3001fortune_ziwei\u3001fortune_astrology \u7B49\uFF08\u7ECF\u7EAC\u5EA6\u3001\u65F6\u533A\u5DF2\u6309\u51FA\u751F\u57CE\u5E02\u7ED9\u51FA\uFF09\uFF1B\u65F6\u95F4\u4E0D\u786E\u5B9A\u65F6 candidates \u5217\u51FA\u8303\u56F4\u5185\u6BCF\u79CD\u53EF\u80FD\u7684\u56DB\u67F1\u548C\u5BF9\u5E94\u65F6\u6BB5\uFF1B\u6709\u591A\u79CD\u65F6\u5148\u8BF7\u7528\u6237\u786E\u8BA4\u662F\u54EA\u4E00\u79CD\uFF0C\u4E0D\u8981\u9ED8\u8BA4\u5B50\u65F6\uFF0C\u4E5F\u4E0D\u8981\u81EA\u5DF1\u53D6\u7B2C\u4E00\u4E2A\u3002",
+      description: "\u8BFB\u53D6\u7528\u6237\u5728\u63D2\u4EF6\u91CC\u586B\u597D\u7684\u51FA\u751F\u4FE1\u606F\u3002chartArgs \u53EF\u76F4\u63A5\u4F20\u7ED9 fortune_bazi\u3001fortune_ziwei\u3001fortune_astrology \u7B49\uFF08\u7ECF\u7EAC\u5EA6\u3001\u65F6\u533A\u5DF2\u6309\u51FA\u751F\u57CE\u5E02\u7ED9\u51FA\uFF09\uFF1B\u65F6\u95F4\u4E0D\u786E\u5B9A\u65F6 candidates \u5217\u51FA\u8303\u56F4\u5185\u6BCF\u79CD\u53EF\u80FD\u7684\u56DB\u67F1\u548C\u5BF9\u5E94\u65F6\u6BB5\uFF1B\u6709\u591A\u79CD\u4E14\u7528\u6237\u5DF2\u5728\u9875\u9762\u4E0A\u6311\u5B9A\u65F6\uFF0Cpicked \u662F\u90A3\u4E00\u79CD\u7684\u4E0B\u6807\uFF0CchartArgs \u5C31\u6309\u5B83\u7ED9\uFF1B\u8FD8\u6CA1\u6311\u65F6\u5148\u8BF7\u7528\u6237\u786E\u8BA4\u662F\u54EA\u4E00\u79CD\uFF0C\u4E0D\u8981\u9ED8\u8BA4\u5B50\u65F6\uFF0C\u4E5F\u4E0D\u8981\u81EA\u5DF1\u53D6\u7B2C\u4E00\u4E2A\u3002",
       parameters: { type: "object", properties: {} },
       async run() {
         const birth = readBirth(dir);
@@ -77798,8 +77807,9 @@ function fortuneTools(dir) {
           saved: true,
           calendar: birth.calendar,
           city: birth.city,
-          // 只有一种可能时直接给参数；多种时由用户选，不替他取第一个
-          chartArgs: (birth.candidates?.length ?? 0) > 1 ? void 0 : chartArgs(birth),
+          // 只有一种可能或用户已挑定时直接给参数；否则由用户选，不替他取第一个
+          chartArgs: (birth.candidates?.length ?? 0) > 1 && birth.picked === void 0 ? void 0 : chartArgs(birth),
+          picked: birth.picked,
           candidates: birth.candidates?.map((candidate) => ({
             ...candidate,
             chartArgs: chartArgs(birth, candidate.at)
@@ -77903,6 +77913,8 @@ async function handle(dir, operation, args) {
       return searchCities(String(args.query ?? ""));
     case "saveBirth":
       return saveBirth(dir, args.birth);
+    case "pickCandidate":
+      return pickCandidate(dir, typeof args.candidate === "number" ? args.candidate : null);
     case "deleteAll":
       deleteAll(dir);
       return { deleted: true };

@@ -1,6 +1,14 @@
 import { readFileSync } from "node:fs";
 import { executeTool, renderToolResult } from "taibu-core/mcp";
-import { type Birth, type BirthInput, chartArgs, deleteAll, readBirth, saveBirth } from "./birth.js";
+import {
+  type Birth,
+  type BirthInput,
+  chartArgs,
+  deleteAll,
+  pickCandidate,
+  readBirth,
+  saveBirth,
+} from "./birth.js";
 import { searchCities } from "./cities.js";
 import { countDraws } from "./draws.js";
 import { cast } from "./tools.js";
@@ -95,6 +103,8 @@ export async function handle(dir: string, operation: string, args: Args): Promis
       return searchCities(String(args.query ?? ""));
     case "saveBirth":
       return saveBirth(dir, args.birth as BirthInput);
+    case "pickCandidate":
+      return pickCandidate(dir, typeof args.candidate === "number" ? args.candidate : null);
     case "deleteAll":
       deleteAll(dir);
       return { deleted: true };

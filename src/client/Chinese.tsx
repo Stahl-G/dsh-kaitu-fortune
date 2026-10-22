@@ -60,7 +60,7 @@ export function Chinese({
   request: Request;
   birth: Birth | null;
   candidate: number | null;
-  onCandidate: (index: number) => void;
+  onCandidate: (index: number | null) => void;
 }) {
   const [data, setData] = useState<ChineseData | null>(null);
   const [almanac, setAlmanac] = useState<Almanac | null>(null);
@@ -95,7 +95,7 @@ export function Chinese({
         <section className={css.card}>
           <div className={css.heading}>
             <h2>你给的时间范围里有 {candidates.length} 种可能</h2>
-            <span>按真太阳时换算，选一个最像的</span>
+            <span>按真太阳时换算，选一个最像的；会记住，再点一次取消</span>
           </div>
           <div className={css.choices}>
             {candidates.map((item, index) => (
@@ -103,7 +103,7 @@ export function Chinese({
                 key={`${item.start}-${item.pillars.join("")}`}
                 type="button"
                 aria-pressed={candidate === index}
-                onClick={() => onCandidate(index)}
+                onClick={() => onCandidate(candidate === index ? null : index)}
               >
                 {item.start}–{item.end} · {item.pillars[2]}日 {item.pillars[3]}时
               </button>

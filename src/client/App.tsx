@@ -58,10 +58,6 @@ export function FortunePage({ request }: { request: Request }) {
   const [tab, setTab] = useState<Tab>("chinese");
   const [birth, setBirth] = useState<Birth | null | undefined>();
   const [editing, setEditing] = useState(false);
-  // 时辰不确定时用户挑的那一种；换了出生信息就重新挑
-  const [candidate, setCandidate] = useState<number | null>(null);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 只在出生信息变化时清空
-  useEffect(() => setCandidate(null), [birth]);
   const [stored, setStored] = useState<Stored | null>(null);
   // 删除资料后各面板重新开始，不留着已经删掉的抽牌结果
   const [version, setVersion] = useState(0);
@@ -83,6 +79,15 @@ export function FortunePage({ request }: { request: Request }) {
   const refreshStored = useCallback(async () => {
     setStored((await request<{ stored: Stored }>("state")).stored);
   }, [request]);
+  // 时辰不确定时用户挑的那一种，存在出生信息里；重开页面还在，改出生信息后要重新挑
+  const candidate = birth?.picked ?? null;
+  const pick = async (index: number | null) => {
+    try {
+      setBirth(await request<Birth>("pickCandidate", { candidate: index }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    }
+  };
   const remove = async () => {
     if (!confirm("删除出生信息、抽牌记录和解读？删除后不能恢复。")) return;
     await request("deleteAll");
@@ -153,12 +158,7 @@ export function FortunePage({ request }: { request: Request }) {
           aria-labelledby={`fortune-tab-${tab}`}
         >
           {tab === "chinese" && (
-            <Chinese
-              request={request}
-              birth={birth ?? null}
-              candidate={candidate}
-              onCandidate={setCandidate}
-            />
+            <Chinese request={request} birth={birth ?? null} candidate={candidate} onCandidate={pick} />
           )}
           {tab === "astro" && (
             <Astro request={request} birth={birth ?? null} candidate={candidate} theme={theme} />
