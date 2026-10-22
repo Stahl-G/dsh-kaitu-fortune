@@ -63,7 +63,47 @@ test("时间不确定且跨午夜：列出每种可能的四柱和时段，不�
     ["庚辰 己卯 戊辰 壬子", "2000-03-11 00:04", "2000-03-11 01:04"],
     ["庚辰 己卯 戊辰 癸丑", "2000-03-11 01:04", "2000-03-11 03:04"],
   ]);
-  expect(() => chartArgs({ ...birth, candidates: undefined })).toThrow("不确定");
+  // 多个候选时不替用户选
+  expect(() => chartArgs(birth)).toThrow("不确定");
+});
+
+const uncertain = (day: number, from: string, to: string) =>
+  saveBirth(dir(), {
+    calendar: "solar",
+    year: 2000,
+    month: 3,
+    day,
+    time: { from, to },
+    gender: "female",
+    cityId: shanghai(),
+  });
+const spans = (birth: Awaited<ReturnType<typeof saveBirth>>) =>
+  birth.candidates?.map((candidate) => [candidate.pillars[3], candidate.start, candidate.end]);
+
+test("只有 5 分钟的范围跨过时辰交界，两种时辰都要列出", async () => {
+  expect(spans(await uncertain(10, "23:00", "23:05"))).toEqual([
+    ["辛亥", "2000-03-10 21:04", "2000-03-10 23:04"],
+    ["壬子", "2000-03-10 23:04", "2000-03-11 00:04"],
+  ]);
+});
+
+test("范围终点刚好落在交界上也算进去", async () => {
+  expect(spans(await uncertain(10, "22:55", "23:04"))?.map(([hour]) => hour)).toEqual(["辛亥", "壬子"]);
+});
+
+test("跨午夜、末尾不足 10 分钟：00:00–00:06 跨日柱，01:00–01:06 跨到丑时", async () => {
+  const midnight = await uncertain(10, "23:58", "00:06");
+  expect(midnight.candidates?.map((candidate) => candidate.pillars.slice(2).join(" "))).toEqual([
+    "丁卯 壬子",
+    "戊辰 壬子",
+  ]);
+  expect(spans(await uncertain(11, "01:00", "01:06"))?.map(([hour]) => hour)).toEqual(["壬子", "癸丑"]);
+});
+
+test("范围在同一个时辰里只有一种可能时，直接用它排盘", async () => {
+  const birth = await uncertain(10, "21:30", "22:30");
+  expect(birth.candidates).toHaveLength(1);
+  expect(chartArgs(birth)).toMatchObject({ birthHour: 21, birthMinute: 30 });
 });
 
 test("一键删除清掉出生信息和记录", async () => {

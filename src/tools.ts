@@ -115,7 +115,7 @@ export function fortuneTools(dir: string): FortuneTool[] {
     {
       name: "fortune_my_birth",
       description:
-        "读取用户在插件里填好的出生信息。chartArgs 可直接传给 fortune_bazi、fortune_ziwei、fortune_astrology 等（经纬度、时区已按出生城市给出）；时间不确定时 candidates 列出范围内每种可能的四柱和对应时段，不要默认子时。",
+        "读取用户在插件里填好的出生信息。chartArgs 可直接传给 fortune_bazi、fortune_ziwei、fortune_astrology 等（经纬度、时区已按出生城市给出）；时间不确定时 candidates 列出范围内每种可能的四柱和对应时段；有多种时先请用户确认是哪一种，不要默认子时，也不要自己取第一个。",
       parameters: { type: "object", properties: {} },
       async run() {
         const birth = readBirth(dir);
@@ -124,7 +124,8 @@ export function fortuneTools(dir: string): FortuneTool[] {
           saved: true,
           calendar: birth.calendar,
           city: birth.city,
-          chartArgs: birth.candidates ? undefined : chartArgs(birth),
+          // 只有一种可能时直接给参数；多种时由用户选，不替他取第一个
+          chartArgs: (birth.candidates?.length ?? 0) > 1 ? undefined : chartArgs(birth),
           candidates: birth.candidates?.map((candidate) => ({
             ...candidate,
             chartArgs: chartArgs(birth, candidate.at),

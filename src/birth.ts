@@ -41,7 +41,8 @@ const file = (dir: string) => join(dir, "birth.json");
 
 /** 交给 taibu 排盘的参数：公历日期、经纬度（真太阳时）和出生地时区都由插件给，不让模型去查。 */
 export function chartArgs(birth: Birth, at?: Moment) {
-  const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : birth.candidates?.[0]?.at);
+  const only = birth.candidates?.length === 1 ? birth.candidates[0]?.at : undefined;
+  const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : only);
   if (!time) throw new Error("出生时间不确定，需要先选一个时辰");
   return {
     birthYear: time.year,
@@ -67,53 +68,62 @@ interface Pillar {
   stem: string;
   branch: string;
 }
-interface Resolved {
-  candidates: { timeWindow: { start: string; end: string } }[];
+/** 出生日 0 点起算的钟表分钟数，换回年月日时分（只做日期进位，不涉及时区）。 */
+function momentAt(day: Birth["solar"], minute: number): Moment {
+  const date = new Date(Date.UTC(day.year, day.month - 1, day.day, 0, minute));
+  return {
+    year: date.getUTCFullYear(),
+    month: date.getUTCMonth() + 1,
+    day: date.getUTCDate(),
+    hour: date.getUTCHours(),
+    minute: date.getUTCMinutes(),
+  };
 }
 
-/** 每 10 分钟排一次四柱，按四柱分组；每组再用 bazi_pillars_resolve 反查出它在钟表上的准确起止。 */
+/** 在 [low, high] 里找第一个让 test 成立的分钟；test 在区间里先假后真。 */
+async function firstMinute(low: number, high: number, test: (minute: number) => Promise<boolean>) {
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (await test(middle)) high = middle;
+    else low = middle + 1;
+  }
+  return low;
+}
+
+/**
+ * 范围里每一种四柱和它在钟表上的完整时段。同一组四柱一天内不会重复出现，所以“是不是这组四柱”
+ * 在时间轴上是一段连续区间，边界用二分查到分钟；一个时辰最长两小时，前后各找三小时一定够。
+ * 按边界走而不是按固定间隔采样，短区间、跨午夜和末尾不足一段的都不会漏。
+ */
 async function candidates(birth: Omit<Birth, "candidates" | "savedAt">, from: string, to: string) {
-  const start = minutes(from);
-  const span = (minutes(to) - start + 1440) % 1440;
-  const groups = new Map<string, Moment>();
-  for (let offset = 0; offset <= span; offset += 10) {
-    const date = new Date(
-      Date.UTC(birth.solar.year, birth.solar.month - 1, birth.solar.day, 0, start + offset),
-    );
-    const at = {
-      year: date.getUTCFullYear(),
-      month: date.getUTCMonth() + 1,
-      day: date.getUTCDate(),
-      hour: date.getUTCHours(),
-      minute: date.getUTCMinutes(),
-    };
+  const first = minutes(from);
+  const last = first + ((minutes(to) - first + 1440) % 1440);
+  const cache = new Map<number, string>();
+  const pillarsAt = async (minute: number) => {
+    const known = cache.get(minute);
+    if (known) return known;
     const chart = (await executeTool("bazi", {
-      ...chartArgs(birth as Birth, at),
+      ...chartArgs(birth as Birth, momentAt(birth.solar, minute)),
       latitude: undefined,
       disambiguation: "compatible",
     })) as { fourPillars: Record<"year" | "month" | "day" | "hour", Pillar> };
     const { year, month, day, hour } = chart.fourPillars;
     const key = [year, month, day, hour].map((pillar) => pillar.stem + pillar.branch).join(" ");
-    if (!groups.has(key)) groups.set(key, at);
-  }
+    cache.set(minute, key);
+    return key;
+  };
   const result: Candidate[] = [];
-  for (const [key, at] of groups) {
-    const pillars = key.split(" ") as Candidate["pillars"];
-    const resolved = (await executeTool("bazi_pillars_resolve", {
-      yearPillar: pillars[0],
-      monthPillar: pillars[1],
-      dayPillar: pillars[2],
-      hourPillar: pillars[3],
-      startYear: at.year,
-      endYear: at.year,
-      longitude: birth.city.lng,
-      timezone: birth.city.timezone,
-      disambiguation: "compatible",
-    })) as Resolved;
-    const window = resolved.candidates
-      .map((candidate) => candidate.timeWindow)
-      .find((window) => window.start <= stamp(at) && stamp(at) < window.end);
-    result.push({ pillars, start: window?.start ?? stamp(at), end: window?.end ?? stamp(at), at });
+  for (let minute = first; minute <= last; ) {
+    const key = await pillarsAt(minute);
+    const start = await firstMinute(minute - 180, minute, async (at) => (await pillarsAt(at)) === key);
+    const end = await firstMinute(minute, minute + 180, async (at) => (await pillarsAt(at)) !== key);
+    result.push({
+      pillars: key.split(" ") as Candidate["pillars"],
+      start: stamp(momentAt(birth.solar, start)),
+      end: stamp(momentAt(birth.solar, end)),
+      at: momentAt(birth.solar, minute),
+    });
+    minute = end;
   }
   return result;
 }
