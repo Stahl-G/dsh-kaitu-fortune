@@ -26,6 +26,13 @@
 | json-schema-traverse | 1.0.0 | MIT | https://github.com/epoberezkin/json-schema-traverse |
 | i18next | 23.16.8 | MIT | https://github.com/i18next/i18next |
 | dayjs | 1.11.23 | MIT | https://github.com/iamkun/dayjs |
+| tz-lookup（按出生城市经纬度推时区） | 6.1.25 | CC0-1.0 | https://github.com/darkskyapp/tz-lookup |
 
 MPL-2.0 的几个包原样使用、没有修改，源码在上面的仓库或 npm 上可以取得。
 taibu-core 依赖的 pinyin 只有梅花易数字占用到，第一版不注册梅花，打包时换成了空模块，没有打进 dist。
+
+## 数据
+
+| 名称 | 许可 | 来源 |
+|---|---|---|
+| `data/cities.json`：GeoNames cities15000 精简版，原样取自人生开图 `packages/core/data/cities.json` | CC BY 4.0 | https://www.geonames.org/ |

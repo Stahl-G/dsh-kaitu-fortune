@@ -30,6 +30,7 @@ test("只注册第一版的几项，卸载时全部撤销", () => {
     "fortune_bazi",
     "fortune_bazi_dayun",
     "fortune_liuyao",
+    "fortune_my_birth",
     "fortune_replay",
     "fortune_synastry",
     "fortune_tarot",

@@ -4,6 +4,7 @@ import {
   listToolDefinitions,
   renderToolResult,
 } from "taibu-core/mcp";
+import { chartArgs, readBirth } from "./birth.js";
 import { coinYao, readDraw, saveDraw, tarotSeed } from "./draws.js";
 import { synastry } from "./synastry.js";
 
@@ -110,6 +111,26 @@ export function fortuneTools(dir: string): FortuneTool[] {
       description: "西洋合盘：分别排两人的本命盘，列出两人行星与上升、天顶之间的主要相位（容许度同本命盘）。",
       parameters: { type: "object", properties: { a: person, b: person }, required: ["a", "b"] },
       run: (args) => synastry(args.a as Args, args.b as Args),
+    },
+    {
+      name: "fortune_my_birth",
+      description:
+        "读取用户在插件里填好的出生信息。chartArgs 可直接传给 fortune_bazi、fortune_ziwei、fortune_astrology 等（经纬度、时区已按出生城市给出）；时间不确定时 candidates 列出范围内每种可能的四柱和对应时段，不要默认子时。",
+      parameters: { type: "object", properties: {} },
+      async run() {
+        const birth = readBirth(dir);
+        if (!birth) return { saved: false };
+        return {
+          saved: true,
+          calendar: birth.calendar,
+          city: birth.city,
+          chartArgs: birth.candidates ? undefined : chartArgs(birth),
+          candidates: birth.candidates?.map((candidate) => ({
+            ...candidate,
+            chartArgs: chartArgs(birth, candidate.at),
+          })),
+        };
+      },
     },
     {
       name: "fortune_replay",
