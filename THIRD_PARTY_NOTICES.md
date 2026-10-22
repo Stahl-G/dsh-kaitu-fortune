@@ -31,19 +31,13 @@ taobi 0.4.5、tao_calendar 0.4.3、tao_taichi.js 0.0.5 和 0.1.0（经 taibu-cor
 | 文件 | 许可 | 来源 |
 |---|---|---|
 | `data/cities.json` | CC BY 4.0 | GeoNames cities15000 精简版，原样取自人生开图 `packages/core/data/cities.json`；<https://www.geonames.org/> |
-| `data/tarot/*.jpg` | 公有领域（见下） | Rider–Waite–Smith 塔罗 1909 年初版扫描；逐张来源见 [`data/tarot/sources.json`](data/tarot/sources.json) |
+| `data/tarot/*.jpg` | Public domain（Wikimedia 文件页标注） | Rider–Waite–Smith 塔罗扫描；逐张来源见 [`data/tarot/sources.json`](data/tarot/sources.json) |
 
 ### 塔罗图片
 
-- **作品**：78 张牌由 Pamela Colman Smith 绘制，1909 年由 William Rider & Son 在伦敦出版。
-  - 美国：1930 年前出版，已进入公有领域。
-  - 英国和欧盟：作者 1951 年去世，按作者终身加 70 年，2022 年 1 月 1 日起进入公有领域。
-  - 扫描件是对平面作品的忠实翻拍，不产生新的权利（美国 Bridgeman v. Corel；欧盟 DSM 指令第 14 条）。
-- **原始文件**：`sources.json` 的 `original` 是每张图在 Wikimedia 上的文件名，`page` 是对应的文件页。
-  - 小牌在 Wikimedia Commons 的「Rider-Waite tarot deck (Roses & Lilies)」分类下。
-  - 部分大牌可能只在英文维基百科本地，不在 Commons。
-- **本仓库的副本怎么来的**：取自 GitHub 仓库 mirror29/inalpha 的固定提交 `2e02c72`，78 张与该提交里的文件逐字节相同（2026-10-22 核对）。
-  - 那个仓库用脚本从 Wikimedia 原图缩到 420 像素高。
-  - 该仓库的代码是 AGPL-3.0，但公有领域图片的机械缩放不产生新的版权，AGPL 管不到这些图片。
-- **还没做到的**：2026-10-22 从开发机连不上 Wikimedia，所以 `sources.json` 里的 `license`（文件页上的许可标注）还是空的，没有逐张在线核实。
-  能连上时运行 `node scripts/fetch-tarot.mjs`：它直接从 Wikimedia 原图重新下载、缩放，并把文件页上的作者和许可标注写进 `sources.json`，之后就不再依赖这个镜像。
+78 张 Rider–Waite–Smith 牌面直接取自 Wikimedia Commons 原图，2026-10-22 逐张读取文件页的作者、许可标注与下载地址后重新下载。
+所有文件页的 `LicenseShortName` 均为 `Public domain`；创作者等原始署名按文件页记录在 [`data/tarot/sources.json`](data/tarot/sources.json)。
+
+- `page` 是对应的 Wikimedia 文件页，`download` 是本次使用的原图地址，`artist`、`license` 来自 MediaWiki 的 `imageinfo/extmetadata`。
+- 用 macOS `sips` 缩到 420 像素高、JPEG 质量 85；`sha256` 对应随插件分发的缩小文件。
+- 重新生成命令：`node scripts/fetch-tarot.mjs`。本版的图片不再取自 GitHub 镜像。
