@@ -5,6 +5,7 @@ import { Astro } from "./Astro.js";
 import { BirthForm } from "./BirthForm.js";
 import { Chinese } from "./Chinese.js";
 import css from "./Fortune.module.css";
+import { type ConnectHandover, HandoverContext, type LoadHandover } from "./Handover.js";
 import { Tarot } from "./Tarot.js";
 
 export type Request = <T>(operation: string, input?: object) => Promise<T>;
@@ -57,7 +58,17 @@ export function birthLine(birth: Birth) {
   return `${date} ${time} · ${birth.city.zh} · ${birth.gender === "male" ? "男" : "女"}`;
 }
 
-export function FortunePage({ request, watch }: { request: Request; watch: Watch }) {
+export function FortunePage({
+  request,
+  watch,
+  connectHandover,
+}: {
+  request: Request;
+  watch: Watch;
+  connectHandover?: ConnectHandover;
+}) {
+  const [loadHandover, setLoadHandover] = useState<LoadHandover>();
+  useEffect(() => connectHandover?.((load) => setLoadHandover(() => load)), [connectHandover]);
   const theme = useTheme();
   const [tab, setTab] = useState<Tab>("chinese");
   const [birth, setBirth] = useState<Birth | null | undefined>();
@@ -99,116 +110,122 @@ export function FortunePage({ request, watch }: { request: Request; watch: Watch
     await load();
   };
   return (
-    <div className={css.app} data-theme={theme} lang="zh-CN">
-      <main className={css.content} aria-busy={birth === undefined}>
-        {/* 嵌在开图内容区里：没有自己的页头，标签和操作放一行，宽度跟着宿主走 */}
-        <div className={css.toolbar}>
-          <div className={css.tabs} role="tablist" aria-label="分类">
-            {TABS.map(([key, label]) => (
-              <button
-                key={key}
-                type="button"
-                role="tab"
-                id={`fortune-tab-${key}`}
-                aria-controls="fortune-panel"
-                aria-selected={tab === key}
-                tabIndex={tab === key ? 0 : -1}
-                onClick={() => setTab(key)}
-                onKeyDown={(event) => {
-                  const index = TABS.findIndex(([name]) => name === tab);
-                  const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-                  if (!step) return;
-                  event.preventDefault();
-                  const next = TABS[(index + step + TABS.length) % TABS.length]?.[0] ?? tab;
-                  setTab(next);
-                  document.getElementById(`fortune-tab-${next}`)?.focus();
-                }}
-              >
-                {label}
+    <HandoverContext.Provider value={loadHandover}>
+      <div className={css.app} data-theme={theme} lang="zh-CN">
+        <main className={css.content} aria-busy={birth === undefined}>
+          {/* 嵌在开图内容区里：没有自己的页头，标签和操作放一行，宽度跟着宿主走 */}
+          <div className={css.toolbar}>
+            <div className={css.tabs} role="tablist" aria-label="分类">
+              {TABS.map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  id={`fortune-tab-${key}`}
+                  aria-controls="fortune-panel"
+                  aria-selected={tab === key}
+                  tabIndex={tab === key ? 0 : -1}
+                  onClick={() => setTab(key)}
+                  onKeyDown={(event) => {
+                    const index = TABS.findIndex(([name]) => name === tab);
+                    const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+                    if (!step) return;
+                    event.preventDefault();
+                    const next = TABS[(index + step + TABS.length) % TABS.length]?.[0] ?? tab;
+                    setTab(next);
+                    document.getElementById(`fortune-tab-${next}`)?.focus();
+                  }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {birth && !editing && (
+              <button type="button" className={css.button} onClick={() => setEditing(true)}>
+                修改出生信息
               </button>
-            ))}
+            )}
           </div>
-          {birth && !editing && (
-            <button type="button" className={css.button} onClick={() => setEditing(true)}>
-              修改出生信息
-            </button>
-          )}
-        </div>
-        {error && (
-          <p className={css.notice} role="alert">
-            {error}
-          </p>
-        )}
-        {birth === undefined ? (
-          <p className={css.empty}>正在读取…</p>
-        ) : editing ? (
-          <BirthForm
-            request={request}
-            birth={birth}
-            onSaved={(saved) => {
-              setBirth(saved);
-              setEditing(false);
-            }}
-            onCancel={birth ? () => setEditing(false) : undefined}
-          />
-        ) : (
-          birth && <p className={css.small}>{birthLine(birth)} · 只存在这台电脑上，不进开图资料，也不同步</p>
-        )}
-        <div
-          key={version}
-          className={css.panel}
-          id="fortune-panel"
-          role="tabpanel"
-          aria-labelledby={`fortune-tab-${tab}`}
-        >
-          {tab === "chinese" && (
-            <Chinese
-              request={request}
-              watch={watch}
-              birth={birth ?? null}
-              candidate={candidate}
-              onCandidate={pick}
-              onSaved={refreshStored}
-            />
-          )}
-          {tab === "astro" && (
-            <Astro
-              request={request}
-              watch={watch}
-              birth={birth ?? null}
-              candidate={candidate}
-              theme={theme}
-              onSaved={refreshStored}
-            />
-          )}
-          {tab === "tarot" && <Tarot request={request} watch={watch} onDrawn={refreshStored} />}
-        </div>
-        {stored && (
-          <section className={css.card} aria-labelledby="fortune-stored">
-            <div className={css.heading}>
-              <h2 id="fortune-stored">我的资料</h2>
-              <span>只在这台电脑上</span>
-            </div>
-            <p className={css.small}>
-              {birth ? "出生信息 1 份" : "没有出生信息"} · 抽牌、起卦记录 {stored.draws} 条 · 解读{" "}
-              {stored.readings} 条 · 存放在 {stored.dir}
+          {error && (
+            <p className={css.notice} role="alert">
+              {error}
             </p>
-            <p className={css.small}>每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果。</p>
-            <p className={css.small}>卸载插件不会删除这些资料；要清掉，请在卸载前点下面的按钮。</p>
-            <div className={css.actions}>
-              <button
-                type="button"
-                className={css.button}
-                onClick={remove}
-                disabled={!birth && !stored.draws && !stored.readings}
-              >
-                删除我的资料
-              </button>
-            </div>
-          </section>
-        )}
-        <footer className={css.foot}>传统文化与自我反思参考，不是预测。</footer>
-      </main>
-    </div>
+          )}
+          {birth === undefined ? (
+            <p className={css.empty}>正在读取…</p>
+          ) : editing ? (
+            <BirthForm
+              request={request}
+              birth={birth}
+              onSaved={(saved) => {
+                setBirth(saved);
+                setEditing(false);
+              }}
+              onCancel={birth ? () => setEditing(false) : undefined}
+            />
+          ) : (
+            birth && (
+              <p className={css.small}>{birthLine(birth)} · 只存在这台电脑上，不进开图资料，也不同步</p>
+            )
+          )}
+          <div
+            key={version}
+            className={css.panel}
+            id="fortune-panel"
+            role="tabpanel"
+            aria-labelledby={`fortune-tab-${tab}`}
+          >
+            {tab === "chinese" && (
+              <Chinese
+                request={request}
+                watch={watch}
+                birth={birth ?? null}
+                candidate={candidate}
+                onCandidate={pick}
+                onSaved={refreshStored}
+              />
+            )}
+            {tab === "astro" && (
+              <Astro
+                request={request}
+                watch={watch}
+                birth={birth ?? null}
+                candidate={candidate}
+                theme={theme}
+                onSaved={refreshStored}
+              />
+            )}
+            {tab === "tarot" && <Tarot request={request} watch={watch} onDrawn={refreshStored} />}
+          </div>
+          {stored && (
+            <section className={css.card} aria-labelledby="fortune-stored">
+              <div className={css.heading}>
+                <h2 id="fortune-stored">我的资料</h2>
+                <span>只在这台电脑上</span>
+              </div>
+              <p className={css.small}>
+                {birth ? "出生信息 1 份" : "没有出生信息"} · 抽牌、起卦记录 {stored.draws} 条 · 解读{" "}
+                {stored.readings} 条 · 存放在 {stored.dir}
+              </p>
+              <p className={css.small}>
+                每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果和当时带上的近况原文；删除解读时一起删除。
+              </p>
+              <p className={css.small}>卸载插件不会删除这些资料；要清掉，请在卸载前点下面的按钮。</p>
+              <div className={css.actions}>
+                <button
+                  type="button"
+                  className={css.button}
+                  onClick={remove}
+                  disabled={!birth && !stored.draws && !stored.readings}
+                >
+                  删除我的资料
+                </button>
+              </div>
+            </section>
+          )}
+          <footer className={css.foot}>传统文化与自我反思参考，不是预测。</footer>
+        </main>
+      </div>
+    </HandoverContext.Provider>
   );
 }

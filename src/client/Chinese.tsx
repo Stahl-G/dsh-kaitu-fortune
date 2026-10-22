@@ -127,6 +127,7 @@ export function Chinese({
         <p className={css.empty}>正在排盘…</p>
       ) : (
         <>
+          <Reading request={request} watch={watch} subject="chinese" onSaved={onSaved} />
           <section className={css.card}>
             <div className={css.heading}>
               <h2>八字</h2>
@@ -197,7 +198,6 @@ export function Chinese({
             </div>
             <Ziwei chart={data.ziwei} />
           </section>
-          <Reading request={request} watch={watch} subject="chinese" onSaved={onSaved} />
         </>
       )}
       {almanac && (
