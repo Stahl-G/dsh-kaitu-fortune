@@ -23,6 +23,7 @@ export function apply(ctx: Context) {
   const host = ctx as unknown as Host;
   // 界面接口的登记由 DSH 的 typert-loader 按 package.json 的 ./typert 导出自动完成，这里只建服务。
   const readings = new Readings(dataDir());
+  ctx.effect(() => () => readings.cancelAll());
   new FortuneService(ctx, dataDir(), readings);
   // 解读用用户在 DSH 里选的默认模型；没有模型服务时其他功能照常，只是解读按钮会说明原因。
   ctx.inject(["llm", "agentDefaultModel"], (scope) => {

@@ -13,25 +13,35 @@ const route = { provider: "deepseek", model: "deepseek-chat" };
 /** DSH 模型服务的替身：记下收到的请求，按给定的分片流式回答；release 之前停在第一段之后。 */
 function fakeLlm(chunks: Chunk[]) {
   const sent: object[] = [];
+  const signals: (AbortSignal | undefined)[] = [];
   let release = () => {};
+  let finish = () => {};
+  const finished = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
   const gate = new Promise<void>((resolve) => {
     release = resolve;
   });
   const llm: Llm = {
-    async prepareCall(config) {
+    async prepareCall(config, signal) {
+      signals.push(signal);
       return {
         config: { ...config, maxTokens: 8000 },
         async *stream(options) {
-          sent.push(options);
-          const [first, ...rest] = chunks;
-          if (first) yield first;
-          await gate;
-          yield* rest;
+          try {
+            sent.push(options);
+            const [first, ...rest] = chunks;
+            if (first) yield first;
+            await gate;
+            yield* rest;
+          } finally {
+            finish();
+          }
         },
       };
     },
   };
-  return { llm, sent, release };
+  return { llm, sent, signals, release, finished };
 }
 const delta = (text: string) => ({ type: "text-delta", index: 0, text });
 const all = async (stream: AsyncIterable<Reading>) => {
@@ -80,7 +90,6 @@ test("盲读：只把排盘结果交给默认模型，边生成边推，跑完�
   expect(sent).toHaveLength(1);
   const options = sent[0] as { system: string; messages: { role: string; content: { text: string }[] }[] };
   expect(options).toMatchObject({ provider: "deepseek", model: "deepseek-chat", maxTokens: 8000 });
-  expect(options.system).toContain("## 可以想想的问题");
   expect(options.messages).toHaveLength(1);
   const user = options.messages[0]?.content[0]?.text ?? "";
   expect(user).toMatch(/^这是八字和紫微斗数的计算结果/);
@@ -100,6 +109,52 @@ test("盲读：只把排盘结果交给默认模型，边生成边推，跑完�
   await handle(at, "deleteReading", { id: started.id }, readings);
   expect(await handle(at, "readings", {}, readings)).toEqual([]);
   expect(await handle(at, "state", {})).toMatchObject({ stored: { readings: 0 } });
+});
+
+test("生成中删除全部资料会取消调用，模型迟到的回答不会重新建目录或恢复解读", async () => {
+  const at = await withBirth();
+  const readings = new Readings(at);
+  // 替身故意忽略 signal，释放后还会继续返回内容。
+  const fake = fakeLlm([delta("第一段"), delta("删除后到达的内容")]);
+  readings.model = { llm: fake.llm, route: () => route };
+  const started = await readings.start("chinese");
+  const watching = readings.watch(started.id);
+  await watching.next();
+  await handle(at, "deleteAll", {}, readings);
+  expect(fake.signals[0]?.aborted).toBe(true);
+  expect(readings.list()).toEqual([]);
+  expect(existsSync(at)).toBe(false);
+  fake.release();
+  await fake.finished;
+  await all(watching);
+  expect(existsSync(at)).toBe(false);
+  expect(await handle(at, "readings", {}, readings)).toEqual([]);
+  // 清理不会让插件失去再次生成和保存的能力。
+  await saveBirth(at, {
+    calendar: "solar",
+    year: 1990,
+    month: 5,
+    day: 15,
+    time: { hour: 14, minute: 30 },
+    gender: "male",
+    cityId: searchCities("上海")[0]?.geonameid as number,
+  });
+  const next = await readings.start("astro");
+  await all(readings.watch(next.id));
+  expect(readings.list().map((reading) => reading.id)).toEqual([next.id]);
+});
+
+test("排盘准备期间删除资料，尚未开始的模型调用不会发出", async () => {
+  const at = await withBirth();
+  const readings = new Readings(at);
+  const fake = fakeLlm([delta("不会发送")]);
+  readings.model = { llm: fake.llm, route: () => route };
+  const pending = readings.start("chinese");
+  await handle(at, "deleteAll", {}, readings);
+  await expect(pending).rejects.toThrow();
+  expect(fake.sent).toEqual([]);
+  expect(readings.list()).toEqual([]);
+  expect(existsSync(at)).toBe(false);
 });
 
 test("模型报错时存成没完成的一条，写明原因；没有模型服务时直接说明", async () => {

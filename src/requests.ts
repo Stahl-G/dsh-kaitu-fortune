@@ -115,6 +115,7 @@ export async function handle(
     case "pickCandidate":
       return pickCandidate(dir, typeof args.candidate === "number" ? args.candidate : null);
     case "deleteAll":
+      readings?.cancelAll();
       deleteAll(dir);
       return { deleted: true };
     case "almanac":

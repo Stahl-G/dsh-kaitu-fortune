@@ -103,7 +103,11 @@ const file = (dir: string, id: string) => {
  * 跑完（或失败）才写进插件目录。
  */
 export class Readings {
-  private readonly running = new Map<string, { reading: Reading; listeners: Set<() => void> }>();
+  private readonly running = new Map<
+    string,
+    { reading: Reading; controller: AbortController; listeners: Set<() => void> }
+  >();
+  private readonly preparing = new Set<AbortController>();
   model?: Model;
 
   constructor(private readonly dir: string) {}
@@ -112,6 +116,15 @@ export class Readings {
     if (!this.model) throw new Error("DSH 里还没有可用的模型，先在设置里选一个模型");
     const { llm } = this.model;
     const route = this.model.route();
+    const controller = new AbortController();
+    this.preparing.add(controller);
+    let input: string;
+    try {
+      input = await facts(this.dir, subject, drawId);
+      controller.signal.throwIfAborted();
+    } finally {
+      this.preparing.delete(controller);
+    }
     const createdAt = new Date().toISOString();
     const reading: Reading = {
       id: `${createdAt.slice(0, 10)}-${randomBytes(4).toString("hex")}`,
@@ -122,25 +135,27 @@ export class Readings {
       model: route,
       request: {
         system: SYSTEM,
-        user: `这是${LABEL[subject]}的计算结果（JSON）：\n${await facts(this.dir, subject, drawId)}`,
+        user: `这是${LABEL[subject]}的计算结果（JSON）：\n${input}`,
       },
       text: "",
       status: "running",
     };
-    const job = { reading, listeners: new Set<() => void>() };
+    const job = { reading, controller, listeners: new Set<() => void>() };
     this.running.set(reading.id, job);
     const notify = () => {
       for (const listener of job.listeners) listener();
     };
     void (async () => {
       try {
-        const call = await llm.prepareCall(route);
+        const call = await llm.prepareCall(route, controller.signal);
+        controller.signal.throwIfAborted();
         const stream = call.stream({
           ...call.config,
           system: reading.request.system,
           messages: [{ role: "user", content: [{ type: "text", text: reading.request.user }] }],
         });
         for await (const chunk of stream) {
+          controller.signal.throwIfAborted();
           if (chunk.type === "text-delta" && chunk.text) {
             reading.text += chunk.text;
             notify();
@@ -148,8 +163,10 @@ export class Readings {
             throw new Error(chunk.reason.failure.message);
           }
         }
+        controller.signal.throwIfAborted();
         reading.status = "done";
       } catch (error) {
+        if (controller.signal.aborted) return;
         reading.status = "failed";
         reading.error = error instanceof Error ? error.message : String(error);
       }
@@ -202,7 +219,23 @@ export class Readings {
   }
 
   remove(id: string) {
+    const job = this.running.get(id);
+    if (job) {
+      job.controller.abort();
+      job.reading.status = "failed";
+      job.reading.error = "解读已取消";
+      job.reading.text = "";
+      job.reading.request = { system: "", user: "" };
+      this.running.delete(id);
+      for (const listener of job.listeners) listener();
+    }
     rmSync(file(this.dir, id), { force: true });
+  }
+
+  /** 清理前终止准备和生成中的调用；即使模型忽略取消继续返回，也不再存档。 */
+  cancelAll() {
+    for (const controller of this.preparing) controller.abort();
+    for (const id of this.running.keys()) this.remove(id);
   }
 }
 

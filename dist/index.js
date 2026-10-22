@@ -77884,11 +77884,21 @@ var Readings = class {
   }
   dir;
   running = /* @__PURE__ */ new Map();
+  preparing = /* @__PURE__ */ new Set();
   model;
   async start(subject, drawId) {
     if (!this.model) throw new Error("DSH \u91CC\u8FD8\u6CA1\u6709\u53EF\u7528\u7684\u6A21\u578B\uFF0C\u5148\u5728\u8BBE\u7F6E\u91CC\u9009\u4E00\u4E2A\u6A21\u578B");
     const { llm } = this.model;
     const route = this.model.route();
+    const controller = new AbortController();
+    this.preparing.add(controller);
+    let input;
+    try {
+      input = await facts(this.dir, subject, drawId);
+      controller.signal.throwIfAborted();
+    } finally {
+      this.preparing.delete(controller);
+    }
     const createdAt = (/* @__PURE__ */ new Date()).toISOString();
     const reading = {
       id: `${createdAt.slice(0, 10)}-${randomBytes2(4).toString("hex")}`,
@@ -77900,25 +77910,27 @@ var Readings = class {
       request: {
         system: SYSTEM,
         user: `\u8FD9\u662F${LABEL[subject]}\u7684\u8BA1\u7B97\u7ED3\u679C\uFF08JSON\uFF09\uFF1A
-${await facts(this.dir, subject, drawId)}`
+${input}`
       },
       text: "",
       status: "running"
     };
-    const job = { reading, listeners: /* @__PURE__ */ new Set() };
+    const job = { reading, controller, listeners: /* @__PURE__ */ new Set() };
     this.running.set(reading.id, job);
     const notify = () => {
       for (const listener of job.listeners) listener();
     };
     void (async () => {
       try {
-        const call = await llm.prepareCall(route);
+        const call = await llm.prepareCall(route, controller.signal);
+        controller.signal.throwIfAborted();
         const stream = call.stream({
           ...call.config,
           system: reading.request.system,
           messages: [{ role: "user", content: [{ type: "text", text: reading.request.user }] }]
         });
         for await (const chunk of stream) {
+          controller.signal.throwIfAborted();
           if (chunk.type === "text-delta" && chunk.text) {
             reading.text += chunk.text;
             notify();
@@ -77926,8 +77938,10 @@ ${await facts(this.dir, subject, drawId)}`
             throw new Error(chunk.reason.failure.message);
           }
         }
+        controller.signal.throwIfAborted();
         reading.status = "done";
       } catch (error) {
+        if (controller.signal.aborted) return;
         reading.status = "failed";
         reading.error = error instanceof Error ? error.message : String(error);
       }
@@ -77971,7 +77985,22 @@ ${await facts(this.dir, subject, drawId)}`
     return [...saved, ...[...this.running.values()].map((job) => job.reading)].filter((reading) => !subject || reading.subject === subject).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
   remove(id) {
+    const job = this.running.get(id);
+    if (job) {
+      job.controller.abort();
+      job.reading.status = "failed";
+      job.reading.error = "\u89E3\u8BFB\u5DF2\u53D6\u6D88";
+      job.reading.text = "";
+      job.reading.request = { system: "", user: "" };
+      this.running.delete(id);
+      for (const listener of job.listeners) listener();
+    }
     rmSync2(file2(this.dir, id), { force: true });
+  }
+  /** 清理前终止准备和生成中的调用；即使模型忽略取消继续返回，也不再存档。 */
+  cancelAll() {
+    for (const controller of this.preparing) controller.abort();
+    for (const id of this.running.keys()) this.remove(id);
   }
 };
 var countReadings = (dir) => existsSync3(folder(dir)) ? readdirSync2(folder(dir)).filter((name2) => name2.endsWith(".json")).length : 0;
@@ -78070,6 +78099,7 @@ async function handle(dir, operation, args, readings) {
     case "pickCandidate":
       return pickCandidate(dir, typeof args.candidate === "number" ? args.candidate : null);
     case "deleteAll":
+      readings?.cancelAll();
       deleteAll(dir);
       return { deleted: true };
     case "almanac":
@@ -78146,6 +78176,7 @@ var dataDir = () => join4(process.env.DSH_HOME?.trim() || join4(homedir(), ".dsh
 function apply(ctx) {
   const host = ctx;
   const readings = new Readings(dataDir());
+  ctx.effect(() => () => readings.cancelAll());
   new FortuneService(ctx, dataDir(), readings);
   ctx.inject(["llm", "agentDefaultModel"], (scope) => {
     const host2 = scope;
