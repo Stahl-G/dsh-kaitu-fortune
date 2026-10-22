@@ -33,7 +33,8 @@
     "README.md",
     "THIRD_PARTY_NOTICES.md",
     "THIRD_PARTY_LICENSES.txt",
-    "third_party"
+    "third_party",
+    "licenses"
   ],
   "dsh": {
     "bundle": {

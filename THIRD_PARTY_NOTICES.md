@@ -4,6 +4,7 @@
 
 `dist/index.js`（宿主）和 `dist/client.js`（界面）由 esbuild 把依赖打成单个文件，打包时去掉了源码里的注释（含版权注释）。
 实际打进去的每个包、版本、仓库和许可全文见 [`THIRD_PARTY_LICENSES.txt`](THIRD_PARTY_LICENSES.txt)。这份文件由 `scripts/build.mjs` 按 esbuild 实际用到的文件生成，不手工维护。
+npm 包里没带许可文件的，用 [`licenses/`](licenses/) 里从上游仓库对应版本照抄的原文（astronomy-engine 2.1.19，以及星盘库自带的 moment、moment-timezone）；上游也没有原文的（solar_terms.js、tao_taichi.js），清单里照实写明，只列 package.json 声明的许可，不按作者字段拼版权行。
 主要的包：
 
 - taibu-core 3.6.0（MIT）：只用 npm 上的 core 包；taibu 仓库根目录的 Web、App 是 AGPL，没有使用。

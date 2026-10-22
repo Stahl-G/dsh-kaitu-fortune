@@ -157,7 +157,11 @@ const client = await build({
           });
           css.set(path, result.code.toString());
           const names = module
-            ? Object.fromEntries(Object.entries(result.exports).sort().map(([k, v]) => [k, v.name]))
+            ? Object.fromEntries(
+                Object.entries(result.exports)
+                  .sort()
+                  .map(([k, v]) => [k, v.name]),
+              )
             : {};
           return {
             contents: `export default ${JSON.stringify(names)}`,
@@ -191,29 +195,6 @@ writeFileSync(
 );
 
 // 打包时去掉了源码里的版权注释，所以按 esbuild 实际打进 dist 的文件把用到的包列出来，附上许可全文。
-// MPL-2.0 的包另外把 npm 上发布的原文件放进 third_party/mpl，随插件一起发，满足 MPL 对源码可得的要求。
-const MIT = (holder) => `MIT License
-
-Copyright (c) ${holder}
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-`;
 const manifestOf = (dir) =>
   existsSync(resolve(dir, "package.json"))
     ? JSON.parse(readFileSync(resolve(dir, "package.json"), "utf8"))
@@ -236,6 +217,14 @@ for (const [where, { metafile }] of [
 const EMBEDDED = {
   "circular-natal-horoscope-js": ["moment@2.24.0", "moment-timezone@0.5.26"],
 };
+// npm 包里没带许可文件时，用 licenses/ 里从上游仓库对应版本标签照抄的原文（文件名是 包名@版本）。
+// 上游也没有原文的照实写明，不按作者字段自己拼。
+const UPSTREAM = {
+  "astronomy-engine@2.1.19": "https://github.com/cosinekitty/astronomy/blob/v2.1.19/LICENSE",
+  "moment@2.24.0": "https://github.com/moment/moment/blob/2.24.0/LICENSE",
+  "moment-timezone@0.5.26": "https://github.com/moment/moment-timezone/blob/0.5.26/LICENSE",
+};
+const upstream = (id) => readFileSync(resolve(root, "licenses", id), "utf8");
 const licenseFile = (dir) => readdirSync(dir).find((name) => /^licen[cs]e/i.test(name));
 const mplText = [...bundled.keys()]
   .filter((dir) => bundled.get(dir).manifest.license === "MPL-2.0" && licenseFile(dir))
@@ -248,13 +237,19 @@ const sections = [...bundled]
   .map(([dir, { manifest, where }]) => {
     const id = `${manifest.name}@${manifest.version}`;
     const file = licenseFile(dir);
-    const author = typeof manifest.author === "string" ? manifest.author : manifest.author?.name;
     let text = file && readFileSync(resolve(dir, file), "utf8");
-    let note = file
-      ? `许可原文取自包内 ${file}`
-      : "包里没有许可文件，下面按 package.json 的 license 字段和作者补全";
-    if (!text && manifest.license === "MIT") text = MIT(author);
-    if (!text && manifest.license === "MPL-2.0") text = mplText;
+    let note = `许可原文取自包内 ${file}`;
+    if (!file && UPSTREAM[id]) {
+      text = upstream(id);
+      note = `npm 包里没有许可文件，下面照抄上游仓库对应版本的原文：${UPSTREAM[id]}`;
+    } else if (!file && manifest.license === "MPL-2.0") {
+      text = mplText;
+      note =
+        "npm 包和上游仓库都没有附许可原文，package.json 声明为 MPL-2.0；下面是 MPL-2.0 的标准全文（与同批 taobi 包内的 LICENSE 相同），不是这个包自带的";
+    } else if (!file) {
+      text = "";
+      note = `npm 包和上游仓库都没有附许可原文，package.json 声明为 ${manifest.license}`;
+    }
     if (manifest.license === "MPL-2.0") {
       cpSync(dir, resolve(root, "third_party/mpl", id), { recursive: true });
       note += `；npm 发布的原文件附在 third_party/mpl/${id}/`;
@@ -266,11 +261,10 @@ const sections = [...bundled]
       `打进：${[...where].join("、")}`,
       repository && `仓库：${repository.replace(/^git\+/, "")}`,
       note,
-      "",
-      text.trim(),
+      ...(text.trim() ? ["", text.trim()] : []),
       ...(EMBEDDED[manifest.name] ?? []).map(
         (inner) =>
-          `\n\n== ${inner} (MIT)\n打进：随 ${id} 的 dist 一起\n${MIT("JS Foundation and other contributors").trim()}`,
+          `\n\n== ${inner} (MIT)\n打进：随 ${id} 的 dist 一起\n下面照抄上游仓库对应版本的原文：${UPSTREAM[inner]}\n\n${upstream(inner).trim()}`,
       ),
     ]
       .filter((line) => line !== undefined)
