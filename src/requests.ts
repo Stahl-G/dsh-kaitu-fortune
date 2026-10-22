@@ -66,8 +66,8 @@ export function cardImage(name: string) {
 const today = () => new Date().toLocaleDateString("sv");
 const zone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-function birthOf(dir: string, args: Args) {
-  const birth = readBirth(dir);
+async function birthOf(dir: string, args: Args) {
+  const birth = await readBirth(dir);
   if (!birth) throw new Error("先填出生信息");
   const candidate = typeof args.candidate === "number" ? birth.candidates?.[args.candidate] : undefined;
   return { birth, args: chartArgs(birth, candidate?.at) };
@@ -98,7 +98,7 @@ async function chinese(args: ReturnType<typeof chartArgs>) {
 export async function handle(dir: string, operation: string, args: Args): Promise<unknown> {
   switch (operation) {
     case "state":
-      return { birth: readBirth(dir) ?? null, stored: { dir, draws: countDraws(dir) } };
+      return { birth: (await readBirth(dir)) ?? null, stored: { dir, draws: countDraws(dir) } };
     case "cities":
       return searchCities(String(args.query ?? ""));
     case "saveBirth":
@@ -115,10 +115,10 @@ export async function handle(dir: string, operation: string, args: Args): Promis
         {},
       ).structuredContent;
     case "chinese": {
-      return chinese(birthOf(dir, args).args);
+      return chinese((await birthOf(dir, args)).args);
     }
     case "astro": {
-      const { args: chart } = birthOf(dir, args);
+      const { args: chart } = await birthOf(dir, args);
       const { gender: _gender, ...input } = chart;
       return executeTool("astrology", input);
     }
