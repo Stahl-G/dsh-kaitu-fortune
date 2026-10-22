@@ -1,782 +1,704 @@
 [
   {
-    "file": "cups-01.jpg",
-    "original": "Cups01.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups01.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "b95c12e284b7bfd4336a8e0cb6374589f30f26e371181be7a260dd9507416d51",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-02.jpg",
-    "original": "Cups02.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups02.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "d62c12d4773bcec4131b1178d41ac34aff8185131ba7e6572877dc7cd0f75f1b",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-03.jpg",
-    "original": "Cups03.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups03.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "5daac879fe1c36ad66d9f81cfa0919545212db39a29d6111f57059ad1a7ee540",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-04.jpg",
-    "original": "Cups04.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups04.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "032b757bbd4ab11a33b2e3836468a66cee4fe0f1a8d33cea4713e890dd19516b",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-05.jpg",
-    "original": "Cups05.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups05.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "c82b5f2541a369aa84e39489c9365e2e2fa470465cf87399b5b64055969779a6",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-06.jpg",
-    "original": "Cups06.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups06.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "460c051fd813e552a17821d44c14dac050c37478e8175fc22e5258abbd7a1216",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-07.jpg",
-    "original": "Cups07.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups07.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "7452f0e731652c46146f3a2747323305b183561d6b510d3bb4a5f690afe8c46b",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-08.jpg",
-    "original": "Cups08.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups08.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "8fda1f849b8bf8c3664323a7478c3174ac0eb46b6057633432880f7befe5ab64",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-09.jpg",
-    "original": "Cups09.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups09.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "26835d0216953acd60e407bca8b9377077226779d2cdbb924b1fa09d9aaf4aec",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-10.jpg",
-    "original": "Cups10.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups10.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "1a1187a40868ca07092d619828d487b237aaebbd18cdd29381b99d5762c0e6f8",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-11.jpg",
-    "original": "Cups11.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups11.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "8149474e85f90f19eb019bec6caba4ba5e89f2e8a4f2755ead9a4a441636d24d",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-12.jpg",
-    "original": "Cups12.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups12.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "d93ebe30899aa703cd88dc26cd84cf0a35bacd20677f2edec24321264152397c",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-13.jpg",
-    "original": "Cups13.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups13.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "623007f7aae693a8b9c54738718831f96c86e4f4f91a001d86c97ceef7f0d123",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "cups-14.jpg",
-    "original": "Cups14.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Cups14.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "9e4385a300e87424e265ba4ab1b4137c5cd2126db875af1a1c068c51edcb54c6",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
     "file": "major-00.jpg",
     "original": "RWS_Tarot_00_Fool.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_00_Fool.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "b1ea84edbc3598384c9c1f182159467b166366baf3624d550abd1afcc07a2673",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "3e8246276929b90b5d1a3a3e570f837627dbae4fb3bfb22d023f60470a00000a"
   },
   {
     "file": "major-01.jpg",
     "original": "RWS_Tarot_01_Magician.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_01_Magician.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "e2c8c643c2b32d67c082f9ed537d34d777364f42b6285e5e72906a7155fc314b",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "e331cc27eb40641b94025b1d895e315f63d73af39e9ebc6c9fd8ba713737db98"
   },
   {
     "file": "major-02.jpg",
     "original": "RWS_Tarot_02_High_Priestess.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_02_High_Priestess.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "1b28c9f9bed6ef18d6f8c450056abee6ac7aa8f2fd80d60ad6c23a467c6aee8d",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "87070f0fcc8ba7b28307f95e152de6ba067b61bc3c272c3b3fe54e3aa475ef27"
   },
   {
     "file": "major-03.jpg",
     "original": "RWS_Tarot_03_Empress.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_03_Empress.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "e196b8d0c18d6ef7e34fadda6a3c6d40a62882407616bb6d2636d079436cf254",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "4588388693787f946b06946ca96eb471f70b9acc736f979d357f2eb985b55f55"
   },
   {
     "file": "major-04.jpg",
     "original": "RWS_Tarot_04_Emperor.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_04_Emperor.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "e1f14bf6bb40cd231ac64bb785f370e01e2d8c6543554063a217abf50ece5270",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "a62d065ff2a35f634ed2cdd265802ae12aebfbfa63167343bc08454c65b49d54"
   },
   {
     "file": "major-05.jpg",
     "original": "RWS_Tarot_05_Hierophant.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_05_Hierophant.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "2a1e7adc39ca02eed0d6bc1cc067fc63523f8b4cbaa562b54c384de3ffef9e9d",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "91237ac8b9e9d9a30d40c5929081ddbe8dcddd2173f4dbfdef638fcd6fc042e3"
   },
   {
     "file": "major-06.jpg",
     "original": "RWS_Tarot_06_Lovers.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_06_Lovers.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_06_Lovers.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "82c467a94d1a1f160756334c39c28fa6ab59b74f29b6308ef185459aabcdf186",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "0a88f43d01929a9f2bc49578cf2cde2ec09b1344af15a0cabfbb9f77e52bd654"
   },
   {
     "file": "major-07.jpg",
     "original": "RWS_Tarot_07_Chariot.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_07_Chariot.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "5c628749aeb2bc21d4a82de2239d45e39e08243524d5a7bc72d3efe63d8a85ae",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "1a9dc6277c8572ffac448901ed5544e5da9c3dde8ea320bb5dcaee59d06ed9f8"
   },
   {
     "file": "major-08.jpg",
     "original": "RWS_Tarot_08_Strength.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_08_Strength.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "375239dbba02ff187cd681c3633198d0c0810e227b11fc90751e0303d3990237",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "1d252f74e44bb270694b94d4f949d8ab64d40cd705f441ff39c63e119afb22f4"
   },
   {
     "file": "major-09.jpg",
     "original": "RWS_Tarot_09_Hermit.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_09_Hermit.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "e8ba8e502437ba633f2cf020978b4fea9d1449845b8e05b5bbae40c324a45099",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "f8e93013000819d59122d40f21b5110aeb876ea962aa5b15a0695ee5e18da1b4"
   },
   {
     "file": "major-10.jpg",
     "original": "RWS_Tarot_10_Wheel_of_Fortune.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_10_Wheel_of_Fortune.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "fe86e47d4f8fb0304f5ec4deeb9c482db64a01a5b23e034ecdeca106dc4c0aef",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "822daaca207ad5626aa828e7721aa9f456515221f95d0e7d4dadf774c4126dad"
   },
   {
     "file": "major-11.jpg",
     "original": "RWS_Tarot_11_Justice.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_11_Justice.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e0/RWS_Tarot_11_Justice.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "ee9be4db6fd96bda79286cca6fccf324ed57e0c43f7c1c4d4414c689207cc520",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "cba22e4d0e7f61e023ef62593634d6f4df4f2e223538975abdafd70204db0a89"
   },
   {
     "file": "major-12.jpg",
     "original": "RWS_Tarot_12_Hanged_Man.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_12_Hanged_Man.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "a326422fee998b3dc7898f75af7f036f27b117d7c8f4c743131d2e2522148228",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "b4ea96554ba555c7b8102f940ea6cb2f94e4c290c8319006330a9d921a7d17f0"
   },
   {
     "file": "major-13.jpg",
     "original": "RWS_Tarot_13_Death.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_13_Death.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "283fece78d3a615beaa60764e55992c37f4701d344261dd940cdd0027ae63fac",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "578e1dd596b238d0049afc2f5bb78f04adada7971685304c50e8438e5f33bf93"
   },
   {
     "file": "major-14.jpg",
     "original": "RWS_Tarot_14_Temperance.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_14_Temperance.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "806c797877a7c7f2931d907a44a2072f813364e5208b96573ae6608e6149d88c",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "c142fe7daaf6bfd955f9ba1638dc070e48a795e33b3927cfa10408a6c546acd5"
   },
   {
     "file": "major-15.jpg",
     "original": "RWS_Tarot_15_Devil.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_15_Devil.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "5cd0266b5c25e362cbb7003e7262b3d8c910954ef03ee0a300e1073998d99aee",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "ec6f7c4394cd6c5aba3a3f076b4e25d0f70a665aff16f29f38be3e32a1b7949f"
   },
   {
     "file": "major-16.jpg",
     "original": "RWS_Tarot_16_Tower.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_16_Tower.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "cf96e9f6de310d499453cd6a79b788e0594b1a4530b591a26218ba093c9b4532",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "d2a857aa167b9decec239eb02fad8eba3d061ccc5b3154d133b4d6e2b94afb0f"
   },
   {
     "file": "major-17.jpg",
     "original": "RWS_Tarot_17_Star.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_17_Star.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/db/RWS_Tarot_17_Star.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "80173b3aaf6068e5cd0b901700c3f60201b3bedd8e9529b581c43d44708c6c9d",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "f0533dd7100f67cbea86d09786464745e030d083319590cf2bbbe24c3a0364aa"
   },
   {
     "file": "major-18.jpg",
     "original": "RWS_Tarot_18_Moon.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_18_Moon.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "aa1f5c414a0e64427f0a92cea07a61416a5dc11a808c16812023cd22650de83a",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "bea8322b8b23a10bd74a129464a424dad9d9b5f048b9f7083c50c5fc1d6c8c6a"
   },
   {
     "file": "major-19.jpg",
     "original": "RWS_Tarot_19_Sun.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_19_Sun.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "71981dd56aebd3dc15a9db078c7e7c332605b741b0aad3126e8be57d72a02ae7",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "78d3cdc9eee3fa856c8bc4af04dee4a19f0f4c99bef9c6d96f9a85407b49368b"
   },
   {
     "file": "major-20.jpg",
     "original": "RWS_Tarot_20_Judgement.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_20_Judgement.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "96cd0fd5d5175b6f553b2515c633575c428e7035ee4e883f30381d072a93adaf",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "52ed6bc3872ab3e19de289cecb5e75d38320137a971ea31f3e2b0c830c8bd65c"
   },
   {
     "file": "major-21.jpg",
     "original": "RWS_Tarot_21_World.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:RWS_Tarot_21_World.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/ff/RWS_Tarot_21_World.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "f9aeaca6a24280399c4314c9c76d382bf95ee6c37793e53eacf28a4214157444",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-01.jpg",
-    "original": "Pents01.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents01.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "e2e043ec675b9b2ea51aed251ff76237398743538008c973d67bf65dccc27ee9",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-02.jpg",
-    "original": "Pents02.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents02.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "c60ff50d66741ad47c458e952d92bb4cb1f1391bcf7b030c5a14b8a4413bfa96",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-03.jpg",
-    "original": "Pents03.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents03.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "93089e91563f7759563bb6078caba60d035a9eaefcde76945ff2cab6f415c055",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-04.jpg",
-    "original": "Pents04.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents04.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "62d58c8d41d76a371dd51353a9d67480a7abfe8c435711860278ab52336a251f",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-05.jpg",
-    "original": "Pents05.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents05.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "095e9007653c9e2f749ba22e69e001b2d26db5c7da50be51e951a2fdbe6a842a",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-06.jpg",
-    "original": "Pents06.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents06.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "aa972c743d80921f6263fb24b1233ad74c5b3a2ee8b831ca452f3609686dfe09",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-07.jpg",
-    "original": "Pents07.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents07.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "a9370b76f58c72a26299f8abf6963df281ab32ad9084a30c737a59add10c93c5",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-08.jpg",
-    "original": "Pents08.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents08.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "b59626ec19f1a7f21d06dd24f280888e5e8cdb97b5ab696f5449f99c79c1cf0e",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-09.jpg",
-    "original": "Pents09.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents09.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "9c26ebd3ddea26e2f3b601699f41d10ff75059aabd4598a9ab5c1595ac4845d3",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-10.jpg",
-    "original": "Pents10.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents10.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "a973178fe4c8d770d7f5b5de759ed6ba118c0971c7c59416dfaab9f36ba4b144",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-11.jpg",
-    "original": "Pents11.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents11.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "188685b89d6b875ec42274df5ec65b7e9f828865e3ec3a6c8a506d85713cdf96",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-12.jpg",
-    "original": "Pents12.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents12.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "0f35e6efa8b788bca91c4bd12269a1e3b6e0e0b111adf72af933b79a9c673120",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-13.jpg",
-    "original": "Pents13.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents13.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "d05828b462b1109b9af8ed26af1f3d95f45a64e4c050222a814807a599c531e7",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "pentacles-14.jpg",
-    "original": "Pents14.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Pents14.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "30abfb8231b0ef28d161c76eeb0e9148b58e4dbb105cba65893ac5445e573746",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-01.jpg",
-    "original": "Swords01.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords01.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "ad9b8b264e57725da7523f71319f5a062157039d3297e7776a3f74018487d34d",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-02.jpg",
-    "original": "Swords02.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords02.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "59181f7904bfc018be0e8e65b6f5422dee31c910be5356d067b5175152021e46",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-03.jpg",
-    "original": "Swords03.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords03.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "5fdbc75dbd8563e8635dfb779c374dfd62b578ae83520cd6371bd1fbe0eac537",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-04.jpg",
-    "original": "Swords04.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords04.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "0070611af712406efb5e2b37f19a50641bf6d91d099b45a1414184597fb904e5",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-05.jpg",
-    "original": "Swords05.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords05.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "ba6bcacb14c30081add09a216cd46cba12d1bdbbc241e41fc3a77bf84c7965cd",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-06.jpg",
-    "original": "Swords06.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords06.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "50986cab6f255c697a6b5bad8563bf0dafe92ece98ca1e168fc88d6e06905bf2",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-07.jpg",
-    "original": "Swords07.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords07.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "582c5d662b194c9158a46b7b3e6993a023874512ea98f8d8495f263e6d5397b9",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-08.jpg",
-    "original": "Swords08.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords08.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "377d9b6806af0a3baddcaa0f5ca8db2936d4fbcf75239a90037b9d87d1a8fb7c",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-09.jpg",
-    "original": "Swords09.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords09.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "40fd23b0869c25a5dc702ed00d02543b0291ca4fa510c3bd907eba49e19d8e35",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-10.jpg",
-    "original": "Swords10.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords10.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "c2e46b056c302a86ee7561bcf1a0b80f6a3930639695d490e3a429de5f321753",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-11.jpg",
-    "original": "Swords11.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords11.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "7383f957535d9578e506ae0e9b2b83900c011114724accf136473b2bce8349e2",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-12.jpg",
-    "original": "Swords12.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords12.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "dca0e81da7efb528284dfaa35f31413415af6dce2581bc6079793399d60695c7",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-13.jpg",
-    "original": "Swords13.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords13.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "997b5c7dd3aeb4a1c173aad9bf6ea9f1e68203792286ad46088821c7d5202734",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
-  },
-  {
-    "file": "swords-14.jpg",
-    "original": "Swords14.jpg",
-    "page": "https://commons.wikimedia.org/wiki/File:Swords14.jpg",
-    "download": null,
-    "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "1fd6b5eea71bf7dfde1c95675984f8bad2f064907a9841a3d42feeb548f82275",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "fd2aa29a9285949a632be636a9f19bedc01b5b3bce69baeb1a56596a3be3bf76"
   },
   {
     "file": "wands-01.jpg",
     "original": "Wands01.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands01.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/11/Wands01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "f41cb71a8c0e9055419543d2cc8f693f7b7efa731a3bca41fc5b264233aa7b80",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "7aac01269b31e88d6e8ce2af87948ad035ab153d11d45a2c82723bf86c8a97be"
   },
   {
     "file": "wands-02.jpg",
     "original": "Wands02.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands02.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Wands02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "3b59bd719c45d38e751441780350cb3e990c232c58b4876aaad86adad570ebf7",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "fe6da68873b74d7b7c96383403041c9bc183c5dc78a0ebecb73194c35894f075"
   },
   {
     "file": "wands-03.jpg",
     "original": "Wands03.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands03.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Wands03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "47d97af767cd9058d0a508eb8b30d9d91f6299ce3ba09834dbf6f80d9618ba90",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "abdba998295d091803ce65766fa96f3d56f5fcf50e66480f54f4b0c46fd26ef3"
   },
   {
     "file": "wands-04.jpg",
     "original": "Wands04.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands04.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Wands04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "bf9e9a124b46c9d40c2fb7d130d5e14582d9c628fd8bb45e9ccac7890d9d2c95",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "d8ecb4d5d57511747f3a382800d98eb955abf80fefb2cdd42a0eba97bc087515"
   },
   {
     "file": "wands-05.jpg",
     "original": "Wands05.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands05.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Wands05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "a0f09d9aab537c228ead384b98cda0bc20813a2c9b2be76e41e7c074f02cd1fc",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "9a1c358779e947ab3d38d0eb2f4d212850983ece22ae4ba5a80706304dfbe45e"
   },
   {
     "file": "wands-06.jpg",
     "original": "Wands06.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands06.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Wands06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "471a91e5e86a2e4cc9748a8f7e8c4247a439711ea5c180630e43d813699e83f8",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "298c49c336c57f0e07b7bbd84b15ce5782e077705aca2085bb04bfc3d18a7e85"
   },
   {
     "file": "wands-07.jpg",
     "original": "Wands07.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands07.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "113a7933303a231ca0c122beb99851e2fa2e53ae1fc6414e7c9342f134074e9a",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "7f62afe6149e5d7d2f1f1b58e8a47e8535769b5c2308407276d71d0344358534"
   },
   {
     "file": "wands-08.jpg",
     "original": "Wands08.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands08.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Wands08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "a33dcd7bae56d3be7137d3e0117abb314ec85972da3bbd7edd53a57965daa04b",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "09c3e7169a29fa3952f129e8d41bf6f9a8f00ce527417f139f2fad4e52ec7b3c"
   },
   {
     "file": "wands-09.jpg",
     "original": "Wands09.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands09.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Wands09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "d007a562864573e1e228c9864a81cd4456d762cbaf1bfabbc069ac038e10625b",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "b268fde1496b9c23672c6b14ab22f1081503d413f019eb820ff9a2a5ed2211bf"
   },
   {
     "file": "wands-10.jpg",
     "original": "Wands10.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands10.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Wands10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "e05eb05f70fd5d9a5d4f3f1c85d47d1f8f3d521d1927802a5933d6826afe5156",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "57ca529d3adaa13f88a25ee062db7c10a7a8709a98db2594216b6c93c121adbb"
   },
   {
     "file": "wands-11.jpg",
     "original": "Wands11.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands11.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Wands11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "54b893cc244db21ef8d0e2a319255028f2d649668a96cb41d9200917c3344657",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "fccf7e231d4bbc047c10032b014919b42a08e9c622cbcb434df1f234ce59b35d"
   },
   {
     "file": "wands-12.jpg",
     "original": "Wands12.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands12.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/16/Wands12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "a924ff47d45eaecb17703bb40b19189beb64ca29496748d83c0b99c206820db8",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "cab96481ce159e7106fd54903f0c2bbc360b1b079e374adcf343f481598aba3a"
   },
   {
     "file": "wands-13.jpg",
     "original": "Wands13.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands13.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Wands13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "bf5d1371a4be8ca2503e72a11859d3a3ba951fcb15db9a503cbea1c5d5454601",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "129cf65d3af7f295178e384dff3e71b1c6a80496a635fa0dd475ee55709b6737"
   },
   {
     "file": "wands-14.jpg",
     "original": "Wands14.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Wands14.jpg",
-    "download": null,
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Wands14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
     "artist": "Pamela Colman Smith",
-    "license": null,
-    "sha256": "dbd398c1aff41d950dd7f501fe3e954585ccacef0606ba679640f89ba7dc918e",
-    "via": "https://github.com/mirror29/inalpha/tree/2e02c72715d15bc883ca13102295a5562931c705/apps/dashboard/public/tarot（AGPL-3.0 仓库；与本文件逐字节相同）"
+    "license": "Public domain",
+    "sha256": "90c697e2ae9588b7f5558d976c7bf81e699daab235f7a1983e8a71d4a89ed1ed"
+  },
+  {
+    "file": "cups-01.jpg",
+    "original": "Cups01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups01.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/36/Cups01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "40ecad39524a8b227d0e0792d2149843f9e212cf218ac77bfa930412dd6641db"
+  },
+  {
+    "file": "cups-02.jpg",
+    "original": "Cups02.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups02.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Cups02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "95ab568e16d35a0cbedc192a1e418130ad93032ed33a3b89924df1e1757e491b"
+  },
+  {
+    "file": "cups-03.jpg",
+    "original": "Cups03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups03.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Cups03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "f73c7f8be4b6efb3f4df3f41a492772153b3e0ca35944531508ce652d620ce99"
+  },
+  {
+    "file": "cups-04.jpg",
+    "original": "Cups04.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups04.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/35/Cups04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "311a90f3ac1201f1698b6f75405d692a5d5e499a87cf8d83ff46d05ef5bf2c59"
+  },
+  {
+    "file": "cups-05.jpg",
+    "original": "Cups05.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups05.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Cups05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "dc800db1fd272cc3aaa89b11142a2623275466fd5b3359b2b0513b24f55a9d58"
+  },
+  {
+    "file": "cups-06.jpg",
+    "original": "Cups06.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups06.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/17/Cups06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "ac35b6aad8922107e766bc3040f5f87a5d1117fc3c676524aa6a4fc8cd8f9681"
+  },
+  {
+    "file": "cups-07.jpg",
+    "original": "Cups07.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups07.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Cups07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "a6eee9fc9c4cd38f239ed267a01039cb3b538584fc3bfedd62821a05fa1e2998"
+  },
+  {
+    "file": "cups-08.jpg",
+    "original": "Cups08.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups08.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/60/Cups08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "199e1059945afc8b216362c16e75ee1fd58f82c07018c67210054d8ba81eab81"
+  },
+  {
+    "file": "cups-09.jpg",
+    "original": "Cups09.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups09.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/24/Cups09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "84836ebfdce8760ea27f4118b940e1e21d8c07be6075335b24ad71158b1db374"
+  },
+  {
+    "file": "cups-10.jpg",
+    "original": "Cups10.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups10.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/84/Cups10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "0664a9388d4d368038842d100623ab4dedd67d1c828edceb3b5cd64be4d4a8c0"
+  },
+  {
+    "file": "cups-11.jpg",
+    "original": "Cups11.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups11.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Cups11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "f200639daa3fe50852db58a3ddc6d772fecafdff376e19877261b639bee82ebb"
+  },
+  {
+    "file": "cups-12.jpg",
+    "original": "Cups12.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups12.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Cups12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "37998590b79c466d5e0a6fe71532837e5d983ee43c8dec7066136843d375b920"
+  },
+  {
+    "file": "cups-13.jpg",
+    "original": "Cups13.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups13.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/62/Cups13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "a48b8b337cbcd8c8d866006cd989e4db2e3ef5d9c2a3dbc996f19fb26794ea14"
+  },
+  {
+    "file": "cups-14.jpg",
+    "original": "Cups14.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cups14.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/04/Cups14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "1140f83bd67e8ad62e7c1452fbf598c83d4b0d433c0ef277b1363271073ca106"
+  },
+  {
+    "file": "swords-01.jpg",
+    "original": "Swords01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords01.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Swords01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "6525709f2d5ad1fdf91ed7932e2f7dc874f05509d76e9570d8d018bfd88da5a8"
+  },
+  {
+    "file": "swords-02.jpg",
+    "original": "Swords02.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords02.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Swords02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "da759aa3c30ff4af7de03967494c6232c4ed7c650afe8c067f8cc4a51ac85bd5"
+  },
+  {
+    "file": "swords-03.jpg",
+    "original": "Swords03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords03.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/02/Swords03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "157cead06fcd78cec2c2586a7c0d6f21dd70c7cba16571a81f63372819e29e77"
+  },
+  {
+    "file": "swords-04.jpg",
+    "original": "Swords04.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords04.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Swords04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "0013295368e9a99cbd8dd6f4451a67e047ae5a137c1e157718e109b30c37ce80"
+  },
+  {
+    "file": "swords-05.jpg",
+    "original": "Swords05.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords05.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/23/Swords05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "671e23ebf509a4a2584c8b930f49de34f0173c1174c4e495c3d86dd79f282e05"
+  },
+  {
+    "file": "swords-06.jpg",
+    "original": "Swords06.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords06.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/29/Swords06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "e1c6dffa619fc8ccaae03163bb20048f12f3442ce805b10fd80bf3e0bfc7474e"
+  },
+  {
+    "file": "swords-07.jpg",
+    "original": "Swords07.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords07.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/34/Swords07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "1caab906bcd5a14e6d9e1e8799de7cd9a4fd760c8afb097ea8d123e62a43bbcf"
+  },
+  {
+    "file": "swords-08.jpg",
+    "original": "Swords08.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords08.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Swords08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "aeaba98556a6700dbae143425466266e1d54a32f239a8941bf17a78092f6a667"
+  },
+  {
+    "file": "swords-09.jpg",
+    "original": "Swords09.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords09.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Swords09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "50b3d9df4b147848df01585dacee49008d7016cbcb04744b457bedda771f45df"
+  },
+  {
+    "file": "swords-10.jpg",
+    "original": "Swords10.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords10.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Swords10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "42fd534e6108f1faa43c9e00a6da848ef4cb66e1d680f31433e7900a0b0a76a1"
+  },
+  {
+    "file": "swords-11.jpg",
+    "original": "Swords11.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords11.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Swords11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "7d7f9faf25bd7a707dc0454cf928729d7d0bab3e3afe293ef5017f3cac5f94b3"
+  },
+  {
+    "file": "swords-12.jpg",
+    "original": "Swords12.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords12.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Swords12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "f2189c39241721b7b59f753bc51bb2e9a628174724e0c175a3c9b79133f64b4b"
+  },
+  {
+    "file": "swords-13.jpg",
+    "original": "Swords13.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords13.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Swords13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "46bde3413126d01347124d76373c5f7a1ade01ee0a6a1dba6173389e51029d2b"
+  },
+  {
+    "file": "swords-14.jpg",
+    "original": "Swords14.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Swords14.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/33/Swords14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "78523151955b5cef203f88d8ebff237edbddc072babbe01bd6c82e9bb1356135"
+  },
+  {
+    "file": "pentacles-01.jpg",
+    "original": "Pents01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents01.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Pents01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "d3221aa87beb0124738ce36d25251426a551de6ced7aa0ac646cd65c5a4d3890"
+  },
+  {
+    "file": "pentacles-02.jpg",
+    "original": "Pents02.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents02.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Pents02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "e256cbbaafe97dd486d2c1a1ac8c63abbcb006ee911b31f368f0ae7c8d8ee3e0"
+  },
+  {
+    "file": "pentacles-03.jpg",
+    "original": "Pents03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents03.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/42/Pents03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "8edc46b9b28d4eacedfd8df986c96d95ab1b3da1292410ecbe722050208a35c6"
+  },
+  {
+    "file": "pentacles-04.jpg",
+    "original": "Pents04.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents04.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/35/Pents04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "2dff1146e91db77ffdf56fbcb9cc14b79990417c4ea7d4f8e9c1b778533169b2"
+  },
+  {
+    "file": "pentacles-05.jpg",
+    "original": "Pents05.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents05.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/9/96/Pents05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "c23b7b9e6f753e2b68963914d837c137ab6be96b93de8c89bc4fff305a1b3a5c"
+  },
+  {
+    "file": "pentacles-06.jpg",
+    "original": "Pents06.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents06.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Pents06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "2f1bb0562ba09e8297420dcbdb13e1df591bd26c225ce9752ffed1f93c5d8d0a"
+  },
+  {
+    "file": "pentacles-07.jpg",
+    "original": "Pents07.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents07.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Pents07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "8574da8310d613ec93e64425d690d026eafe11e022ac47399fc928396de87fb2"
+  },
+  {
+    "file": "pentacles-08.jpg",
+    "original": "Pents08.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents08.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/49/Pents08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "a24fbdd5fb8923a74a4d80539f9072edc0f10b0059f7c92b30b2f6fbafda15ed"
+  },
+  {
+    "file": "pentacles-09.jpg",
+    "original": "Pents09.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents09.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Pents09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "f1b497f05f0ff582ddddc3fbf4e12eeab7d0519de3e5cee825143deecf8e46b8"
+  },
+  {
+    "file": "pentacles-10.jpg",
+    "original": "Pents10.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents10.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/4/42/Pents10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "c650593708061426ac2f5550697ddd1c6e57ee6c57820f2b8e286d0f91effc0c"
+  },
+  {
+    "file": "pentacles-11.jpg",
+    "original": "Pents11.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents11.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Pents11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "2fe4be73070613738afc5fe15b8ec97e1d083e9feca316011d38c13e2e8dca26"
+  },
+  {
+    "file": "pentacles-12.jpg",
+    "original": "Pents12.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents12.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Pents12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "403274634e3eab3b5b54bf69721a91a87bfe236ffc451f19ce8708c2a92038ed"
+  },
+  {
+    "file": "pentacles-13.jpg",
+    "original": "Pents13.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents13.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/88/Pents13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "bf141466a1faa10e0ad2cee7ea01716cdbbc4632c490dbaf0f4f7538560f678c"
+  },
+  {
+    "file": "pentacles-14.jpg",
+    "original": "Pents14.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pents14.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Pents14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "artist": "Pamela Colman Smith",
+    "license": "Public domain",
+    "sha256": "2b742846b6619d2740248510292a0302b06320783a12ef1abab58e7894478f07"
   }
 ]
