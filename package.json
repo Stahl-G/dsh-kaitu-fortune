@@ -47,6 +47,17 @@
       ]
     }
   },
+  "kaitu": {
+    "explore": {
+      "title": {
+        "zh": "命理与星象",
+        "en": "Fortune"
+      },
+      "description": "八字、紫微、黄历、星盘与塔罗，都在这台电脑上计算",
+      "icon": "命",
+      "page": "kaitu-fortune"
+    }
+  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "vitest run",
