@@ -34,15 +34,20 @@ export interface Birth extends BirthInput {
   /** 公历出生日；农历输入在保存时换算好。 */
   solar: { year: number; month: number; day: number };
   candidates?: Candidate[];
+  /** 有多种可能时用户在页面上挑定的那一种（candidates 的下标）；没挑就没有这一项，改出生信息后清掉。 */
+  picked?: number;
   savedAt: string;
 }
 
 const file = (dir: string) => join(dir, "birth.json");
 
-/** 交给 taibu 排盘的参数：公历日期、经纬度（真太阳时）和出生地时区都由插件给，不让模型去查。 */
+/**
+ * 交给 taibu 排盘的参数：公历日期、经纬度（真太阳时）和出生地时区都由插件给，不让模型去查。
+ * 子时（真太阳时 23 点）起换日，日柱跟着换；紫微本来就这样排，八字、大运也统一成这样。
+ */
 export function chartArgs(birth: Birth, at?: Moment) {
-  const only = birth.candidates?.length === 1 ? birth.candidates[0]?.at : undefined;
-  const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : only);
+  const chosen = birth.candidates?.[birth.candidates.length === 1 ? 0 : (birth.picked ?? -1)]?.at;
+  const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : chosen);
   if (!time) throw new Error("出生时间不确定，需要先选一个时辰");
   return {
     birthYear: time.year,
@@ -54,6 +59,7 @@ export function chartArgs(birth: Birth, at?: Moment) {
     latitude: birth.city.lat,
     longitude: birth.city.lng,
     timezone: birth.city.timezone,
+    dayBoundary: "zi" as const,
   };
 }
 
@@ -149,6 +155,17 @@ export async function saveBirth(dir: string, input: BirthInput): Promise<Birth> 
   mkdirSync(dir, { recursive: true });
   writeFileSync(file(dir), JSON.stringify(birth, null, 2));
   return birth;
+}
+
+/** 记下挑定的时辰；传 null 改回“还没挑”。 */
+export function pickCandidate(dir: string, index: number | null): Birth {
+  const birth = readBirth(dir);
+  if (!birth) throw new Error("先填出生信息");
+  if (index !== null && !birth.candidates?.[index]) throw new Error("没有这个时辰");
+  const { picked: _picked, ...rest } = birth;
+  const next: Birth = index === null ? rest : { ...rest, picked: index };
+  writeFileSync(file(dir), JSON.stringify(next, null, 2));
+  return next;
 }
 
 export const readBirth = (dir: string): Birth | undefined =>

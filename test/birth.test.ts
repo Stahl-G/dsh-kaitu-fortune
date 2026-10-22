@@ -2,9 +2,9 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
-import { chartArgs, deleteAll, readBirth, saveBirth } from "../src/birth.js";
+import { chartArgs, deleteAll, pickCandidate, readBirth, saveBirth } from "../src/birth.js";
 import { searchCities } from "../src/cities.js";
-import { compute } from "../src/tools.js";
+import { compute, fortuneTools } from "../src/tools.js";
 
 const dir = () => mkdtempSync(join(tmpdir(), "fortune-birth-"));
 const shanghai = () => searchCities("上海")[0]?.geonameid as number;
@@ -54,13 +54,12 @@ test("时间不确定且跨午夜：列出每种可能的四柱和时段，不�
     gender: "female",
     cityId: shanghai(),
   });
-  // 上海东经 121.47°，三月真太阳时比钟表慢约 4 分钟；子时被午夜分成晚子、早子两段，日柱不同。
+  // 上海东经 121.47°，三月真太阳时比钟表慢约 4 分钟；子时起换日，整个子时是一段，日柱已是次日。
   expect(
     birth.candidates?.map((candidate) => [candidate.pillars.join(" "), candidate.start, candidate.end]),
   ).toEqual([
     ["庚辰 己卯 丁卯 辛亥", "2000-03-10 21:04", "2000-03-10 23:04"],
-    ["庚辰 己卯 丁卯 壬子", "2000-03-10 23:04", "2000-03-11 00:04"],
-    ["庚辰 己卯 戊辰 壬子", "2000-03-11 00:04", "2000-03-11 01:04"],
+    ["庚辰 己卯 戊辰 壬子", "2000-03-10 23:04", "2000-03-11 01:04"],
     ["庚辰 己卯 戊辰 癸丑", "2000-03-11 01:04", "2000-03-11 03:04"],
   ]);
   // 多个候选时不替用户选
@@ -83,7 +82,7 @@ const spans = (birth: Awaited<ReturnType<typeof saveBirth>>) =>
 test("只有 5 分钟的范围跨过时辰交界，两种时辰都要列出", async () => {
   expect(spans(await uncertain(10, "23:00", "23:05"))).toEqual([
     ["辛亥", "2000-03-10 21:04", "2000-03-10 23:04"],
-    ["壬子", "2000-03-10 23:04", "2000-03-11 00:04"],
+    ["壬子", "2000-03-10 23:04", "2000-03-11 01:04"],
   ]);
 });
 
@@ -91,10 +90,9 @@ test("范围终点刚好落在交界上也算进去", async () => {
   expect(spans(await uncertain(10, "22:55", "23:04"))?.map(([hour]) => hour)).toEqual(["辛亥", "壬子"]);
 });
 
-test("跨午夜、末尾不足 10 分钟：00:00–00:06 跨日柱，01:00–01:06 跨到丑时", async () => {
+test("跨午夜但都在子时里只有一种；末尾不足 10 分钟的 01:00–01:06 跨到丑时", async () => {
   const midnight = await uncertain(10, "23:58", "00:06");
   expect(midnight.candidates?.map((candidate) => candidate.pillars.slice(2).join(" "))).toEqual([
-    "丁卯 壬子",
     "戊辰 壬子",
   ]);
   expect(spans(await uncertain(11, "01:00", "01:06"))?.map(([hour]) => hour)).toEqual(["壬子", "癸丑"]);
@@ -104,6 +102,32 @@ test("范围在同一个时辰里只有一种可能时，直接用它排盘", as
   const birth = await uncertain(10, "21:30", "22:30");
   expect(birth.candidates).toHaveLength(1);
   expect(chartArgs(birth)).toMatchObject({ birthHour: 21, birthMinute: 30 });
+});
+
+test("挑定的时辰存进出生信息：重读还在，排盘和给模型的参数都按它；可以取消，改出生信息后清掉", async () => {
+  const at = dir();
+  const input = {
+    calendar: "solar",
+    year: 2000,
+    month: 3,
+    day: 10,
+    time: { from: "22:30", to: "23:30" },
+    gender: "female",
+    cityId: shanghai(),
+  } as const;
+  const birth = await saveBirth(at, input);
+  expect(birth.candidates).toHaveLength(2);
+  const myBirth = fortuneTools(at).find((tool) => tool.name === "fortune_my_birth");
+  expect(await myBirth?.run({})).toMatchObject({ chartArgs: undefined });
+
+  const picked = pickCandidate(at, 1);
+  expect(readBirth(at)).toEqual(picked);
+  expect(chartArgs(picked)).toEqual(chartArgs(birth, birth.candidates?.[1]?.at));
+  expect(await myBirth?.run({})).toMatchObject({ picked: 1, chartArgs: chartArgs(picked) });
+
+  expect(pickCandidate(at, null).picked).toBeUndefined();
+  pickCandidate(at, 0);
+  expect((await saveBirth(at, input)).picked).toBeUndefined();
 });
 
 test("一键删除清掉出生信息和记录", async () => {
