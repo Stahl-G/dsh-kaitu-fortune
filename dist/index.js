@@ -77567,7 +77567,8 @@ function chartArgs(birth, at) {
     gender: birth.gender,
     latitude: birth.city.lat,
     longitude: birth.city.lng,
-    timezone: birth.city.timezone
+    timezone: birth.city.timezone,
+    dayBoundary: "zi"
   };
 }
 var minutes = (hhmm) => {
