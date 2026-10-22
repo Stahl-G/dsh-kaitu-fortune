@@ -5,6 +5,7 @@ import type {} from "@deepseek-ai/dsh-client-ui-renderer/client";
 import type {} from "@deepseek-ai/dsh-client-ui-sidebar/client";
 import contribution from "../../lib/typert.remote-client.js";
 import { FortunePage, type Request, type Watch } from "./App.js";
+import type { ConnectHandover, HandoverPack } from "./Handover.js";
 
 export const inject = ["slots", "remote", "layout"];
 const panel = "kaitu-fortune" as MainPanelId;
@@ -36,8 +37,29 @@ export async function apply(ctx: Context) {
         })().catch(() => {});
         return () => stream.dispose();
       };
+      const connectHandover: ConnectHandover = (notify) => {
+        const fiber = ctx.inject(["remote.kaitu"], (scope) => {
+          const kaitu = scope.get("remote.kaitu") as {
+            handoverPack(
+              locale: string,
+            ): Promise<{ ok: true; value: HandoverPack } | { ok: false; error: { message: string } }>;
+          };
+          notify(async () => {
+            const result = await kaitu.handoverPack("zh-CN");
+            if (!result.ok) throw new Error(result.error.message);
+            return result.value;
+          });
+          scope.effect(() => () => notify());
+        });
+        return () => {
+          void fiber.dispose();
+        };
+      };
       ctx.slots.inject("main", () =>
-        ctx.slots.register({ name: "main", key: panel, inject: () => ({ request, watch }) }, FortunePage),
+        ctx.slots.register(
+          { name: "main", key: panel, inject: () => ({ request, watch, connectHandover }) },
+          FortunePage,
+        ),
       );
       ctx.slots.inject("sidebar.panellist", () =>
         ctx.slots.register(

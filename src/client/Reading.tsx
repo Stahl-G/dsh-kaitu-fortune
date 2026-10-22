@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { Reading as Saved, Subject } from "../reading.js";
 import type { Request, Watch } from "./App.js";
 import css from "./Fortune.module.css";
+import { Handover, HandoverContext } from "./Handover.js";
 import own from "./Reading.module.css";
 
 const time = (iso: string) => new Date(iso).toLocaleString("zh-CN", { hour12: false }).slice(0, -3);
@@ -26,7 +27,7 @@ function Body({ text }: { text: string }) {
 }
 
 /**
- * 盲读：把上面这张盘（或这次抽牌）的计算结果交给 DSH 的默认模型，不带开图资料。
+ * 先把计算结果交给默认模型盲读，完成后可以由用户选择资料包范围，再结合近况。
  * 解读在插件后台跑，换标签页回来还在；每条连同发出去的全文一起存着，可以回看、删除。
  */
 export function Reading({
@@ -47,6 +48,8 @@ export function Reading({
   const [list, setList] = useState<Saved[]>([]);
   const [shown, setShown] = useState<Saved | null>(null);
   const [error, setError] = useState("");
+  const loadHandover = useContext(HandoverContext);
+  const [choosing, setChoosing] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -77,6 +80,7 @@ export function Reading({
   }, [running, watch, onSaved]);
 
   const start = async () => {
+    setChoosing(false);
     setError("");
     try {
       const reading = await request<Saved>("startReading", { subject, drawId });
@@ -92,6 +96,12 @@ export function Reading({
     if (shown?.id === id) setShown(null);
     onSaved();
   };
+  const contextual = async (context: string) => {
+    const reading = await request<Saved>("contextReading", { blindId: shown?.id, context });
+    setList((current) => [reading, ...current]);
+    setShown(reading);
+    setChoosing(false);
+  };
   const earlier = list.filter((reading) => reading.id !== shown?.id);
   if (historyOnly && list.length === 0) return null;
   const heading = `fortune-reading-${subject}${historyOnly ? "-history" : ""}`;
@@ -103,13 +113,13 @@ export function Reading({
         <span>
           {historyOnly
             ? "对应当时的抽牌，牌面与问题可在「发给模型的全文」回看"
-            : "只把上面的计算结果交给 DSH 的默认模型，不带开图里的任何资料"}
+            : "先只看计算结果做盲读，再由你选择是否结合近况"}
         </span>
       </div>
       {shown ? (
         <>
           <p className={css.small}>
-            {time(shown.createdAt)} · {shown.model.model}
+            {time(shown.createdAt)} · {shown.kind === "context" ? "结合近况" : "盲读"} · {shown.model.model}
             {shown.status === "running" && " · 正在解读…"}
           </p>
           {shown.text ? (
@@ -135,6 +145,14 @@ export function Reading({
           {error}
         </p>
       )}
+      {loadHandover && choosing && shown?.kind === "blind" && shown.status === "done" && (
+        <Handover
+          key={shown.id}
+          load={loadHandover}
+          onSend={contextual}
+          onCancel={() => setChoosing(false)}
+        />
+      )}
       <div className={css.actions}>
         {!historyOnly && (
           <button
@@ -148,8 +166,13 @@ export function Reading({
               : subject === "tarot" && !drawId
                 ? "先抽牌再解读"
                 : shown
-                  ? "再解读一次"
+                  ? "再做一次盲读"
                   : "解读"}
+          </button>
+        )}
+        {loadHandover && shown?.kind === "blind" && shown.status === "done" && !choosing && (
+          <button type="button" className={css.button} onClick={() => setChoosing(true)}>
+            结合我的近况
           </button>
         )}
         {shown && shown.status !== "running" && (
@@ -164,8 +187,16 @@ export function Reading({
           <ul>
             {earlier.map((reading) => (
               <li key={reading.id}>
-                <button type="button" className={css.link} onClick={() => setShown(reading)}>
-                  {time(reading.createdAt)} · {reading.model.model}
+                <button
+                  type="button"
+                  className={css.link}
+                  onClick={() => {
+                    setChoosing(false);
+                    setShown(reading);
+                  }}
+                >
+                  {time(reading.createdAt)} · {reading.kind === "context" ? "结合近况" : "盲读"} ·{" "}
+                  {reading.model.model}
                   {reading.status === "failed" ? " · 没有完成" : ""}
                 </button>
                 <button type="button" className={css.link} onClick={() => void remove(reading.id)}>
