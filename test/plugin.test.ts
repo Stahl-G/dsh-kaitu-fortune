@@ -10,22 +10,14 @@ interface Registered {
   name: string;
   execute(args: unknown, exec: { signal: AbortSignal }): Promise<Record<string, unknown>>;
 }
-// 用真的 cordis 上下文装卸插件，宿主的 tools / typert 只记下注册情况。
+// 用真的 cordis 上下文装卸插件，宿主的 tools 只记下注册情况。
 const tools = new Map<string, Registered>();
-let typert = 0;
 const root = new Context();
 root.provide("tools");
-root.provide("typert");
 root.set("tools", {
   register: (tool: Registered) => {
     tools.set(tool.name, tool);
     return () => tools.delete(tool.name);
-  },
-});
-root.set("typert", {
-  register: () => {
-    typert++;
-    return () => typert--;
   },
 });
 const fiber = root.plugin(plugin);
@@ -88,9 +80,7 @@ test("合盘：同一张盘和自己比，太阳合太阳", async () => {
   );
 });
 
-test("卸载后工具和界面接口全部撤销", async () => {
-  expect(typert).toBe(1);
+test("卸载后工具全部撤销", async () => {
   await fiber.dispose();
   expect(tools.size).toBe(0);
-  expect(typert).toBe(0);
 });
