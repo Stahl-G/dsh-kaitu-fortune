@@ -4,7 +4,7 @@ import type { MainPanelId } from "@deepseek-ai/dsh-client-ui-layout/client";
 import type {} from "@deepseek-ai/dsh-client-ui-renderer/client";
 import type {} from "@deepseek-ai/dsh-client-ui-sidebar/client";
 import contribution from "../../lib/typert.remote-client.js";
-import { FortunePage, type Request } from "./App.js";
+import { FortunePage, type Request, type Watch } from "./App.js";
 
 export const inject = ["slots", "remote", "layout"];
 const panel = "kaitu-fortune" as MainPanelId;
@@ -29,8 +29,15 @@ export async function apply(ctx: Context) {
         if (!result.ok) throw new Error(result.error.message);
         return JSON.parse(result.value) as T;
       };
+      const watch: Watch = (id, onReading) => {
+        const stream = ctx.remote.kaituFortune.watchReading(id);
+        void (async () => {
+          for await (const item of stream) onReading(JSON.parse(item));
+        })().catch(() => {});
+        return () => stream.dispose();
+      };
       ctx.slots.inject("main", () =>
-        ctx.slots.register({ name: "main", key: panel, inject: () => ({ request }) }, FortunePage),
+        ctx.slots.register({ name: "main", key: panel, inject: () => ({ request, watch }) }, FortunePage),
       );
       ctx.slots.inject("sidebar.panellist", () =>
         ctx.slots.register(

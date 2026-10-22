@@ -1,6 +1,7 @@
 import { useState } from "react";
-import type { Request } from "./App.js";
+import type { Request, Watch } from "./App.js";
 import css from "./Fortune.module.css";
+import { Reading } from "./Reading.js";
 import own from "./Tarot.module.css";
 
 interface Drawn {
@@ -23,7 +24,7 @@ const SPREADS = [
   ["celtic-cross", "凯尔特十字"],
 ] as const;
 
-export function Tarot({ request, onDrawn }: { request: Request; onDrawn: () => void }) {
+export function Tarot({ request, watch, onDrawn }: { request: Request; watch: Watch; onDrawn: () => void }) {
   const [spreadType, setSpreadType] = useState<string>("three-card");
   const [question, setQuestion] = useState("");
   const [spread, setSpread] = useState<Spread | null>(null);
@@ -124,6 +125,9 @@ export function Tarot({ request, onDrawn }: { request: Request; onDrawn: () => v
             })}
           </div>
         </section>
+      )}
+      {spread && (
+        <Reading request={request} watch={watch} subject="tarot" drawId={spread.drawId} onSaved={onDrawn} />
       )}
     </>
   );
