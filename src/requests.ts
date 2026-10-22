@@ -152,8 +152,6 @@ export async function handle(
     }
     case "startReading":
       return readings?.start(args.subject as Subject, args.drawId as string | undefined);
-    case "contextReading":
-      return readings?.contextual(String(args.blindId), String(args.context));
     case "readings":
       return readings?.list(args.subject as Subject | undefined) ?? [];
     case "deleteReading":

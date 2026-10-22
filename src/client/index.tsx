@@ -4,8 +4,13 @@ import type { MainPanelId } from "@deepseek-ai/dsh-client-ui-layout/client";
 import type {} from "@deepseek-ai/dsh-client-ui-renderer/client";
 import type {} from "@deepseek-ai/dsh-client-ui-sidebar/client";
 import contribution from "../../lib/typert.remote-client.js";
+import {
+  type ConnectChat,
+  type SessionServices,
+  nativeChatDestination,
+  openReadingSession,
+} from "../chat.js";
 import { FortunePage, type Request, type Watch } from "./App.js";
-import type { ConnectHandover, HandoverPack } from "./Handover.js";
 
 export const inject = ["slots", "remote", "layout"];
 const panel = "kaitu-fortune" as MainPanelId;
@@ -37,39 +42,48 @@ export async function apply(ctx: Context) {
         })().catch(() => {});
         return () => stream.dispose();
       };
-      const connectHandover: ConnectHandover = (notify) => {
-        const fiber = ctx.inject(["remote.kaitu"], (scope) => {
-          const kaitu = scope.get("remote.kaitu") as {
-            handoverPack(
-              locale: string,
-              includeFinance?: boolean,
-            ): Promise<{ ok: true; value: HandoverPack } | { ok: false; error: { message: string } }>;
-          };
-          notify(async () => {
-            let result: Awaited<ReturnType<typeof kaitu.handoverPack>>;
-            try {
-              result = await kaitu.handoverPack("zh-CN");
-            } catch (error) {
-              // 已发行 Kaitu App 的接口还有 includeFinance 参数，传 false 沿用其财务授权规则。
-              if (
-                !(error instanceof Error) ||
-                !error.message.includes("kaitu/handoverPack expected 2 argument(s), got 1")
-              )
-                throw error;
-              result = await kaitu.handoverPack("zh-CN", false);
-            }
-            if (!result.ok) throw new Error(result.error.message);
-            return result.value;
-          });
-          scope.effect(() => () => notify());
-        });
+      const connectChat: ConnectChat = (notify) => {
+        const native = nativeChatDestination(window.location.hash);
+        if (native) {
+          notify(native);
+          return () => notify();
+        }
+        const fiber = ctx.inject(
+          ["remote.kaitu", "sessions", "workspaces", "conversation", "uiWorkspace"],
+          (scope) => {
+            const kaitu = scope.get("remote.kaitu") as {
+              workspacePath(): Promise<
+                { ok: true; value: string } | { ok: false; error: { message: string } }
+              >;
+            };
+            notify({
+              label: "结合近况，开新对话",
+              async open(draft) {
+                const result = await kaitu.workspacePath();
+                if (!result.ok) throw new Error(result.error.message);
+                await openReadingSession(
+                  {
+                    workspaces: scope.get("workspaces"),
+                    sessions: scope.get("sessions"),
+                    uiWorkspace: scope.get("uiWorkspace"),
+                    conversation: scope.get("conversation"),
+                    layout: ctx.layout,
+                  } as SessionServices,
+                  result.value,
+                  draft,
+                );
+              },
+            });
+            scope.effect(() => () => notify());
+          },
+        );
         return () => {
           void fiber.dispose();
         };
       };
       ctx.slots.inject("main", () =>
         ctx.slots.register(
-          { name: "main", key: panel, inject: () => ({ request, watch, connectHandover }) },
+          { name: "main", key: panel, inject: () => ({ request, watch, connectChat }) },
           FortunePage,
         ),
       );
