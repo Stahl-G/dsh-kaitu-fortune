@@ -395,11 +395,19 @@
   width: auto;
   height: auto;
 }
+.form label:has(.suggest) {
+  position: relative;
+}
 .suggest {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
   display: grid;
   margin-top: 4px;
   border-radius: 8px;
-  box-shadow: 0 0 0 1px var(--line);
+  box-shadow: 0 0 0 1px var(--line), 0 8px 24px rgba(31, 30, 29, 0.12);
   background: var(--surface);
   overflow: hidden;
 }
@@ -574,9 +582,48 @@
 .iztro :global(.iztro-palace.surrounded-palace) {
   background: var(--sunken);
 }
-.iztro :global(.iztro-star-mutagen),
 .iztro :global(.iztro-palace-name-taichi) {
   color: var(--surface);
+}
+/* 四化、运限标签：原来是实色块配白字，换成开图的浅底深字 */
+.iztro :global(.iztro-star-mutagen),
+.iztro :global([class*="iztro-star-mutagen-"]),
+.iztro :global(.iztro-palace-fate span),
+.iztro :global(.iztro-palace-gz .iztro-palace-gz-active) {
+  background: var(--control);
+  color: var(--ink2);
+  opacity: 1;
+}
+.iztro :global(.iztro-star-mutagen.mutagen-0),
+.iztro :global(.iztro-star-mutagen-0),
+.iztro :global(.iztro-palace-fate .iztro-palace-monthly-active) {
+  background: var(--health-tint);
+  color: var(--health-ink);
+}
+.iztro :global(.iztro-star-mutagen.mutagen-1),
+.iztro :global(.iztro-star-mutagen-1),
+.iztro :global(.iztro-palace-fate .iztro-palace-decadal-active) {
+  background: var(--doing-tint);
+  color: var(--doing-ink);
+}
+.iztro :global(.iztro-star-mutagen.mutagen-2),
+.iztro :global(.iztro-star-mutagen-2),
+.iztro :global(.iztro-palace-fate .iztro-palace-daily-active) {
+  background: var(--explore-tint);
+  color: var(--explore-ink);
+}
+.iztro :global(.iztro-star-mutagen.mutagen-3),
+.iztro :global(.iztro-star-mutagen-3),
+.iztro :global(.iztro-palace-fate .iztro-palace-yearly-active) {
+  background: var(--me-tint);
+  color: var(--me-ink);
+}
+.iztro :global(#palace-line) {
+  stroke: var(--me);
+  opacity: 0.45;
+}
+.iztro :global(#palace-line.decadal) {
+  stroke: var(--explore);
 }
 .iztro :global(.iztro-copyright) {
   color: var(--muted);
@@ -620,15 +667,20 @@
   gap: 16px;
 }
 .slot {
+  min-width: 0;
   display: grid;
+  align-content: start;
   gap: 8px;
   justify-items: center;
   text-align: center;
   font-size: 13px;
 }
 .flip {
+  display: block;
+  justify-self: stretch;
   width: 100%;
   max-width: 150px;
+  margin-inline: auto;
   aspect-ratio: 250 / 420;
   padding: 0;
   border: 0;
@@ -689,6 +741,7 @@
     line-height: 30px;
   }
   .table {
-    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 8px;
   }
 }

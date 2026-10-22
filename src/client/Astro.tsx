@@ -32,7 +32,7 @@ function chartColors(element: HTMLElement) {
   const read = (name: string) => style.getPropertyValue(name).trim();
   const ink = read("--ink2");
   const line = read("--line");
-  const signs = [read("--me"), read("--news"), read("--explore"), read("--health")];
+  const signs = [read("--me-tint"), read("--news-tint"), read("--explore-tint"), read("--health-tint")];
   return {
     COLOR_BACKGROUND: "transparent",
     POINTS_COLOR: read("--ink"),
@@ -41,7 +41,7 @@ function chartColors(element: HTMLElement) {
     LINE_COLOR: line,
     CUSPS_FONT_COLOR: read("--muted"),
     SYMBOL_AXIS_FONT_COLOR: ink,
-    // 火土风水四象循环，十二个星座各取对应领域色
+    // 火土风水四象循环，星座环用开图各领域的浅底色
     COLORS_SIGNS: Array.from({ length: 12 }, (_, index) => signs[index % 4] ?? ink),
     ASPECTS: {
       conjunction: { degree: 0, orbit: 8, color: "transparent" },
