@@ -46960,13 +46960,17 @@ var require_tz = __commonJS({
 
 // src/index.ts
 import { homedir } from "node:os";
+import { join as join4 } from "node:path";
+
+// src/reading.ts
+import { randomBytes as randomBytes2 } from "node:crypto";
+import { existsSync as existsSync3, mkdirSync as mkdirSync3, readFileSync as readFileSync4, readdirSync as readdirSync2, rmSync as rmSync2, writeFileSync as writeFileSync3 } from "node:fs";
 import { join as join3 } from "node:path";
 
-// src/service.ts
-import { Remote, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
-
-// src/requests.ts
-import { readFileSync as readFileSync4 } from "node:fs";
+// src/birth.ts
+var import_lunar_javascript15 = __toESM(require_lunar_javascript(), 1);
+import { existsSync, mkdirSync, readFileSync as readFileSync2, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 // node_modules/.pnpm/taibu-core@3.6.0/node_modules/taibu-core/dist/mcp/schema-builders.js
 var STRING_DESCRIPTION_ALIASES = {
@@ -69089,8 +69093,8 @@ function classifyKong(yaoZhi, kongWang, monthZhi, dayZhi, isChanging, rooted) {
     return "kong_changing";
   return rooted ? "kong_supported" : "kong_static";
 }
-function judgeLine(facts, monthZhi, dayZhi, kongWang) {
-  const { yaoZhi, yaoWuXing, motion, changedKe, movingSupport, movingHarm } = facts;
+function judgeLine(facts2, monthZhi, dayZhi, kongWang) {
+  const { yaoZhi, yaoWuXing, motion, changedKe, movingSupport, movingHarm } = facts2;
   const isChanging = motion !== "static";
   const wangShuai = WANG_SHUAI_TABLE[monthZhi][yaoWuXing];
   const hasSupport = movingSupport.length > 0;
@@ -77506,11 +77510,6 @@ function renderToolResult(toolName, result, options) {
   };
 }
 
-// src/birth.ts
-var import_lunar_javascript15 = __toESM(require_lunar_javascript(), 1);
-import { existsSync, mkdirSync, readFileSync as readFileSync2, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-
 // src/cities.ts
 var import_tz_lookup = __toESM(require_tz(), 1);
 import { readFileSync } from "node:fs";
@@ -77829,7 +77828,188 @@ function fortuneTools(dir) {
   ];
 }
 
+// src/reading.ts
+var LABEL = {
+  chinese: "\u516B\u5B57\u548C\u7D2B\u5FAE\u6597\u6570",
+  astro: "\u897F\u6D0B\u672C\u547D\u661F\u76D8",
+  tarot: "\u5854\u7F57\u62BD\u724C"
+};
+var SYSTEM = `\u4F60\u5728\u300C\u547D\u7406\u4E0E\u661F\u8C61\u300D\u63D2\u4EF6\u91CC\u505A\u4E00\u6B21\u76F2\u8BFB\uFF1A\u53EA\u770B\u4E0B\u9762\u7ED9\u51FA\u7684\u8BA1\u7B97\u7ED3\u679C\uFF0C\u4E0D\u77E5\u9053\u8FD9\u4E2A\u4EBA\u7684\u4EFB\u4F55\u5176\u4ED6\u60C5\u51B5\u3002
+\u8FD9\u4E9B\u7ED3\u679C\u7531\u672C\u673A\u6392\u76D8\u5F15\u64CE\u7B97\u51FA\uFF0C\u662F\u4F60\u552F\u4E00\u7684\u4E8B\u5B9E\u4F9D\u636E\u3002
+
+\u7528\u8FD9\u4E09\u4E2A\u5C0F\u6807\u9898\u5206\u4E09\u6BB5\u5199\uFF1A
+## \u8BA1\u7B97\u4E8B\u5B9E
+\u53EA\u590D\u8FF0\u7ED3\u679C\u91CC\u5DF2\u6709\u7684\u5E72\u652F\u3001\u661F\u66DC\u3001\u5BAB\u4F4D\u3001\u661F\u5EA7\u76F8\u4F4D\u6216\u724C\u9762\uFF0C\u4E0D\u8865\u3001\u4E0D\u6539\uFF0C\u4E5F\u4E0D\u81EA\u5DF1\u63A8\u7B97\u65B0\u7684\u6570\u636E\u3002
+## \u4F20\u7EDF\u89E3\u8BFB
+\u6309\u8FD9\u95E8\u672F\u6570\u7684\u4F20\u7EDF\u8BF4\u6CD5\u89E3\u91CA\u4E0A\u9762\u7684\u4E8B\u5B9E\uFF0C\u6BCF\u4E00\u70B9\u8BF4\u660E\u4F9D\u636E\u7684\u662F\u54EA\u4E00\u9879\u3002
+## \u53EF\u4EE5\u60F3\u60F3\u7684\u95EE\u9898
+3 \u5230 5 \u4E2A\u5E2E\u52A9\u81EA\u6211\u53CD\u601D\u7684\u95EE\u9898\u3002
+
+\u8FB9\u754C\uFF1A
+- \u8FD9\u662F\u4F20\u7EDF\u6587\u5316\u4E0E\u81EA\u6211\u53CD\u601D\u7684\u53C2\u8003\uFF0C\u4E0D\u662F\u9884\u6D4B\u3002\u9875\u9762\u4E0A\u5DF2\u7ECF\u5199\u4E86\u8FD9\u53E5\uFF0C\u56DE\u7B54\u91CC\u4E0D\u7528\u518D\u5199\u514D\u8D23\u58F0\u660E\u3002
+- \u4E0D\u505A\u533B\u7597\u3001\u6295\u8D44\u3001\u6CD5\u5F8B\u5224\u65AD\u3002\u6D89\u53CA\u5065\u5EB7\u3001\u94B1\u3001\u5B98\u53F8\u65F6\uFF0C\u53EA\u8BF4\u53EF\u4EE5\u4ECE\u54EA\u4E9B\u89D2\u5EA6\u60F3\uFF0C\u5E76\u5EFA\u8BAE\u627E\u4E13\u4E1A\u4EBA\u58EB\u3002
+- \u4E0D\u8BF4\u5BBF\u547D\u6216\u5413\u4EBA\u7684\u8BDD\uFF08\u4F8B\u5982\u300C\u5FC5\u6709\u5927\u707E\u300D\uFF09\uFF0C\u7528\u300C\u53EF\u80FD\u7684\u503E\u5411\u300D\u300C\u503C\u5F97\u7559\u610F\u7684\u5730\u65B9\u300D\u8FD9\u7C7B\u8BF4\u6CD5\u3002
+
+\u7528\u7B80\u4F53\u4E2D\u6587\uFF0C\u5168\u6587 1000 \u5B57\u4EE5\u5185\u3002`;
+async function facts(dir, subject, drawId) {
+  if (subject === "tarot") {
+    const draw = readDraw(dir, String(drawId));
+    const question = typeof draw.input.question === "string" ? `\u95EE\u9898\uFF1A${draw.input.question}
+` : "";
+    return `${question}${JSON.stringify(await compute(draw.tool, draw.input))}`;
+  }
+  const birth = readBirth(dir);
+  if (!birth) throw new Error("\u5148\u586B\u51FA\u751F\u4FE1\u606F");
+  const chart = chartArgs(birth);
+  if (subject === "astro") {
+    const { gender: _gender, ...input2 } = chart;
+    return JSON.stringify(await compute("astrology", input2));
+  }
+  const { latitude: _latitude, ...input } = chart;
+  const [bazi, dayun, ziwei] = await Promise.all([
+    compute("bazi", input),
+    compute("bazi_dayun", input),
+    compute("ziwei", input)
+  ]);
+  return JSON.stringify({ \u516B\u5B57: bazi, \u5927\u8FD0: dayun, \u7D2B\u5FAE\u6597\u6570: ziwei });
+}
+var folder = (dir) => join3(dir, "readings");
+var file2 = (dir, id) => {
+  if (!/^\d{4}-\d{2}-\d{2}-[0-9a-f]{8}$/.test(id)) throw new Error("\u6CA1\u6709\u8FD9\u6761\u89E3\u8BFB");
+  return join3(folder(dir), `${id}.json`);
+};
+var Readings = class {
+  constructor(dir) {
+    this.dir = dir;
+  }
+  dir;
+  running = /* @__PURE__ */ new Map();
+  preparing = /* @__PURE__ */ new Set();
+  model;
+  async start(subject, drawId) {
+    if (!this.model) throw new Error("DSH \u91CC\u8FD8\u6CA1\u6709\u53EF\u7528\u7684\u6A21\u578B\uFF0C\u5148\u5728\u8BBE\u7F6E\u91CC\u9009\u4E00\u4E2A\u6A21\u578B");
+    const { llm } = this.model;
+    const route = this.model.route();
+    const controller = new AbortController();
+    this.preparing.add(controller);
+    let input;
+    try {
+      input = await facts(this.dir, subject, drawId);
+      controller.signal.throwIfAborted();
+    } finally {
+      this.preparing.delete(controller);
+    }
+    const createdAt = (/* @__PURE__ */ new Date()).toISOString();
+    const reading = {
+      id: `${createdAt.slice(0, 10)}-${randomBytes2(4).toString("hex")}`,
+      kind: "blind",
+      subject,
+      ...subject === "tarot" ? { drawId: String(drawId) } : {},
+      createdAt,
+      model: route,
+      request: {
+        system: SYSTEM,
+        user: `\u8FD9\u662F${LABEL[subject]}\u7684\u8BA1\u7B97\u7ED3\u679C\uFF08JSON\uFF09\uFF1A
+${input}`
+      },
+      text: "",
+      status: "running"
+    };
+    const job = { reading, controller, listeners: /* @__PURE__ */ new Set() };
+    this.running.set(reading.id, job);
+    const notify = () => {
+      for (const listener of job.listeners) listener();
+    };
+    void (async () => {
+      try {
+        const call = await llm.prepareCall(route, controller.signal);
+        controller.signal.throwIfAborted();
+        const stream = call.stream({
+          ...call.config,
+          system: reading.request.system,
+          messages: [{ role: "user", content: [{ type: "text", text: reading.request.user }] }]
+        });
+        for await (const chunk of stream) {
+          controller.signal.throwIfAborted();
+          if (chunk.type === "text-delta" && chunk.text) {
+            reading.text += chunk.text;
+            notify();
+          } else if (chunk.type === "finish" && chunk.reason?.failure) {
+            throw new Error(chunk.reason.failure.message);
+          }
+        }
+        controller.signal.throwIfAborted();
+        reading.status = "done";
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        reading.status = "failed";
+        reading.error = error instanceof Error ? error.message : String(error);
+      }
+      mkdirSync3(folder(this.dir), { recursive: true });
+      writeFileSync3(file2(this.dir, reading.id), JSON.stringify(reading, null, 2));
+      this.running.delete(reading.id);
+      notify();
+    })();
+    return reading;
+  }
+  /** 这条解读到目前为止的全文；还在生成时每多一段就再给一次，结束后停。 */
+  async *watch(id) {
+    const job = this.running.get(id);
+    if (!job) {
+      yield this.read(id);
+      return;
+    }
+    let wake = () => {
+    };
+    const listener = () => wake();
+    job.listeners.add(listener);
+    try {
+      while (true) {
+        const changed = new Promise((resolve) => {
+          wake = resolve;
+        });
+        yield { ...job.reading };
+        if (job.reading.status !== "running") return;
+        await changed;
+      }
+    } finally {
+      job.listeners.delete(listener);
+    }
+  }
+  read(id) {
+    return this.running.get(id)?.reading ?? JSON.parse(readFileSync4(file2(this.dir, id), "utf8"));
+  }
+  /** 回看列表：新的在前，正在生成的也列进来。 */
+  list(subject) {
+    const saved = existsSync3(folder(this.dir)) ? readdirSync2(folder(this.dir)).filter((name2) => name2.endsWith(".json")).map((name2) => JSON.parse(readFileSync4(join3(folder(this.dir), name2), "utf8"))) : [];
+    return [...saved, ...[...this.running.values()].map((job) => job.reading)].filter((reading) => !subject || reading.subject === subject).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+  remove(id) {
+    const job = this.running.get(id);
+    if (job) {
+      job.controller.abort();
+      job.reading.status = "failed";
+      job.reading.error = "\u89E3\u8BFB\u5DF2\u53D6\u6D88";
+      job.reading.text = "";
+      job.reading.request = { system: "", user: "" };
+      this.running.delete(id);
+      for (const listener of job.listeners) listener();
+    }
+    rmSync2(file2(this.dir, id), { force: true });
+  }
+  /** 清理前终止准备和生成中的调用；即使模型忽略取消继续返回，也不再存档。 */
+  cancelAll() {
+    for (const controller of this.preparing) controller.abort();
+    for (const id of this.running.keys()) this.remove(id);
+  }
+};
+var countReadings = (dir) => existsSync3(folder(dir)) ? readdirSync2(folder(dir)).filter((name2) => name2.endsWith(".json")).length : 0;
+
+// src/service.ts
+import { Remote, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
+
 // src/requests.ts
+import { readFileSync as readFileSync5 } from "node:fs";
 var RANKS = [
   "Ace",
   "Two",
@@ -77905,10 +78085,13 @@ async function chinese(args) {
     almanac: renderToolResult("almanac", almanac, {}).structuredContent
   };
 }
-async function handle(dir, operation, args) {
+async function handle(dir, operation, args, readings) {
   switch (operation) {
     case "state":
-      return { birth: readBirth(dir) ?? null, stored: { dir, draws: countDraws(dir) } };
+      return {
+        birth: readBirth(dir) ?? null,
+        stored: { dir, draws: countDraws(dir), readings: countReadings(dir) }
+      };
     case "cities":
       return searchCities(String(args.query ?? ""));
     case "saveBirth":
@@ -77916,6 +78099,7 @@ async function handle(dir, operation, args) {
     case "pickCandidate":
       return pickCandidate(dir, typeof args.candidate === "number" ? args.candidate : null);
     case "deleteAll":
+      readings?.cancelAll();
       deleteAll(dir);
       return { deleted: true };
     case "almanac":
@@ -77947,38 +78131,60 @@ async function handle(dir, operation, args) {
     case "card": {
       const name2 = String(args.image);
       if (!/^(major|wands|cups|swords|pentacles)-\d{2}$/.test(name2)) throw new Error("\u6CA1\u6709\u8FD9\u5F20\u724C");
-      const data = readFileSync4(new URL(`../data/tarot/${name2}.jpg`, import.meta.url)).toString("base64");
+      const data = readFileSync5(new URL(`../data/tarot/${name2}.jpg`, import.meta.url)).toString("base64");
       return `data:image/jpeg;base64,${data}`;
     }
+    case "startReading":
+      return readings?.start(args.subject, args.drawId);
+    case "readings":
+      return readings?.list(args.subject) ?? [];
+    case "deleteReading":
+      readings?.remove(String(args.id));
+      return { deleted: true };
     default:
       throw new Error(`\u672A\u77E5\u64CD\u4F5C\uFF1A${operation}`);
   }
 }
 
 // src/service.ts
-var _request_dec, _a, _init;
-var FortuneService = class extends (_a = TypertRemoteService, _request_dec = [Remote("request")], _a) {
-  constructor(ctx, dir) {
+var _watchReading_dec, _request_dec, _a, _init;
+var FortuneService = class extends (_a = TypertRemoteService, _request_dec = [Remote("request")], _watchReading_dec = [Remote({ name: "watchReading", mode: "stream" })], _a) {
+  constructor(ctx, dir, readings) {
     super(ctx, "kaituFortune");
     this.dir = dir;
+    this.readings = readings;
     __runInitializers(_init, 5, this);
   }
   dir;
+  readings;
   async request(operation, input) {
-    return JSON.stringify(await handle(this.dir, operation, JSON.parse(input)));
+    return JSON.stringify(await handle(this.dir, operation, JSON.parse(input), this.readings));
+  }
+  async *watchReading(id) {
+    for await (const reading of this.readings.watch(id)) yield JSON.stringify(reading);
   }
 };
 _init = __decoratorStart(_a);
 __decorateElement(_init, 1, "request", _request_dec, FortuneService);
+__decorateElement(_init, 1, "watchReading", _watchReading_dec, FortuneService);
 __decoratorMetadata(_init, FortuneService);
 
 // src/index.ts
 var name = "kaitu-fortune";
 var inject = ["tools"];
-var dataDir = () => join3(process.env.DSH_HOME?.trim() || join3(homedir(), ".dsh"), "kaitu-fortune");
+var dataDir = () => join4(process.env.DSH_HOME?.trim() || join4(homedir(), ".dsh"), "kaitu-fortune");
 function apply(ctx) {
   const host = ctx;
-  new FortuneService(ctx, dataDir());
+  const readings = new Readings(dataDir());
+  ctx.effect(() => () => readings.cancelAll());
+  new FortuneService(ctx, dataDir(), readings);
+  ctx.inject(["llm", "agentDefaultModel"], (scope) => {
+    const host2 = scope;
+    readings.model = { llm: host2.llm, route: () => host2.agentDefaultModel.currentSelection() };
+    scope.effect(() => () => {
+      readings.model = void 0;
+    });
+  });
   for (const tool of fortuneTools(dataDir()))
     ctx.effect(
       () => host.tools.register({

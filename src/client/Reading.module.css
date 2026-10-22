@@ -1,0 +1,48 @@
+/* 解读正文：小标题和段落沿用开图的字号层级，长文按行宽读 */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 72ch;
+  line-height: 1.7;
+}
+.body h3 {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.body p {
+  white-space: pre-wrap;
+}
+.sent,
+.earlier {
+  color: var(--muted);
+  font-size: 13px;
+}
+.sent summary,
+.earlier summary {
+  cursor: pointer;
+}
+.sent pre {
+  max-height: 320px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  overflow: auto;
+  border-radius: 8px;
+  background: var(--sunken);
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 12px;
+}
+.earlier ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  list-style: none;
+}
+.earlier li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
