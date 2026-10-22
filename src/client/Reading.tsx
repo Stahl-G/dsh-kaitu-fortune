@@ -35,29 +35,35 @@ export function Reading({
   subject,
   drawId,
   onSaved,
+  historyOnly = false,
 }: {
   request: Request;
   watch: Watch;
   subject: Subject;
   drawId?: string;
   onSaved: () => void;
+  historyOnly?: boolean;
 }) {
   const [list, setList] = useState<Saved[]>([]);
   const [shown, setShown] = useState<Saved | null>(null);
   const [error, setError] = useState("");
-  const mine = (reading: Saved) => subject !== "tarot" || reading.drawId === drawId;
 
   useEffect(() => {
     let active = true;
     void request<Saved[]>("readings", { subject }).then((value) => {
       if (!active) return;
-      setList(value);
-      setShown(value.find((reading) => subject !== "tarot" || reading.drawId === drawId) ?? null);
+      const matching =
+        subject === "tarot"
+          ? value.filter((reading) => (historyOnly ? reading.drawId !== drawId : reading.drawId === drawId))
+          : value;
+      setList(matching);
+      setShown(matching[0] ?? null);
+      onSaved();
     });
     return () => {
       active = false;
     };
-  }, [request, subject, drawId]);
+  }, [request, subject, drawId, onSaved, historyOnly]);
 
   // 正在生成的那条：接上推送，跑完把列表里的这一条换成存档后的样子
   const running = shown?.status === "running" ? shown.id : null;
@@ -86,13 +92,19 @@ export function Reading({
     if (shown?.id === id) setShown(null);
     onSaved();
   };
-  const earlier = list.filter((reading) => mine(reading) && reading.id !== shown?.id);
+  const earlier = list.filter((reading) => reading.id !== shown?.id);
+  if (historyOnly && list.length === 0) return null;
+  const heading = `fortune-reading-${subject}${historyOnly ? "-history" : ""}`;
 
   return (
-    <section className={css.card} aria-labelledby={`fortune-reading-${subject}`}>
+    <section className={css.card} aria-labelledby={heading}>
       <div className={css.heading}>
-        <h2 id={`fortune-reading-${subject}`}>解读</h2>
-        <span>只把上面的计算结果交给 DSH 的默认模型，不带开图里的任何资料</span>
+        <h2 id={heading}>{historyOnly ? "历史塔罗解读" : "解读"}</h2>
+        <span>
+          {historyOnly
+            ? "对应当时的抽牌，牌面与问题可在「发给模型的全文」回看"
+            : "只把上面的计算结果交给 DSH 的默认模型，不带开图里的任何资料"}
+        </span>
       </div>
       {shown ? (
         <>
@@ -124,14 +136,22 @@ export function Reading({
         </p>
       )}
       <div className={css.actions}>
-        <button
-          type="button"
-          className={`${css.button} ${css.primary}`}
-          disabled={shown?.status === "running"}
-          onClick={start}
-        >
-          {shown?.status === "running" ? "正在解读…" : shown ? "再解读一次" : "解读"}
-        </button>
+        {!historyOnly && (
+          <button
+            type="button"
+            className={`${css.button} ${css.primary}`}
+            disabled={shown?.status === "running" || (subject === "tarot" && !drawId)}
+            onClick={start}
+          >
+            {shown?.status === "running"
+              ? "正在解读…"
+              : subject === "tarot" && !drawId
+                ? "先抽牌再解读"
+                : shown
+                  ? "再解读一次"
+                  : "解读"}
+          </button>
+        )}
         {shown && shown.status !== "running" && (
           <button type="button" className={css.button} onClick={() => void remove(shown.id)}>
             删除这条
