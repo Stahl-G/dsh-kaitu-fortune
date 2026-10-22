@@ -41,7 +41,12 @@ test("只注册第一版的几项，卸载时全部撤销", () => {
 test("八字按经度做真太阳时，输出 taibu 的四柱", async () => {
   const chart = await call("fortune_bazi", { ...birth, gender: "male", longitude: 121.47 });
   expect(chart.基本信息).toMatchObject({ 日主: "庚", 真太阳时: { 钟表时间: "14:30", 真太阳时: "13:40" } });
-  expect((chart.四柱 as { 干支: string }[]).map((pillar) => pillar.干支)).toEqual(["庚午", "辛巳", "庚辰", "癸未"]);
+  expect((chart.四柱 as { 干支: string }[]).map((pillar) => pillar.干支)).toEqual([
+    "庚午",
+    "辛巳",
+    "庚辰",
+    "癸未",
+  ]);
 });
 
 test("塔罗每次随机抽，存档后按 drawId 重放结果一致", async () => {
