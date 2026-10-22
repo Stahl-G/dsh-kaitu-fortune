@@ -39,7 +39,10 @@ export interface Birth extends BirthInput {
 
 const file = (dir: string) => join(dir, "birth.json");
 
-/** 交给 taibu 排盘的参数：公历日期、经纬度（真太阳时）和出生地时区都由插件给，不让模型去查。 */
+/**
+ * 交给 taibu 排盘的参数：公历日期、经纬度（真太阳时）和出生地时区都由插件给，不让模型去查。
+ * 子时（真太阳时 23 点）起换日，日柱跟着换；紫微本来就这样排，八字、大运也统一成这样。
+ */
 export function chartArgs(birth: Birth, at?: Moment) {
   const only = birth.candidates?.length === 1 ? birth.candidates[0]?.at : undefined;
   const time = at ?? ("hour" in birth.time ? { ...birth.solar, ...birth.time } : only);
@@ -54,6 +57,7 @@ export function chartArgs(birth: Birth, at?: Moment) {
     latitude: birth.city.lat,
     longitude: birth.city.lng,
     timezone: birth.city.timezone,
+    dayBoundary: "zi" as const,
   };
 }
 
