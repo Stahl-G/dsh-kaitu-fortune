@@ -125,7 +125,7 @@ export function fortuneTools(dir: string): FortuneTool[] {
         "读取用户在插件里填好的出生信息。chartArgs 可直接传给 fortune_bazi、fortune_ziwei、fortune_astrology 等（经纬度、时区已按出生城市给出）；时间不确定时 candidates 列出范围内每种可能的四柱和对应时段；有多种且用户已在页面上挑定时，picked 是那一种的下标，chartArgs 就按它给；还没挑时先请用户确认是哪一种，不要默认子时，也不要自己取第一个。",
       parameters: { type: "object", properties: {} },
       async run() {
-        const birth = readBirth(dir);
+        const birth = await readBirth(dir);
         if (!birth) return { saved: false };
         return {
           saved: true,

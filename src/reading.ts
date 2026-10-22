@@ -75,7 +75,7 @@ async function facts(dir: string, subject: Subject, drawId?: string) {
     const question = typeof draw.input.question === "string" ? `问题：${draw.input.question}\n` : "";
     return `${question}${JSON.stringify(await compute(draw.tool, draw.input))}`;
   }
-  const birth = readBirth(dir);
+  const birth = await readBirth(dir);
   if (!birth) throw new Error("先填出生信息");
   // 时辰不确定时按用户挑定的那一种；还没挑会在这里报错
   const chart = chartArgs(birth);
