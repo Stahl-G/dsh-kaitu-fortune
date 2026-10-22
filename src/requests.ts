@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { executeTool, renderToolResult } from "taibu-core/mcp";
 import { type Birth, type BirthInput, chartArgs, deleteAll, readBirth, saveBirth } from "./birth.js";
 import { searchCities } from "./cities.js";
+import { countDraws } from "./draws.js";
 import { cast } from "./tools.js";
 
 type Args = Record<string, unknown>;
@@ -98,7 +99,7 @@ async function chinese(birth: Birth, args: ReturnType<typeof chartArgs>) {
 export async function handle(dir: string, operation: string, args: Args): Promise<unknown> {
   switch (operation) {
     case "state":
-      return { birth: readBirth(dir) ?? null, today: today() };
+      return { birth: readBirth(dir) ?? null, stored: { dir, draws: countDraws(dir) } };
     case "cities":
       return searchCities(String(args.query ?? ""));
     case "saveBirth":

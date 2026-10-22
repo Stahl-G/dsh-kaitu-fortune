@@ -35,6 +35,11 @@ function useTheme() {
   return theme;
 }
 
+interface Stored {
+  dir: string;
+  draws: number;
+}
+
 export const pad = (value: number) => String(value).padStart(2, "0");
 export function birthLine(birth: Birth) {
   const date =
@@ -57,11 +62,15 @@ export function FortunePage({ request }: { request: Request }) {
   const [candidate, setCandidate] = useState<number | null>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: 只在出生信息变化时清空
   useEffect(() => setCandidate(null), [birth]);
+  const [stored, setStored] = useState<Stored | null>(null);
+  // 删除资料后各面板重新开始，不留着已经删掉的抽牌结果
+  const [version, setVersion] = useState(0);
   const [error, setError] = useState("");
   const load = useCallback(async () => {
     try {
-      const state = await request<{ birth: Birth | null }>("state");
+      const state = await request<{ birth: Birth | null; stored: Stored }>("state");
       setBirth(state.birth);
+      setStored(state.stored);
       setEditing(!state.birth);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -70,11 +79,15 @@ export function FortunePage({ request }: { request: Request }) {
   useEffect(() => {
     void load();
   }, [load]);
+  // 抽完牌只更新“我的资料”里的条数，不动正在填的出生信息
+  const refreshStored = useCallback(async () => {
+    setStored((await request<{ stored: Stored }>("state")).stored);
+  }, [request]);
   const remove = async () => {
     if (!confirm("删除出生信息、抽牌记录和解读？删除后不能恢复。")) return;
     await request("deleteAll");
-    setBirth(null);
-    setEditing(true);
+    setVersion((value) => value + 1);
+    await load();
   };
   return (
     <div className={css.app} data-theme={theme} lang="zh-CN">
@@ -91,9 +104,6 @@ export function FortunePage({ request }: { request: Request }) {
             <div className={css.actions}>
               <button type="button" className={css.button} onClick={() => setEditing(true)}>
                 修改出生信息
-              </button>
-              <button type="button" className={css.button} onClick={remove}>
-                删除我的资料
               </button>
             </div>
           )}
@@ -143,7 +153,13 @@ export function FortunePage({ request }: { request: Request }) {
             </button>
           ))}
         </div>
-        <div className={css.panel} id="fortune-panel" role="tabpanel" aria-labelledby={`fortune-tab-${tab}`}>
+        <div
+          key={version}
+          className={css.panel}
+          id="fortune-panel"
+          role="tabpanel"
+          aria-labelledby={`fortune-tab-${tab}`}
+        >
           {tab === "chinese" && (
             <Chinese
               request={request}
@@ -155,8 +171,31 @@ export function FortunePage({ request }: { request: Request }) {
           {tab === "astro" && (
             <Astro request={request} birth={birth ?? null} candidate={candidate} theme={theme} />
           )}
-          {tab === "tarot" && <Tarot request={request} />}
+          {tab === "tarot" && <Tarot request={request} onDrawn={refreshStored} />}
         </div>
+        {stored && (
+          <section className={css.card} aria-labelledby="fortune-stored">
+            <div className={css.heading}>
+              <h2 id="fortune-stored">我的资料</h2>
+              <span>只在这台电脑上</span>
+            </div>
+            <p className={css.small}>
+              {birth ? "出生信息 1 份" : "没有出生信息"} · 抽牌、起卦记录 {stored.draws} 条 · 存放在{" "}
+              {stored.dir}
+            </p>
+            <p className={css.small}>卸载插件不会删除这些资料；要清掉，请在卸载前点下面的按钮。</p>
+            <div className={css.actions}>
+              <button
+                type="button"
+                className={css.button}
+                onClick={remove}
+                disabled={!birth && !stored.draws}
+              >
+                删除我的资料
+              </button>
+            </div>
+          </section>
+        )}
         <footer className={css.foot}>传统文化与自我反思参考，不是预测。</footer>
       </main>
     </div>

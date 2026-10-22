@@ -77648,7 +77648,7 @@ var deleteAll = (dir) => rmSync(dir, { recursive: true, force: true });
 
 // src/draws.ts
 import { randomBytes, randomInt } from "node:crypto";
-import { mkdirSync as mkdirSync2, readFileSync as readFileSync3, writeFileSync as writeFileSync2 } from "node:fs";
+import { existsSync as existsSync2, mkdirSync as mkdirSync2, readFileSync as readFileSync3, readdirSync, writeFileSync as writeFileSync2 } from "node:fs";
 import { join as join2 } from "node:path";
 var tarotSeed = () => randomBytes(16).toString("hex");
 var coinYao = () => Array.from({ length: 6 }, () => [0, 1, 2].reduce((sum) => sum + (randomInt(2) ? 3 : 2), 0));
@@ -77663,6 +77663,7 @@ function readDraw(dir, id) {
   if (!/^\d{4}-\d{2}-\d{2}-[0-9a-f]{8}$/.test(id)) throw new Error("\u6CA1\u6709\u8FD9\u6761\u62BD\u724C\u8BB0\u5F55");
   return JSON.parse(readFileSync3(join2(dir, "draws", `${id}.json`), "utf8"));
 }
+var countDraws = (dir) => existsSync2(join2(dir, "draws")) ? readdirSync(join2(dir, "draws")).filter((name2) => name2.endsWith(".json")).length : 0;
 
 // src/synastry.ts
 var ASPECTS = [
@@ -77904,7 +77905,7 @@ async function chinese(birth, args) {
 async function handle(dir, operation, args) {
   switch (operation) {
     case "state":
-      return { birth: readBirth(dir) ?? null, today: today() };
+      return { birth: readBirth(dir) ?? null, stored: { dir, draws: countDraws(dir) } };
     case "cities":
       return searchCities(String(args.query ?? ""));
     case "saveBirth":
