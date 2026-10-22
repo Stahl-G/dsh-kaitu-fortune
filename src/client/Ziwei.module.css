@@ -1,0 +1,132 @@
+/* 紫微盘面：十二宫环绕，中间是命盘信息；颜色全用开图的浅底深字 */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.palace {
+  grid-row: var(--row);
+  grid-column: var(--column);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 148px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  text-align: left;
+  font-size: 13px;
+  line-height: 18px;
+}
+.palace.near {
+  background: var(--sunken);
+}
+.palace.focus {
+  background: var(--explore-tint);
+  border-color: var(--explore);
+}
+.major,
+.minor,
+.adj {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+.major {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--explore-ink);
+}
+.minor {
+  color: var(--ink2);
+}
+.adj {
+  color: var(--muted);
+  font-size: 12px;
+}
+.palace small,
+.center small {
+  margin-left: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.lu,
+.quan,
+.ke,
+.ji {
+  margin-left: 2px;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.lu {
+  background: var(--health-tint);
+  color: var(--health-ink);
+}
+.quan {
+  background: var(--doing-tint);
+  color: var(--doing-ink);
+}
+.ke {
+  background: var(--explore-tint);
+  color: var(--explore-ink);
+}
+.ji {
+  background: var(--me-tint);
+  color: var(--me-ink);
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: auto;
+}
+.name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.center {
+  grid-row: 2 / 4;
+  grid-column: 2 / 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--sunken);
+  text-align: center;
+}
+.center > b {
+  font-size: 20px;
+}
+.mutagens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+}
+
+/* 窄窗口：不再摆成方盘，命盘信息放最前，十二宫两列按顺序排 */
+@container (max-width: 640px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .palace,
+  .center {
+    grid-row: auto;
+    grid-column: auto;
+  }
+  .palace {
+    min-height: 0;
+  }
+  .center {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+}

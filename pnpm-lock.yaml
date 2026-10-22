@@ -63,9 +63,6 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
-      react-iztro:
-        specifier: 1.5.0
-        version: 1.5.0
       taibu-core:
         specifier: 3.6.0
         version: 3.6.0
@@ -616,9 +613,6 @@ packages:
   circular-natal-horoscope-js@1.1.0:
     resolution: {integrity: sha512-MsOrwRa6pgDpv9tgnhB7sKhjQcWInSW0DnbF9XFnByKLFBJGHyLZOZGBS3JBDUvL1Ot+8eotqWMx9D3VxpkqxA==}
 
-  classnames@2.5.1:
-    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
-
   commander@1.1.1:
     resolution: {integrity: sha512-71Rod2AhcH3JhkBikVpNd0pA+fWsmAaVoti6OR38T76chA7vE3pSerS0Jor4wDw+tOueD2zLVvFOw5H0Rcj7rA==}
     engines: {node: '>= 0.6.x'}
@@ -684,14 +678,8 @@ packages:
   i18next@23.16.8:
     resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
 
-  iztro-hook@1.3.4:
-    resolution: {integrity: sha512-5gQDvoO2kHrXXoOyXRTY3jJQm0G14gS4MKpmNjXRMPUHeOCfGpRpZ93c1la9G0ZZ2nXhJGMRVRQTAHDRs/bI9A==}
-
   iztro@2.5.4:
     resolution: {integrity: sha512-lu/csw0sznpHWyfdv39yZS8YkYWZxqFDKeoruy9ehvxjdyeTy6W1yact+SCgZQ19/90NQvUvbtivAbUx/ybsXg==}
-
-  iztro@2.6.3:
-    resolution: {integrity: sha512-yFY+ytb1ryOZkL3yx6LKeGQ3ZWo7GOoJIg3lU1yRWxJRKBgVRNNM+Ap1ZfhgWIs3A2WqW7WaSRPjCHi8C60rYg==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -798,9 +786,6 @@ packages:
   lunar-lite@0.2.7:
     resolution: {integrity: sha512-ePsbfKBUhnHINckdb5svyjSiYItxR6BySSmZ5Wjc5yRwKX8nbIVRBB0hwrW/NpZP5SuSXz1TSvuM/TVP9brZmw==}
 
-  lunar-lite@0.2.8:
-    resolution: {integrity: sha512-Y4tba4RaIFI0ikImJhgoEsyqtDE64lJIM3yFwRX01dbmagCDq7rNmpDQFrSFFy4WXeuywdRVFpIBoT1GGCEizw==}
-
   lunar-typescript@1.8.6:
     resolution: {integrity: sha512-5Eo4T/cnuXfrgO4k5LCpOGHIUOuz5hCF/IfNv0T29WY2shR36Hiz+ecN9WjnUuxUKhql9gbOkPaQoqLFKtPRNA==}
 
@@ -862,9 +847,6 @@ packages:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
       react: ^18.3.1
-
-  react-iztro@1.5.0:
-    resolution: {integrity: sha512-TrHBYYJGs+FCrkvuSz4S18HZHN+lU8cfCjDrl84MHgTgy9OoiFhdmtjFXLlEF/090lBGVDB+TxG6ZlUiv4hFLA==}
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -1415,8 +1397,6 @@ snapshots:
       moment-timezone: 0.5.48
       tz-lookup: 6.1.25
 
-  classnames@2.5.1: {}
-
   commander@1.1.1:
     dependencies:
       keypress: 0.1.0
@@ -1485,22 +1465,11 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.10
 
-  iztro-hook@1.3.4:
-    dependencies:
-      iztro: 2.6.3
-
   iztro@2.5.4:
     dependencies:
       dayjs: 1.11.23
       i18next: 23.16.8
       lunar-lite: 0.2.7
-      lunar-typescript: 1.8.6
-
-  iztro@2.6.3:
-    dependencies:
-      dayjs: 1.11.23
-      i18next: 23.16.8
-      lunar-lite: 0.2.8
       lunar-typescript: 1.8.6
 
   js-tokens@4.0.0: {}
@@ -1578,10 +1547,6 @@ snapshots:
     dependencies:
       lunar-typescript: 1.8.6
 
-  lunar-lite@0.2.8:
-    dependencies:
-      lunar-typescript: 1.8.6
-
   lunar-typescript@1.8.6: {}
 
   magic-string@0.30.21:
@@ -1623,13 +1588,6 @@ snapshots:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
-
-  react-iztro@1.5.0:
-    dependencies:
-      classnames: 2.5.1
-      iztro: 2.6.3
-      iztro-hook: 1.3.4
-      lunar-lite: 0.2.8
 
   react@18.3.1:
     dependencies:

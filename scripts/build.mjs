@@ -117,7 +117,7 @@ await build({
   },
 });
 
-// 前端：React 由 DSH 提供；*.module.css 和 react-iztro 的样式收进一段字符串，随插件挂载、卸载。
+// 前端：React 由 DSH 提供；*.module.css 的样式收进一段字符串，随插件挂载、卸载。
 const css = [];
 const client = await build({
   entryPoints: ["src/client/index.tsx"],

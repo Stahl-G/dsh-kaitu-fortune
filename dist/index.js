@@ -77873,7 +77873,7 @@ function birthOf(dir, args) {
   const candidate = typeof args.candidate === "number" ? birth.candidates?.[args.candidate] : void 0;
   return { birth, args: chartArgs(birth, candidate?.at) };
 }
-async function chinese(birth, args) {
+async function chinese(args) {
   const { latitude: _latitude, ...chart } = args;
   const [bazi, dayun, ziwei, almanac] = await Promise.all([
     executeTool("bazi", chart),
@@ -77887,18 +77887,10 @@ async function chinese(birth, args) {
       timezone: zone()
     })
   ]);
-  const solar = ziwei.trueSolarTimeInfo;
-  const day = new Date(Date.UTC(args.birthYear, args.birthMonth - 1, args.birthDay + solar.dayOffset));
   return {
     bazi,
     dayun,
-    // react-iztro 自己用 iztro 排盘：给它按真太阳时校正过的公历日期和时辰序号，和 taibu 的口径一致。
-    ziwei: {
-      birthday: `${day.getUTCFullYear()}-${day.getUTCMonth() + 1}-${day.getUTCDate()}`,
-      birthTime: solar.trueTimeIndex,
-      gender: birth.gender === "male" ? "\u7537" : "\u5973",
-      chart: ziwei
-    },
+    ziwei,
     almanac: renderToolResult("almanac", almanac, {}).structuredContent
   };
 }
@@ -77920,8 +77912,7 @@ async function handle(dir, operation, args) {
         {}
       ).structuredContent;
     case "chinese": {
-      const { birth, args: chart } = birthOf(dir, args);
-      return chinese(birth, chart);
+      return chinese(birthOf(dir, args).args);
     }
     case "astro": {
       const { args: chart } = birthOf(dir, args);

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Iztrolabe } from "react-iztro";
 import type { Birth } from "../birth.js";
 import type { Request } from "./App.js";
 import own from "./Chinese.module.css";
 import css from "./Fortune.module.css";
+import { Ziwei, type ZiweiChart } from "./Ziwei.js";
 
 interface Pillar {
   stem: string;
@@ -30,7 +30,7 @@ interface ChineseData {
     trueSolarTimeInfo: { clockTime: string; trueSolarTime: string };
   };
   dayun: { startAgeDetail: string; list: Luck[] };
-  ziwei: { birthday: string; birthTime: number; gender: "男" | "女" };
+  ziwei: ZiweiChart;
   almanac: Almanac;
 }
 
@@ -190,16 +190,7 @@ export function Chinese({
               <h2>紫微斗数</h2>
               <span>点宫位看三方四正</span>
             </div>
-            <div className={own.iztro}>
-              <Iztrolabe
-                birthday={data.ziwei.birthday}
-                birthTime={data.ziwei.birthTime}
-                gender={data.ziwei.gender}
-                birthdayType="solar"
-                horoscopeDate={new Date()}
-                lang="zh-CN"
-              />
-            </div>
+            <Ziwei chart={data.ziwei} />
           </section>
         </>
       )}
