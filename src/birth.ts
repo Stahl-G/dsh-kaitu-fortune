@@ -81,7 +81,8 @@ function momentAt(day: Birth["solar"], minute: number): Moment {
 }
 
 /** 在 [low, high] 里找第一个让 test 成立的分钟；test 在区间里先假后真。 */
-async function firstMinute(low: number, high: number, test: (minute: number) => Promise<boolean>) {
+async function firstMinute(from: number, to: number, test: (minute: number) => Promise<boolean>) {
+  let [low, high] = [from, to];
   while (low < high) {
     const middle = Math.floor((low + high) / 2);
     if (await test(middle)) high = middle;
