@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
+import { readingChatDraft } from "../chat.js";
 import type { Reading as Saved, Subject } from "../reading.js";
 import type { Request, Watch } from "./App.js";
+import { ChatContext } from "./Chat.js";
 import css from "./Fortune.module.css";
-import { Handover, HandoverContext } from "./Handover.js";
 import own from "./Reading.module.css";
 
 const time = (iso: string) => new Date(iso).toLocaleString("zh-CN", { hour12: false }).slice(0, -3);
@@ -48,8 +49,8 @@ export function Reading({
   const [list, setList] = useState<Saved[]>([]);
   const [shown, setShown] = useState<Saved | null>(null);
   const [error, setError] = useState("");
-  const loadHandover = useContext(HandoverContext);
-  const [choosing, setChoosing] = useState(false);
+  const chat = useContext(ChatContext);
+  const [opening, setOpening] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -80,7 +81,6 @@ export function Reading({
   }, [running, watch, onSaved]);
 
   const start = async () => {
-    setChoosing(false);
     setError("");
     try {
       const reading = await request<Saved>("startReading", { subject, drawId });
@@ -96,11 +96,17 @@ export function Reading({
     if (shown?.id === id) setShown(null);
     onSaved();
   };
-  const contextual = async (context: string) => {
-    const reading = await request<Saved>("contextReading", { blindId: shown?.id, context });
-    setList((current) => [reading, ...current]);
-    setShown(reading);
-    setChoosing(false);
+  const continueChat = async () => {
+    if (!chat || !shown) return;
+    setOpening(true);
+    setError("");
+    try {
+      await chat.open(readingChatDraft(shown));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setOpening(false);
+    }
   };
   const earlier = list.filter((reading) => reading.id !== shown?.id);
   if (historyOnly && list.length === 0) return null;
@@ -113,7 +119,7 @@ export function Reading({
         <span>
           {historyOnly
             ? "对应当时的抽牌，牌面与问题可在「发给模型的全文」回看"
-            : "先只看计算结果做盲读，再由你选择是否结合近况"}
+            : "先只看计算结果做盲评，之后可以开新对话，补充问题再发送"}
         </span>
       </div>
       {shown ? (
@@ -145,14 +151,6 @@ export function Reading({
           {error}
         </p>
       )}
-      {loadHandover && choosing && shown?.kind === "blind" && shown.status === "done" && (
-        <Handover
-          key={shown.id}
-          load={loadHandover}
-          onSend={contextual}
-          onCancel={() => setChoosing(false)}
-        />
-      )}
       <div className={css.actions}>
         {!historyOnly && (
           <button
@@ -170,9 +168,9 @@ export function Reading({
                   : "请 AI 解读"}
           </button>
         )}
-        {loadHandover && shown?.kind === "blind" && shown.status === "done" && !choosing && (
-          <button type="button" className={css.button} onClick={() => setChoosing(true)}>
-            结合我的近况
+        {chat && shown?.kind === "blind" && shown.status === "done" && (
+          <button type="button" className={css.button} disabled={opening} onClick={continueChat}>
+            {opening ? "正在打开新对话…" : chat.label}
           </button>
         )}
         {shown && shown.status !== "running" && (
@@ -191,7 +189,6 @@ export function Reading({
                   type="button"
                   className={css.link}
                   onClick={() => {
-                    setChoosing(false);
                     setShown(reading);
                   }}
                 >

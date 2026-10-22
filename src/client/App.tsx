@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Birth } from "../birth.js";
+import type { ChatDestination, ConnectChat } from "../chat.js";
 import type { Reading } from "../reading.js";
 import { Astro } from "./Astro.js";
 import { BirthForm } from "./BirthForm.js";
+import { ChatContext } from "./Chat.js";
 import { Chinese } from "./Chinese.js";
 import css from "./Fortune.module.css";
-import { type ConnectHandover, HandoverContext, type LoadHandover } from "./Handover.js";
 import { Tarot } from "./Tarot.js";
 
 export type Request = <T>(operation: string, input?: object) => Promise<T>;
@@ -61,14 +62,14 @@ export function birthLine(birth: Birth) {
 export function FortunePage({
   request,
   watch,
-  connectHandover,
+  connectChat,
 }: {
   request: Request;
   watch: Watch;
-  connectHandover?: ConnectHandover;
+  connectChat?: ConnectChat;
 }) {
-  const [loadHandover, setLoadHandover] = useState<LoadHandover>();
-  useEffect(() => connectHandover?.((load) => setLoadHandover(() => load)), [connectHandover]);
+  const [chat, setChat] = useState<ChatDestination>();
+  useEffect(() => connectChat?.(setChat), [connectChat]);
   const theme = useTheme();
   const [tab, setTab] = useState<Tab>("chinese");
   const [birth, setBirth] = useState<Birth | null | undefined>();
@@ -110,7 +111,7 @@ export function FortunePage({
     await load();
   };
   return (
-    <HandoverContext.Provider value={loadHandover}>
+    <ChatContext.Provider value={chat}>
       <div className={css.app} data-theme={theme} lang="zh-CN">
         <main className={css.content} aria-busy={birth === undefined}>
           {/* 嵌在开图内容区里：没有自己的页头，标签和操作放一行，宽度跟着宿主走 */}
@@ -226,6 +227,6 @@ export function FortunePage({
           <footer className={css.foot}>传统文化与自我反思参考，不是预测。</footer>
         </main>
       </div>
-    </HandoverContext.Provider>
+    </ChatContext.Provider>
   );
 }
