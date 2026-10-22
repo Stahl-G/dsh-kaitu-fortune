@@ -2,9 +2,9 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
-import { chartArgs, deleteAll, readBirth, saveBirth } from "../src/birth.js";
+import { chartArgs, deleteAll, pickCandidate, readBirth, saveBirth } from "../src/birth.js";
 import { searchCities } from "../src/cities.js";
-import { compute } from "../src/tools.js";
+import { compute, fortuneTools } from "../src/tools.js";
 
 const dir = () => mkdtempSync(join(tmpdir(), "fortune-birth-"));
 const shanghai = () => searchCities("上海")[0]?.geonameid as number;
@@ -104,6 +104,32 @@ test("范围在同一个时辰里只有一种可能时，直接用它排盘", as
   const birth = await uncertain(10, "21:30", "22:30");
   expect(birth.candidates).toHaveLength(1);
   expect(chartArgs(birth)).toMatchObject({ birthHour: 21, birthMinute: 30 });
+});
+
+test("挑定的时辰存进出生信息：重读还在，排盘和给模型的参数都按它；可以取消，改出生信息后清掉", async () => {
+  const at = dir();
+  const input = {
+    calendar: "solar",
+    year: 2000,
+    month: 3,
+    day: 10,
+    time: { from: "22:30", to: "23:30" },
+    gender: "female",
+    cityId: shanghai(),
+  } as const;
+  const birth = await saveBirth(at, input);
+  expect(birth.candidates).toHaveLength(2);
+  const myBirth = fortuneTools(at).find((tool) => tool.name === "fortune_my_birth");
+  expect(await myBirth?.run({})).toMatchObject({ chartArgs: undefined });
+
+  const picked = pickCandidate(at, 1);
+  expect(readBirth(at)).toEqual(picked);
+  expect(chartArgs(picked)).toEqual(chartArgs(birth, birth.candidates?.[1]?.at));
+  expect(await myBirth?.run({})).toMatchObject({ picked: 1, chartArgs: chartArgs(picked) });
+
+  expect(pickCandidate(at, null).picked).toBeUndefined();
+  pickCandidate(at, 0);
+  expect((await saveBirth(at, input)).picked).toBeUndefined();
 });
 
 test("一键删除清掉出生信息和记录", async () => {
