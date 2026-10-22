@@ -85,9 +85,12 @@
   gap: 6px;
   margin-top: auto;
 }
+.foot > span:first-child,
+.name {
+  white-space: nowrap;
+}
 .name {
   font-weight: 600;
-  white-space: nowrap;
 }
 .center {
   grid-row: 2 / 4;
@@ -124,6 +127,10 @@
   }
   .palace {
     min-height: 0;
+  }
+  .foot {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .center {
     grid-column: 1 / -1;
