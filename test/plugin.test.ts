@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vitest";
 // 测打包后的 dist：确认装上就能用，不依赖 node_modules 里的 taibu-core。
-import { apply, dataDir } from "../dist/index.js";
+const { apply, dataDir } = (await import("../dist/index.js" as string)) as typeof import("../src/index.js");
 
 interface Registered {
   name: string;
