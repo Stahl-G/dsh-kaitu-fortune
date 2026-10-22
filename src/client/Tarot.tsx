@@ -126,9 +126,7 @@ export function Tarot({ request, watch, onDrawn }: { request: Request; watch: Wa
           </div>
         </section>
       )}
-      {spread && (
-        <Reading request={request} watch={watch} subject="tarot" drawId={spread.drawId} onSaved={onDrawn} />
-      )}
+      <Reading request={request} watch={watch} subject="tarot" drawId={spread?.drawId} onSaved={onDrawn} />
     </>
   );
 }

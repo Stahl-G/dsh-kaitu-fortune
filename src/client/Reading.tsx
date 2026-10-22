@@ -45,19 +45,22 @@ export function Reading({
   const [list, setList] = useState<Saved[]>([]);
   const [shown, setShown] = useState<Saved | null>(null);
   const [error, setError] = useState("");
-  const mine = (reading: Saved) => subject !== "tarot" || reading.drawId === drawId;
 
   useEffect(() => {
     let active = true;
     void request<Saved[]>("readings", { subject }).then((value) => {
       if (!active) return;
       setList(value);
-      setShown(value.find((reading) => subject !== "tarot" || reading.drawId === drawId) ?? null);
+      setShown(
+        (subject === "tarot" && drawId ? value.find((reading) => reading.drawId === drawId) : value[0]) ??
+          null,
+      );
+      onSaved();
     });
     return () => {
       active = false;
     };
-  }, [request, subject, drawId]);
+  }, [request, subject, drawId, onSaved]);
 
   // 正在生成的那条：接上推送，跑完把列表里的这一条换成存档后的样子
   const running = shown?.status === "running" ? shown.id : null;
@@ -86,7 +89,7 @@ export function Reading({
     if (shown?.id === id) setShown(null);
     onSaved();
   };
-  const earlier = list.filter((reading) => mine(reading) && reading.id !== shown?.id);
+  const earlier = list.filter((reading) => reading.id !== shown?.id);
 
   return (
     <section className={css.card} aria-labelledby={`fortune-reading-${subject}`}>
@@ -127,10 +130,16 @@ export function Reading({
         <button
           type="button"
           className={`${css.button} ${css.primary}`}
-          disabled={shown?.status === "running"}
+          disabled={shown?.status === "running" || (subject === "tarot" && !drawId)}
           onClick={start}
         >
-          {shown?.status === "running" ? "正在解读…" : shown ? "再解读一次" : "解读"}
+          {shown?.status === "running"
+            ? "正在解读…"
+            : subject === "tarot" && !drawId
+              ? "先抽牌再解读"
+              : shown
+                ? "再解读一次"
+                : "解读"}
         </button>
         {shown && shown.status !== "running" && (
           <button type="button" className={css.button} onClick={() => void remove(shown.id)}>
