@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Request } from "./App.js";
 import css from "./Fortune.module.css";
+import own from "./Tarot.module.css";
 
 interface Drawn {
   position: string;
@@ -88,22 +89,22 @@ export function Tarot({ request }: { request: Request }) {
             <h2>{spread.spreadName}</h2>
             <span>点牌翻开</span>
           </div>
-          <div className={css.table}>
+          <div className={own.table}>
             {spread.cards.map((item, index) => {
               const open = Boolean(faces[index]);
               return (
-                <div key={`${spread.drawId}-${item.position}`} className={css.slot}>
+                <div key={`${spread.drawId}-${item.position}`} className={own.slot}>
                   <span className={css.small}>{item.position}</span>
                   <button
                     type="button"
-                    className={css.flip}
+                    className={own.flip}
                     aria-pressed={open}
                     aria-label={open ? item.card.nameChinese : `翻开「${item.position}」`}
                     onClick={() => void reveal(index, item.image)}
                   >
                     <div>
-                      <span className={css.back} />
-                      <span className={`${css.face} ${item.orientation === "reversed" ? css.reversed : ""}`}>
+                      <span className={own.back} />
+                      <span className={`${own.face} ${item.orientation === "reversed" ? own.reversed : ""}`}>
                         {open && <img src={faces[index]} alt="" />}
                       </span>
                     </div>

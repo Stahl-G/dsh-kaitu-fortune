@@ -1,0 +1,74 @@
+/* 塔罗：翻牌只转一次，300ms，减少动态时不转 */
+.table {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+}
+.slot {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  justify-items: center;
+  text-align: center;
+  font-size: 13px;
+}
+.flip {
+  display: block;
+  justify-self: stretch;
+  width: 100%;
+  max-width: 150px;
+  margin-inline: auto;
+  aspect-ratio: 250 / 420;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  perspective: 800px;
+}
+.flip > div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 300ms ease;
+}
+.flip[aria-pressed="true"] > div {
+  transform: rotateY(180deg);
+}
+.face,
+.back {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  backface-visibility: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+.back {
+  background: repeating-linear-gradient(45deg, var(--control) 0 6px, var(--sunken) 6px 12px);
+}
+.face {
+  transform: rotateY(180deg);
+  background: var(--surface);
+}
+.face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.reversed img {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip > div {
+    transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .table {
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 8px;
+  }
+}

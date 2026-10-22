@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Iztrolabe } from "react-iztro";
 import type { Birth } from "../birth.js";
 import type { Request } from "./App.js";
+import own from "./Chinese.module.css";
 import css from "./Fortune.module.css";
 
 interface Pillar {
@@ -42,7 +43,7 @@ for (const [chars, name] of [
   ["壬癸亥子", "water"],
 ] as const)
   for (const char of chars) ELEMENT[char] = name;
-const tone = (char: string) => css[ELEMENT[char] ?? ""];
+const tone = (char: string) => own[ELEMENT[char] ?? ""];
 const PILLARS = [
   ["year", "年柱"],
   ["month", "月柱"],
@@ -129,16 +130,16 @@ export function Chinese({
                 {data.bazi.trueSolarTimeInfo.clockTime}）
               </span>
             </div>
-            <div className={css.pillars}>
+            <div className={own.pillars}>
               {PILLARS.map(([key, label]) => {
                 const pillar = data.bazi.fourPillars[key];
                 return (
-                  <div key={key} className={css.pillar}>
+                  <div key={key} className={own.pillar}>
                     <span className={css.small}>{label}</span>
-                    <span className={css.god}>{key === "day" ? "日主" : pillar.tenGod}</span>
-                    <span className={`${css.glyph} ${tone(pillar.stem)}`}>{pillar.stem}</span>
-                    <span className={`${css.glyph} ${tone(pillar.branch)}`}>{pillar.branch}</span>
-                    <span className={css.hidden}>
+                    <span className={own.god}>{key === "day" ? "日主" : pillar.tenGod}</span>
+                    <span className={`${own.glyph} ${tone(pillar.stem)}`}>{pillar.stem}</span>
+                    <span className={`${own.glyph} ${tone(pillar.branch)}`}>{pillar.branch}</span>
+                    <span className={own.hidden}>
                       {pillar.hiddenStems.map((hidden) => (
                         <span key={hidden.stem}>
                           <span className={tone(hidden.stem)}>{hidden.stem}</span>
@@ -151,12 +152,12 @@ export function Chinese({
                 );
               })}
             </div>
-            <p className={css.legend}>
-              <span className={css.wood}>木</span>
-              <span className={css.fire}>火</span>
-              <span className={css.earth}>土</span>
-              <span className={css.metal}>金</span>
-              <span className={css.water}>水</span>
+            <p className={own.legend}>
+              <span className={own.wood}>木</span>
+              <span className={own.fire}>火</span>
+              <span className={own.earth}>土</span>
+              <span className={own.metal}>金</span>
+              <span className={own.water}>水</span>
             </p>
           </section>
           <section className={css.card}>
@@ -164,13 +165,13 @@ export function Chinese({
               <h2>大运</h2>
               <span>{data.dayun.startAgeDetail}</span>
             </div>
-            <div className={css.luck}>
+            <div className={own.luck}>
               {data.dayun.list.map((luck, index) => {
                 const next = data.dayun.list[index + 1]?.startYear ?? luck.startYear + 10;
                 return (
                   <div
                     key={luck.startYear}
-                    className={luck.startYear <= thisYear && thisYear < next ? css.now : undefined}
+                    className={luck.startYear <= thisYear && thisYear < next ? own.now : undefined}
                   >
                     <span>{luck.startAge} 岁</span>
                     <b>
@@ -189,7 +190,7 @@ export function Chinese({
               <h2>紫微斗数</h2>
               <span>点宫位看三方四正</span>
             </div>
-            <div className={css.iztro}>
+            <div className={own.iztro}>
               <Iztrolabe
                 birthday={data.ziwei.birthday}
                 birthTime={data.ziwei.birthTime}
@@ -210,12 +211,12 @@ export function Chinese({
               {almanac.传统黄历基调.农历} · {almanac.基础与个性化坐标.日干支}日
             </span>
           </div>
-          <dl className={css.facts}>
+          <dl className={own.facts}>
             <div>
               <dt>宜</dt>
-              <dd className={css.chips}>
+              <dd className={own.chips}>
                 {almanac.择日宜忌.宜.map((item) => (
-                  <span key={item} className={`${css.chip} ${css.good}`}>
+                  <span key={item} className={`${css.chip} ${own.good}`}>
                     {item}
                   </span>
                 ))}
@@ -223,7 +224,7 @@ export function Chinese({
             </div>
             <div>
               <dt>忌</dt>
-              <dd className={css.chips}>
+              <dd className={own.chips}>
                 {almanac.择日宜忌.忌.map((item) => (
                   <span key={item} className={css.chip}>
                     {item}

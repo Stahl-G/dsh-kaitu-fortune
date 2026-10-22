@@ -1,0 +1,42 @@
+/* 星盘：左边轮盘，右边太阳月亮上升和相位 */
+.grid2 {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(240px, 2fr);
+  gap: 16px;
+  align-items: start;
+}
+.wheel {
+  display: flex;
+  justify-content: center;
+}
+.wheel > div {
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1;
+}
+.wheel svg {
+  width: 100%;
+  height: 100%;
+}
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 2px;
+  border-top: 1px solid var(--line);
+}
+.list li:first-child {
+  border-top: 0;
+}
+
+@media (max-width: 720px) {
+  .grid2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

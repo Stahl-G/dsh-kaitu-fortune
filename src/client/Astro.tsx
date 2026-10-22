@@ -2,6 +2,7 @@ import { Chart } from "@astrodraw/astrochart";
 import { useEffect, useId, useRef, useState } from "react";
 import type { Birth } from "../birth.js";
 import type { Request } from "./App.js";
+import own from "./Astro.module.css";
 import css from "./Fortune.module.css";
 
 interface Placement {
@@ -113,13 +114,13 @@ export function Astro({
   const big3 = [pick("sun"), pick("moon"), pick("ascendant")].filter((item) => item !== undefined);
 
   return (
-    <div className={css.grid2}>
+    <div className={own.grid2}>
       <section className={css.card}>
         <div className={css.heading}>
           <h2>本命盘</h2>
           <span>回归黄道 · Placidus 分宫</span>
         </div>
-        <div className={css.wheel}>
+        <div className={own.wheel}>
           <div id={id} ref={holder} />
         </div>
       </section>
@@ -128,7 +129,7 @@ export function Astro({
           <div className={css.heading}>
             <h2>太阳、月亮、上升</h2>
           </div>
-          <ul className={css.list}>
+          <ul className={own.list}>
             {big3.map((item) => (
               <li key={item.key}>
                 <span>{item.label}</span>
@@ -145,7 +146,7 @@ export function Astro({
             <h2>主要相位</h2>
             <span>按容许度从紧到松</span>
           </div>
-          <ul className={css.list}>
+          <ul className={own.list}>
             {[...data.majorAspects]
               .sort((a, b) => a.orb - b.orb)
               .slice(0, 12)
