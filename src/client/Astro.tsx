@@ -1,9 +1,10 @@
 import { Chart } from "@astrodraw/astrochart";
 import { useEffect, useId, useRef, useState } from "react";
 import type { Birth } from "../birth.js";
-import type { Request } from "./App.js";
+import type { Request, Watch } from "./App.js";
 import own from "./Astro.module.css";
 import css from "./Fortune.module.css";
+import { Reading } from "./Reading.js";
 
 interface Placement {
   key: string;
@@ -59,11 +60,15 @@ export function Astro({
   birth,
   candidate,
   theme,
+  watch,
+  onSaved,
 }: {
   request: Request;
   birth: Birth | null;
   candidate: number | null;
   theme: string;
+  watch: Watch;
+  onSaved: () => void;
 }) {
   const [data, setData] = useState<AstroData | null>(null);
   const [error, setError] = useState("");
@@ -114,53 +119,56 @@ export function Astro({
   const big3 = [pick("sun"), pick("moon"), pick("ascendant")].filter((item) => item !== undefined);
 
   return (
-    <div className={own.grid2}>
-      <section className={css.card}>
-        <div className={css.heading}>
-          <h2>本命盘</h2>
-          <span>回归黄道 · Placidus 分宫</span>
-        </div>
-        <div className={own.wheel}>
-          <div id={id} ref={holder} />
-        </div>
-      </section>
-      <div className={css.panel}>
+    <>
+      <div className={own.grid2}>
         <section className={css.card}>
           <div className={css.heading}>
-            <h2>太阳、月亮、上升</h2>
+            <h2>本命盘</h2>
+            <span>回归黄道 · Placidus 分宫</span>
           </div>
-          <ul className={own.list}>
-            {big3.map((item) => (
-              <li key={item.key}>
-                <span>{item.label}</span>
-                <span>
-                  {item.sign.label} {item.position.withinSign}
-                  {item.house ? <span className={css.small}> · 第 {item.house} 宫</span> : null}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className={own.wheel}>
+            <div id={id} ref={holder} />
+          </div>
         </section>
-        <section className={css.card}>
-          <div className={css.heading}>
-            <h2>主要相位</h2>
-            <span>按容许度从紧到松</span>
-          </div>
-          <ul className={own.list}>
-            {[...data.majorAspects]
-              .sort((a, b) => a.orb - b.orb)
-              .slice(0, 12)
-              .map((aspect) => (
-                <li key={`${aspect.from.label}-${aspect.type}-${aspect.to.label}`}>
+        <div className={css.panel}>
+          <section className={css.card}>
+            <div className={css.heading}>
+              <h2>太阳、月亮、上升</h2>
+            </div>
+            <ul className={own.list}>
+              {big3.map((item) => (
+                <li key={item.key}>
+                  <span>{item.label}</span>
                   <span>
-                    {aspect.from.label} {aspect.label} {aspect.to.label}
+                    {item.sign.label} {item.position.withinSign}
+                    {item.house ? <span className={css.small}> · 第 {item.house} 宫</span> : null}
                   </span>
-                  <span className={`${css.small} ${css.num}`}>{aspect.orb.toFixed(1)}°</span>
                 </li>
               ))}
-          </ul>
-        </section>
+            </ul>
+          </section>
+          <section className={css.card}>
+            <div className={css.heading}>
+              <h2>主要相位</h2>
+              <span>按容许度从紧到松</span>
+            </div>
+            <ul className={own.list}>
+              {[...data.majorAspects]
+                .sort((a, b) => a.orb - b.orb)
+                .slice(0, 12)
+                .map((aspect) => (
+                  <li key={`${aspect.from.label}-${aspect.type}-${aspect.to.label}`}>
+                    <span>
+                      {aspect.from.label} {aspect.label} {aspect.to.label}
+                    </span>
+                    <span className={`${css.small} ${css.num}`}>{aspect.orb.toFixed(1)}°</span>
+                  </li>
+                ))}
+            </ul>
+          </section>
+        </div>
       </div>
-    </div>
+      <Reading request={request} watch={watch} subject="astro" onSaved={onSaved} />
+    </>
   );
 }

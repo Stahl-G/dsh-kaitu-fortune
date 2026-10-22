@@ -11,6 +11,7 @@ import {
 } from "./birth.js";
 import { searchCities } from "./cities.js";
 import { countDraws } from "./draws.js";
+import { type Readings, type Subject, countReadings } from "./reading.js";
 import { cast } from "./tools.js";
 
 type Args = Record<string, unknown>;
@@ -95,10 +96,18 @@ async function chinese(args: ReturnType<typeof chartArgs>) {
   };
 }
 
-export async function handle(dir: string, operation: string, args: Args): Promise<unknown> {
+export async function handle(
+  dir: string,
+  operation: string,
+  args: Args,
+  readings?: Readings,
+): Promise<unknown> {
   switch (operation) {
     case "state":
-      return { birth: (await readBirth(dir)) ?? null, stored: { dir, draws: countDraws(dir) } };
+      return {
+        birth: (await readBirth(dir)) ?? null,
+        stored: { dir, draws: countDraws(dir), readings: countReadings(dir) },
+      };
     case "cities":
       return searchCities(String(args.query ?? ""));
     case "saveBirth":
@@ -106,6 +115,7 @@ export async function handle(dir: string, operation: string, args: Args): Promis
     case "pickCandidate":
       return pickCandidate(dir, typeof args.candidate === "number" ? args.candidate : null);
     case "deleteAll":
+      readings?.cancelAll();
       deleteAll(dir);
       return { deleted: true };
     case "almanac":
@@ -140,6 +150,13 @@ export async function handle(dir: string, operation: string, args: Args): Promis
       const data = readFileSync(new URL(`../data/tarot/${name}.jpg`, import.meta.url)).toString("base64");
       return `data:image/jpeg;base64,${data}`;
     }
+    case "startReading":
+      return readings?.start(args.subject as Subject, args.drawId as string | undefined);
+    case "readings":
+      return readings?.list(args.subject as Subject | undefined) ?? [];
+    case "deleteReading":
+      readings?.remove(String(args.id));
+      return { deleted: true };
     default:
       throw new Error(`未知操作：${operation}`);
   }

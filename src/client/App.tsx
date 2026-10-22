@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Birth } from "../birth.js";
+import type { Reading } from "../reading.js";
 import { Astro } from "./Astro.js";
 import { BirthForm } from "./BirthForm.js";
 import { Chinese } from "./Chinese.js";
@@ -7,6 +8,8 @@ import css from "./Fortune.module.css";
 import { Tarot } from "./Tarot.js";
 
 export type Request = <T>(operation: string, input?: object) => Promise<T>;
+/** 接上一条正在生成的解读，每多一段回调一次；返回值用来断开。 */
+export type Watch = (id: string, onReading: (reading: Reading) => void) => () => void;
 type Tab = "chinese" | "astro" | "tarot";
 const TABS: [Tab, string][] = [
   ["chinese", "中式"],
@@ -38,6 +41,7 @@ function useTheme() {
 interface Stored {
   dir: string;
   draws: number;
+  readings: number;
 }
 
 export const pad = (value: number) => String(value).padStart(2, "0");
@@ -53,7 +57,7 @@ export function birthLine(birth: Birth) {
   return `${date} ${time} · ${birth.city.zh} · ${birth.gender === "male" ? "男" : "女"}`;
 }
 
-export function FortunePage({ request }: { request: Request }) {
+export function FortunePage({ request, watch }: { request: Request; watch: Watch }) {
   const theme = useTheme();
   const [tab, setTab] = useState<Tab>("chinese");
   const [birth, setBirth] = useState<Birth | null | undefined>();
@@ -158,12 +162,26 @@ export function FortunePage({ request }: { request: Request }) {
           aria-labelledby={`fortune-tab-${tab}`}
         >
           {tab === "chinese" && (
-            <Chinese request={request} birth={birth ?? null} candidate={candidate} onCandidate={pick} />
+            <Chinese
+              request={request}
+              watch={watch}
+              birth={birth ?? null}
+              candidate={candidate}
+              onCandidate={pick}
+              onSaved={refreshStored}
+            />
           )}
           {tab === "astro" && (
-            <Astro request={request} birth={birth ?? null} candidate={candidate} theme={theme} />
+            <Astro
+              request={request}
+              watch={watch}
+              birth={birth ?? null}
+              candidate={candidate}
+              theme={theme}
+              onSaved={refreshStored}
+            />
           )}
-          {tab === "tarot" && <Tarot request={request} onDrawn={refreshStored} />}
+          {tab === "tarot" && <Tarot request={request} watch={watch} onDrawn={refreshStored} />}
         </div>
         {stored && (
           <section className={css.card} aria-labelledby="fortune-stored">
@@ -172,16 +190,17 @@ export function FortunePage({ request }: { request: Request }) {
               <span>只在这台电脑上</span>
             </div>
             <p className={css.small}>
-              {birth ? "出生信息 1 份" : "没有出生信息"} · 抽牌、起卦记录 {stored.draws} 条 · 存放在{" "}
-              {stored.dir}
+              {birth ? "出生信息 1 份" : "没有出生信息"} · 抽牌、起卦记录 {stored.draws} 条 · 解读{" "}
+              {stored.readings} 条 · 存放在 {stored.dir}
             </p>
+            <p className={css.small}>每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果。</p>
             <p className={css.small}>卸载插件不会删除这些资料；要清掉，请在卸载前点下面的按钮。</p>
             <div className={css.actions}>
               <button
                 type="button"
                 className={css.button}
                 onClick={remove}
-                disabled={!birth && !stored.draws}
+                disabled={!birth && !stored.draws && !stored.readings}
               >
                 删除我的资料
               </button>

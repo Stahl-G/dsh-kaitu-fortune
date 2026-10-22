@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Birth } from "../birth.js";
-import type { Request } from "./App.js";
+import type { Request, Watch } from "./App.js";
 import own from "./Chinese.module.css";
 import css from "./Fortune.module.css";
+import { Reading } from "./Reading.js";
 import { Ziwei, type ZiweiChart } from "./Ziwei.js";
 
 interface Pillar {
@@ -53,14 +54,18 @@ const PILLARS = [
 
 export function Chinese({
   request,
+  watch,
   birth,
   candidate,
   onCandidate,
+  onSaved,
 }: {
   request: Request;
+  watch: Watch;
   birth: Birth | null;
   candidate: number | null;
   onCandidate: (index: number | null) => void;
+  onSaved: () => void;
 }) {
   const [data, setData] = useState<ChineseData | null>(null);
   const [almanac, setAlmanac] = useState<Almanac | null>(null);
@@ -192,6 +197,7 @@ export function Chinese({
             </div>
             <Ziwei chart={data.ziwei} />
           </section>
+          <Reading request={request} watch={watch} subject="chinese" onSaved={onSaved} />
         </>
       )}
       {almanac && (
