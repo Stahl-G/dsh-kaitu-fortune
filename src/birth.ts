@@ -34,8 +34,6 @@ export interface Birth extends BirthInput {
   /** 公历出生日；农历输入在保存时换算好。 */
   solar: { year: number; month: number; day: number };
   candidates?: Candidate[];
-  /** 已按子时换日并逐段查边界重算；旧档案没有此标记。 */
-  candidateRule?: "zi";
   /** 有多种可能时用户在页面上挑定的那一种（candidates 的下标）；没挑就没有这一项，改出生信息后清掉。 */
   picked?: number;
   savedAt: string;
@@ -151,9 +149,7 @@ export async function saveBirth(dir: string, input: BirthInput): Promise<Birth> 
   };
   const birth: Birth = {
     ...base,
-    ...("from" in input.time
-      ? { candidates: await candidates(base, input.time.from, input.time.to), candidateRule: "zi" as const }
-      : {}),
+    ...("from" in input.time ? { candidates: await candidates(base, input.time.from, input.time.to) } : {}),
     savedAt: new Date().toISOString(),
   };
   mkdirSync(dir, { recursive: true });
@@ -162,8 +158,8 @@ export async function saveBirth(dir: string, input: BirthInput): Promise<Birth> 
 }
 
 /** 记下挑定的时辰；传 null 改回“还没挑”。 */
-export async function pickCandidate(dir: string, index: number | null): Promise<Birth> {
-  const birth = await readBirth(dir);
+export function pickCandidate(dir: string, index: number | null): Birth {
+  const birth = readBirth(dir);
   if (!birth) throw new Error("先填出生信息");
   if (index !== null && !birth.candidates?.[index]) throw new Error("没有这个时辰");
   const { picked: _picked, ...rest } = birth;
@@ -172,35 +168,8 @@ export async function pickCandidate(dir: string, index: number | null): Promise<
   return next;
 }
 
-/** 旧候选只迁移一次；按原先选中的钟表时间映射，不复用旧下标。 */
-export async function readBirth(dir: string): Promise<Birth | undefined> {
-  const path = file(dir);
-  if (!existsSync(path)) return;
-  const source = readFileSync(path, "utf8");
-  const birth = JSON.parse(source) as Birth;
-  if (!("from" in birth.time) || birth.candidateRule === "zi") return birth;
-  const selected = birth.picked === undefined ? undefined : birth.candidates?.[birth.picked]?.at;
-  const nextCandidates = await candidates(birth, birth.time.from, birth.time.to);
-  const picked = selected
-    ? nextCandidates.findIndex(
-        (candidate) => candidate.start <= stamp(selected) && stamp(selected) < candidate.end,
-      )
-    : -1;
-  const chosen = nextCandidates[picked];
-  if (selected && chosen) chosen.at = selected;
-  const { picked: _picked, ...rest } = birth;
-  const next: Birth = {
-    ...rest,
-    candidates: nextCandidates,
-    candidateRule: "zi",
-    ...(picked >= 0 ? { picked } : {}),
-  };
-  // 迁移计算期间可能已保存新资料或删除；不能把旧快照写回去。
-  if (!existsSync(path)) return;
-  if (readFileSync(path, "utf8") !== source) return readBirth(dir);
-  writeFileSync(path, JSON.stringify(next, null, 2));
-  return next;
-}
+export const readBirth = (dir: string): Birth | undefined =>
+  existsSync(file(dir)) ? (JSON.parse(readFileSync(file(dir), "utf8")) as Birth) : undefined;
 
 /** 一键删除：出生信息、抽牌记录和解读都在这个目录里。 */
 export const deleteAll = (dir: string) => rmSync(dir, { recursive: true, force: true });

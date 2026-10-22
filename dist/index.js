@@ -77636,15 +77636,15 @@ async function saveBirth(dir, input) {
   };
   const birth = {
     ...base,
-    ..."from" in input.time ? { candidates: await candidates(base, input.time.from, input.time.to), candidateRule: "zi" } : {},
+    ..."from" in input.time ? { candidates: await candidates(base, input.time.from, input.time.to) } : {},
     savedAt: (/* @__PURE__ */ new Date()).toISOString()
   };
   mkdirSync(dir, { recursive: true });
   writeFileSync(file(dir), JSON.stringify(birth, null, 2));
   return birth;
 }
-async function pickCandidate(dir, index) {
-  const birth = await readBirth(dir);
+function pickCandidate(dir, index) {
+  const birth = readBirth(dir);
   if (!birth) throw new Error("\u5148\u586B\u51FA\u751F\u4FE1\u606F");
   if (index !== null && !birth.candidates?.[index]) throw new Error("\u6CA1\u6709\u8FD9\u4E2A\u65F6\u8FB0");
   const { picked: _picked, ...rest } = birth;
@@ -77652,31 +77652,7 @@ async function pickCandidate(dir, index) {
   writeFileSync(file(dir), JSON.stringify(next, null, 2));
   return next;
 }
-async function readBirth(dir) {
-  const path = file(dir);
-  if (!existsSync(path)) return;
-  const source = readFileSync2(path, "utf8");
-  const birth = JSON.parse(source);
-  if (!("from" in birth.time) || birth.candidateRule === "zi") return birth;
-  const selected = birth.picked === void 0 ? void 0 : birth.candidates?.[birth.picked]?.at;
-  const nextCandidates = await candidates(birth, birth.time.from, birth.time.to);
-  const picked = selected ? nextCandidates.findIndex(
-    (candidate) => candidate.start <= stamp(selected) && stamp(selected) < candidate.end
-  ) : -1;
-  const chosen = nextCandidates[picked];
-  if (selected && chosen) chosen.at = selected;
-  const { picked: _picked, ...rest } = birth;
-  const next = {
-    ...rest,
-    candidates: nextCandidates,
-    candidateRule: "zi",
-    ...picked >= 0 ? { picked } : {}
-  };
-  if (!existsSync(path)) return;
-  if (readFileSync2(path, "utf8") !== source) return readBirth(dir);
-  writeFileSync(path, JSON.stringify(next, null, 2));
-  return next;
-}
+var readBirth = (dir) => existsSync(file(dir)) ? JSON.parse(readFileSync2(file(dir), "utf8")) : void 0;
 var deleteAll = (dir) => rmSync(dir, { recursive: true, force: true });
 
 // src/draws.ts
@@ -77824,7 +77800,7 @@ function fortuneTools(dir) {
       description: "\u8BFB\u53D6\u7528\u6237\u5728\u63D2\u4EF6\u91CC\u586B\u597D\u7684\u51FA\u751F\u4FE1\u606F\u3002chartArgs \u53EF\u76F4\u63A5\u4F20\u7ED9 fortune_bazi\u3001fortune_ziwei\u3001fortune_astrology \u7B49\uFF08\u7ECF\u7EAC\u5EA6\u3001\u65F6\u533A\u5DF2\u6309\u51FA\u751F\u57CE\u5E02\u7ED9\u51FA\uFF09\uFF1B\u65F6\u95F4\u4E0D\u786E\u5B9A\u65F6 candidates \u5217\u51FA\u8303\u56F4\u5185\u6BCF\u79CD\u53EF\u80FD\u7684\u56DB\u67F1\u548C\u5BF9\u5E94\u65F6\u6BB5\uFF1B\u6709\u591A\u79CD\u4E14\u7528\u6237\u5DF2\u5728\u9875\u9762\u4E0A\u6311\u5B9A\u65F6\uFF0Cpicked \u662F\u90A3\u4E00\u79CD\u7684\u4E0B\u6807\uFF0CchartArgs \u5C31\u6309\u5B83\u7ED9\uFF1B\u8FD8\u6CA1\u6311\u65F6\u5148\u8BF7\u7528\u6237\u786E\u8BA4\u662F\u54EA\u4E00\u79CD\uFF0C\u4E0D\u8981\u9ED8\u8BA4\u5B50\u65F6\uFF0C\u4E5F\u4E0D\u8981\u81EA\u5DF1\u53D6\u7B2C\u4E00\u4E2A\u3002",
       parameters: { type: "object", properties: {} },
       async run() {
-        const birth = await readBirth(dir);
+        const birth = readBirth(dir);
         if (!birth) return { saved: false };
         return {
           saved: true,
@@ -77882,7 +77858,7 @@ async function facts(dir, subject, drawId) {
 ` : "";
     return `${question}${JSON.stringify(await compute(draw.tool, draw.input))}`;
   }
-  const birth = await readBirth(dir);
+  const birth = readBirth(dir);
   if (!birth) throw new Error("\u5148\u586B\u51FA\u751F\u4FE1\u606F");
   const chart = chartArgs(birth);
   if (subject === "astro") {
@@ -78082,8 +78058,8 @@ function cardImage(name2) {
 }
 var today = () => (/* @__PURE__ */ new Date()).toLocaleDateString("sv");
 var zone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
-async function birthOf(dir, args) {
-  const birth = await readBirth(dir);
+function birthOf(dir, args) {
+  const birth = readBirth(dir);
   if (!birth) throw new Error("\u5148\u586B\u51FA\u751F\u4FE1\u606F");
   const candidate = typeof args.candidate === "number" ? birth.candidates?.[args.candidate] : void 0;
   return { birth, args: chartArgs(birth, candidate?.at) };
@@ -78113,7 +78089,7 @@ async function handle(dir, operation, args, readings) {
   switch (operation) {
     case "state":
       return {
-        birth: await readBirth(dir) ?? null,
+        birth: readBirth(dir) ?? null,
         stored: { dir, draws: countDraws(dir), readings: countReadings(dir) }
       };
     case "cities":
@@ -78133,10 +78109,10 @@ async function handle(dir, operation, args, readings) {
         {}
       ).structuredContent;
     case "chinese": {
-      return chinese((await birthOf(dir, args)).args);
+      return chinese(birthOf(dir, args).args);
     }
     case "astro": {
-      const { args: chart } = await birthOf(dir, args);
+      const { args: chart } = birthOf(dir, args);
       const { gender: _gender, ...input } = chart;
       return executeTool("astrology", input);
     }

@@ -1,16 +1,8 @@
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
-import {
-  type Birth,
-  type Candidate,
-  chartArgs,
-  deleteAll,
-  pickCandidate,
-  readBirth,
-  saveBirth,
-} from "../src/birth.js";
+import { chartArgs, deleteAll, pickCandidate, readBirth, saveBirth } from "../src/birth.js";
 import { searchCities } from "../src/cities.js";
 import { compute, fortuneTools } from "../src/tools.js";
 
@@ -34,7 +26,7 @@ test("准确时间：保存后排盘参数带出生城市的经纬度和时区",
     gender: "male",
     cityId: shanghai(),
   });
-  expect(await readBirth(at)).toEqual(birth);
+  expect(readBirth(at)).toEqual(birth);
   const chart = (await compute("bazi", chartArgs(birth))) as { 四柱: { 干支: string }[] };
   expect(chart.四柱.map((pillar) => pillar.干支)).toEqual(["庚午", "辛巳", "庚辰", "癸未"]);
 });
@@ -128,13 +120,13 @@ test("挑定的时辰存进出生信息：重读还在，排盘和给模型的�
   const myBirth = fortuneTools(at).find((tool) => tool.name === "fortune_my_birth");
   expect(await myBirth?.run({})).toMatchObject({ chartArgs: undefined });
 
-  const picked = await pickCandidate(at, 1);
-  expect(await readBirth(at)).toEqual(picked);
+  const picked = pickCandidate(at, 1);
+  expect(readBirth(at)).toEqual(picked);
   expect(chartArgs(picked)).toEqual(chartArgs(birth, birth.candidates?.[1]?.at));
   expect(await myBirth?.run({})).toMatchObject({ picked: 1, chartArgs: chartArgs(picked) });
 
-  expect((await pickCandidate(at, null)).picked).toBeUndefined();
-  await pickCandidate(at, 0);
+  expect(pickCandidate(at, null).picked).toBeUndefined();
+  pickCandidate(at, 0);
   expect((await saveBirth(at, input)).picked).toBeUndefined();
 });
 
@@ -150,45 +142,5 @@ test("一键删除清掉出生信息和记录", async () => {
     cityId: shanghai(),
   });
   deleteAll(at);
-  expect(await readBirth(at)).toBeUndefined();
-});
-
-test("旧候选迁移合并早晚子时，按选中的实际时间映射，不沿用下标；后续读取不重写", async () => {
-  const at = dir();
-  const birth = await saveBirth(at, {
-    calendar: "solar",
-    year: 2000,
-    month: 3,
-    day: 10,
-    time: { from: "22:30", to: "01:30" },
-    gender: "female",
-    cityId: shanghai(),
-  });
-  const [hai, zi, chou] = birth.candidates as Candidate[];
-  const { candidateRule: _rule, ...legacy } = birth;
-  const early = { year: 2000, month: 3, day: 11, hour: 0, minute: 4 };
-  const oldCandidates = [
-    hai,
-    { ...zi, pillars: ["庚辰", "己卯", "丁卯", "壬子"], end: "2000-03-11 00:04" },
-    { ...zi, start: "2000-03-11 00:04", at: early },
-    chou,
-  ];
-  const path = join(at, "birth.json");
-  writeFileSync(path, JSON.stringify({ ...legacy, candidates: oldCandidates, picked: 2 }));
-  const migrated = (await readBirth(at)) as Birth;
-  expect(migrated.candidates).toHaveLength(3);
-  expect(migrated.picked).toBe(1);
-  expect(chartArgs(migrated)).toMatchObject({ birthDay: 11, birthHour: 0, birthMinute: 4 });
-  const chart = (await compute("bazi", chartArgs(migrated))) as { 四柱: { 干支: string }[] };
-  expect(chart.四柱.map((pillar) => pillar.干支)).toEqual(migrated.candidates?.[1]?.pillars);
-  expect(migrated.savedAt).toBe(birth.savedAt);
-  const compact = JSON.stringify(migrated);
-  writeFileSync(path, compact);
-  expect(await readBirth(at)).toEqual(migrated);
-  expect(readFileSync(path, "utf8")).toBe(compact);
-
-  writeFileSync(path, JSON.stringify({ ...legacy, candidates: oldCandidates }));
-  const unpicked = (await readBirth(at)) as Birth;
-  expect(unpicked.picked).toBeUndefined();
-  expect(() => chartArgs(unpicked)).toThrow();
+  expect(readBirth(at)).toBeUndefined();
 });
