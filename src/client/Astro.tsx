@@ -120,6 +120,7 @@ export function Astro({
 
   return (
     <>
+      <Reading request={request} watch={watch} subject="astro" onSaved={onSaved} />
       <div className={own.grid2}>
         <section className={css.card}>
           <div className={css.heading}>
@@ -168,7 +169,6 @@ export function Astro({
           </section>
         </div>
       </div>
-      <Reading request={request} watch={watch} subject="astro" onSaved={onSaved} />
     </>
   );
 }

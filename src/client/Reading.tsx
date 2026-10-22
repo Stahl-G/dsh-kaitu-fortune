@@ -109,7 +109,7 @@ export function Reading({
   return (
     <section className={css.card} aria-labelledby={heading}>
       <div className={css.heading}>
-        <h2 id={heading}>{historyOnly ? "历史塔罗解读" : "解读"}</h2>
+        <h2 id={heading}>{historyOnly ? "历史塔罗解读" : "请 AI 解读"}</h2>
         <span>
           {historyOnly
             ? "对应当时的抽牌，牌面与问题可在「发给模型的全文」回看"
@@ -167,7 +167,7 @@ export function Reading({
                 ? "先抽牌再解读"
                 : shown
                   ? "再做一次盲读"
-                  : "解读"}
+                  : "请 AI 解读"}
           </button>
         )}
         {loadHandover && shown?.kind === "blind" && shown.status === "done" && !choosing && (
