@@ -1,4 +1,14 @@
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -78,7 +88,7 @@ try {
 }
 
 // 宿主：taibu-core 和它的依赖全部打进 dist，装插件时不用再装依赖，卸载也不留依赖。
-await build({
+const host = await build({
   entryPoints: ["src/index.ts"],
   outfile: "dist/index.js",
   bundle: true,
@@ -87,6 +97,7 @@ await build({
   format: "esm",
   external: ["@deepseek-ai/cordis", "@deepseek-ai/dsh-typert-protocol"],
   legalComments: "none",
+  metafile: true,
   plugins: [
     {
       // taibu 的星盘用 createRequire 动态加载这个 CJS 包，esbuild 看不到，改成静态 import 才能打进来。
@@ -118,7 +129,8 @@ await build({
 });
 
 // 前端：React 由 DSH 提供；*.module.css 的样式收进一段字符串，随插件挂载、卸载。
-const css = [];
+// 样式文件是并行加载的，按路径记下，最后按固定顺序拼：公共的 Fortune.module.css 在前，各面板的在后
+const css = new Map();
 const client = await build({
   entryPoints: ["src/client/index.tsx"],
   bundle: true,
@@ -129,6 +141,7 @@ const client = await build({
   target: "es2022",
   minify: true,
   legalComments: "none",
+  metafile: true,
   external: ["react", "react/*", "@deepseek-ai/cordis"],
   plugins: [
     {
@@ -142,9 +155,9 @@ const client = await build({
             minify: true,
             cssModules: module ? { pattern: "kf_[local]_[hash]" } : false,
           });
-          css.push(result.code.toString());
+          css.set(path, result.code.toString());
           const names = module
-            ? Object.fromEntries(Object.entries(result.exports).map(([k, v]) => [k, v.name]))
+            ? Object.fromEntries(Object.entries(result.exports).sort().map(([k, v]) => [k, v.name]))
             : {};
           return {
             contents: `export default ${JSON.stringify(names)}`,
@@ -164,6 +177,106 @@ writeFileSync(
   "dist/client.js",
   client.outputFiles[0].text.replace(
     "var exports=module.exports;",
-    `var exports=module.exports;window.__kaituFortuneStyles=${JSON.stringify(css.join("\n"))};`,
+    `var exports=module.exports;window.__kaituFortuneStyles=${JSON.stringify(
+      [...css]
+        .sort(
+          ([a], [b]) =>
+            Number(!a.endsWith("/Fortune.module.css")) - Number(!b.endsWith("/Fortune.module.css")) ||
+            a.localeCompare(b),
+        )
+        .map(([, code]) => code)
+        .join("\n"),
+    )};`,
   ),
+);
+
+// 打包时去掉了源码里的版权注释，所以按 esbuild 实际打进 dist 的文件把用到的包列出来，附上许可全文。
+// MPL-2.0 的包另外把 npm 上发布的原文件放进 third_party/mpl，随插件一起发，满足 MPL 对源码可得的要求。
+const MIT = (holder) => `MIT License
+
+Copyright (c) ${holder}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+`;
+const manifestOf = (dir) =>
+  existsSync(resolve(dir, "package.json"))
+    ? JSON.parse(readFileSync(resolve(dir, "package.json"), "utf8"))
+    : {};
+const bundled = new Map();
+for (const [where, { metafile }] of [
+  ["dist/index.js", host],
+  ["dist/client.js", client],
+]) {
+  for (const input of Object.keys(metafile.inputs)) {
+    if (!input.includes("node_modules/")) continue;
+    let dir = dirname(resolve(input));
+    while (!manifestOf(dir).name) dir = dirname(dir);
+    const entry = bundled.get(dir) ?? { manifest: manifestOf(dir), where: new Set() };
+    entry.where.add(where);
+    bundled.set(dir, entry);
+  }
+}
+// 这个包的 dist 是它自己用 webpack 预先打好的，里面还带着下面两个库（tz-lookup 也在里面，许可同上面单列的 tz-lookup）
+const EMBEDDED = {
+  "circular-natal-horoscope-js": ["moment@2.24.0", "moment-timezone@0.5.26"],
+};
+const licenseFile = (dir) => readdirSync(dir).find((name) => /^licen[cs]e/i.test(name));
+const mplText = [...bundled.keys()]
+  .filter((dir) => bundled.get(dir).manifest.license === "MPL-2.0" && licenseFile(dir))
+  .map((dir) => readFileSync(resolve(dir, licenseFile(dir)), "utf8"))[0];
+rmSync(resolve(root, "third_party"), { recursive: true, force: true });
+const sections = [...bundled]
+  .sort(([, a], [, b]) =>
+    `${a.manifest.name}@${a.manifest.version}`.localeCompare(`${b.manifest.name}@${b.manifest.version}`),
+  )
+  .map(([dir, { manifest, where }]) => {
+    const id = `${manifest.name}@${manifest.version}`;
+    const file = licenseFile(dir);
+    const author = typeof manifest.author === "string" ? manifest.author : manifest.author?.name;
+    let text = file && readFileSync(resolve(dir, file), "utf8");
+    let note = file
+      ? `许可原文取自包内 ${file}`
+      : "包里没有许可文件，下面按 package.json 的 license 字段和作者补全";
+    if (!text && manifest.license === "MIT") text = MIT(author);
+    if (!text && manifest.license === "MPL-2.0") text = mplText;
+    if (manifest.license === "MPL-2.0") {
+      cpSync(dir, resolve(root, "third_party/mpl", id), { recursive: true });
+      note += `；npm 发布的原文件附在 third_party/mpl/${id}/`;
+    }
+    const repository =
+      typeof manifest.repository === "string" ? manifest.repository : manifest.repository?.url;
+    return [
+      `== ${id} (${manifest.license})`,
+      `打进：${[...where].join("、")}`,
+      repository && `仓库：${repository.replace(/^git\+/, "")}`,
+      note,
+      "",
+      text.trim(),
+      ...(EMBEDDED[manifest.name] ?? []).map(
+        (inner) =>
+          `\n\n== ${inner} (MIT)\n打进：随 ${id} 的 dist 一起\n${MIT("JS Foundation and other contributors").trim()}`,
+      ),
+    ]
+      .filter((line) => line !== undefined)
+      .join("\n");
+  });
+writeFileSync(
+  resolve(root, "THIRD_PARTY_LICENSES.txt"),
+  `本文件由 scripts/build.mjs 生成：列出实际打进 dist/index.js 和 dist/client.js 的第三方包及其许可全文。\n\n${sections.join("\n\n\n")}\n`,
 );

@@ -30,8 +30,10 @@
     "lib/typert.remote-client.d.ts",
     "cordis.patch.yml",
     "LICENSE",
+    "README.md",
     "THIRD_PARTY_NOTICES.md",
-    "README.md"
+    "THIRD_PARTY_LICENSES.txt",
+    "third_party"
   ],
   "dsh": {
     "bundle": {
