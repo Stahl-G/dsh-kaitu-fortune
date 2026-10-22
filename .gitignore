@@ -4,5 +4,4 @@ node_modules/
 *.log
 coverage/
 *.tgz
-lib/
 .scratch/

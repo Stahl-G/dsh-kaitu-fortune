@@ -5,6 +5,12 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __knownSymbol = (name2, symbol) => (symbol = Symbol[name2]) ? symbol : /* @__PURE__ */ Symbol.for("Symbol." + name2);
+var __typeError = (msg) => {
+  throw TypeError(msg);
+};
+var __defNormalProp = (obj2, key, value) => key in obj2 ? __defProp(obj2, key, { enumerable: true, configurable: true, writable: true, value }) : obj2[key] = value;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 var __commonJS = (cb, mod) => function __require() {
   try {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
@@ -32,6 +38,44 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __decoratorStart = (base) => [, , , __create(base?.[__knownSymbol("metadata")] ?? null)];
+var __decoratorStrings = ["class", "method", "getter", "setter", "accessor", "field", "value", "get", "set"];
+var __expectFn = (fn) => fn !== void 0 && typeof fn !== "function" ? __typeError("Function expected") : fn;
+var __decoratorContext = (kind, name2, done, metadata, fns) => ({ kind: __decoratorStrings[kind], name: name2, metadata, addInitializer: (fn) => done._ ? __typeError("Already initialized") : fns.push(__expectFn(fn || null)) });
+var __decoratorMetadata = (array, target) => __defNormalProp(target, __knownSymbol("metadata"), array[3]);
+var __runInitializers = (array, flags, self2, value) => {
+  for (var i = 0, fns = array[flags >> 1], n = fns && fns.length; i < n; i++) flags & 1 ? fns[i].call(self2) : value = fns[i].call(self2, value);
+  return value;
+};
+var __decorateElement = (array, flags, name2, decorators, target, extra) => {
+  var fn, it, done, ctx, access, k = flags & 7, s = !!(flags & 8), p = !!(flags & 16);
+  var j = k > 3 ? array.length + 1 : k ? s ? 1 : 2 : 0, key = __decoratorStrings[k + 5];
+  var initializers = k > 3 && (array[j - 1] = []), extraInitializers = array[j] || (array[j] = []);
+  var desc = k && (!p && !s && (target = target.prototype), k < 5 && (k > 3 || !p) && __getOwnPropDesc(k < 4 ? target : { get [name2]() {
+    return __privateGet(this, extra);
+  }, set [name2](x) {
+    return __privateSet(this, extra, x);
+  } }, name2));
+  k ? p && k < 4 && __name(extra, (k > 2 ? "set " : k > 1 ? "get " : "") + name2) : __name(target, name2);
+  for (var i = decorators.length - 1; i >= 0; i--) {
+    ctx = __decoratorContext(k, name2, done = {}, array[3], extraInitializers);
+    if (k) {
+      ctx.static = s, ctx.private = p, access = ctx.access = { has: p ? (x) => __privateIn(target, x) : (x) => name2 in x };
+      if (k ^ 3) access.get = p ? (x) => (k ^ 1 ? __privateGet : __privateMethod)(x, target, k ^ 4 ? extra : desc.get) : (x) => x[name2];
+      if (k > 2) access.set = p ? (x, y) => __privateSet(x, target, y, k ^ 4 ? extra : desc.set) : (x, y) => x[name2] = y;
+    }
+    it = (0, decorators[i])(k ? k < 4 ? p ? extra : desc[key] : k > 4 ? void 0 : { get: desc.get, set: desc.set } : target, ctx), done._ = 1;
+    if (k ^ 4 || it === void 0) __expectFn(it) && (k > 4 ? initializers.unshift(it) : k ? p ? extra = it : desc[key] = it : target = it);
+    else if (typeof it !== "object" || it === null) __typeError("Object expected");
+    else __expectFn(fn = it.get) && (desc.get = fn), __expectFn(fn = it.set) && (desc.set = fn), __expectFn(fn = it.init) && initializers.unshift(fn);
+  }
+  return k || __decoratorMetadata(array, target), desc && __defProp(target, name2, desc), p ? k ^ 4 ? extra : desc : target;
+};
+var __accessCheck = (obj2, member, msg) => member.has(obj2) || __typeError("Cannot " + msg);
+var __privateIn = (member, obj2) => Object(obj2) !== obj2 ? __typeError('Cannot use the "in" operator on this value') : member.has(obj2);
+var __privateGet = (obj2, member, getter) => (__accessCheck(obj2, member, "read from private field"), getter ? getter.call(obj2) : member.get(obj2));
+var __privateSet = (obj2, member, value, setter) => (__accessCheck(obj2, member, "write to private field"), setter ? setter.call(obj2, value) : member.set(obj2, value), value);
+var __privateMethod = (obj2, member, method) => (__accessCheck(obj2, member, "access private method"), method);
 
 // node_modules/.pnpm/lunar-javascript@1.7.7/node_modules/lunar-javascript/lunar.js
 var require_lunar = __commonJS({
@@ -8811,14 +8855,14 @@ var require_lunar = __commonJS({
                 var day;
                 var hour = 0;
                 if (2 === sect) {
-                  var minutes = end.subtractMinute(start2);
-                  year = Math.floor(minutes / 4320);
-                  minutes -= year * 4320;
-                  month = Math.floor(minutes / 360);
-                  minutes -= month * 360;
-                  day = Math.floor(minutes / 12);
-                  minutes -= day * 12;
-                  hour = minutes * 2;
+                  var minutes2 = end.subtractMinute(start2);
+                  year = Math.floor(minutes2 / 4320);
+                  minutes2 -= year * 4320;
+                  month = Math.floor(minutes2 / 360);
+                  minutes2 -= month * 360;
+                  day = Math.floor(minutes2 / 12);
+                  minutes2 -= day * 12;
+                  hour = minutes2 * 2;
                 } else {
                   var endTimeZhiIndex = end.getHour() === 23 ? 11 : LunarUtil.getTimeZhiIndex(end.toYmdHms().substring(11, 16));
                   var startTimeZhiIndex = start2.getHour() === 23 ? 11 : LunarUtil.getTimeZhiIndex(start2.toYmdHms().substring(11, 16));
@@ -11673,7 +11717,7 @@ var require_lunar = __commonJS({
             }
           }
         };
-        var _init = function() {
+        var _init2 = function() {
           if (_inited) {
             return;
           }
@@ -11693,7 +11737,7 @@ var require_lunar = __commonJS({
           }
           _setLanguage(_defaultLang);
         };
-        _init();
+        _init2();
         return {
           getLanguage: function() {
             return _getLanguage();
@@ -16884,14 +16928,14 @@ var require_dist = __commonJS({
         const end = forward ? next.getSolar() : current;
         let hour = 0;
         if (2 === sect) {
-          let minutes = end.subtractMinute(start);
-          const year = Math.floor(minutes / 4320);
-          minutes -= year * 4320;
-          const month = Math.floor(minutes / 360);
-          minutes -= month * 360;
-          const day = Math.floor(minutes / 12);
-          minutes -= day * 12;
-          hour = minutes * 2;
+          let minutes2 = end.subtractMinute(start);
+          const year = Math.floor(minutes2 / 4320);
+          minutes2 -= year * 4320;
+          const month = Math.floor(minutes2 / 360);
+          minutes2 -= month * 360;
+          const day = Math.floor(minutes2 / 12);
+          minutes2 -= day * 12;
+          hour = minutes2 * 2;
           this._startYear = year;
           this._startMonth = month;
           this._startDay = day;
@@ -23731,7 +23775,7 @@ var require_convertor = __commonJS({
     };
     exports.normalizeDateStr = normalizeDateStr2;
     var solar2lunar2 = function(dateStr) {
-      var _a = (0, exports.normalizeDateStr)(dateStr), year = _a[0], month = _a[1], day = _a[2];
+      var _a2 = (0, exports.normalizeDateStr)(dateStr), year = _a2[0], month = _a2[1], day = _a2[2];
       var solar = lunar_typescript_1.Solar.fromYmd(year, month, day);
       var lunar = solar.getLunar();
       var lunarYear = lunar.getYear();
@@ -23753,7 +23797,7 @@ var require_convertor = __commonJS({
     };
     exports.solar2lunar = solar2lunar2;
     var lunar2solar = function(dateStr, isLeapMonth) {
-      var _a = (0, exports.normalizeDateStr)(dateStr), year = _a[0], month = _a[1], day = _a[2];
+      var _a2 = (0, exports.normalizeDateStr)(dateStr), year = _a2[0], month = _a2[1], day = _a2[2];
       var lunar = lunar_typescript_1.Lunar.fromYmd(year, month, day);
       var lunarYear = lunar_typescript_1.LunarYear.fromYear(lunar.getYear());
       var leapMonth = lunarYear.getLeapMonth();
@@ -23787,7 +23831,7 @@ var require_misc = __commonJS({
     var constants_1 = require_constants2();
     var convertor_1 = require_convertor();
     var getSign = function(solarDateStr) {
-      var _a = (0, convertor_1.normalizeDateStr)(solarDateStr), year = _a[0], month = _a[1], day = _a[2];
+      var _a2 = (0, convertor_1.normalizeDateStr)(solarDateStr), year = _a2[0], month = _a2[1], day = _a2[2];
       return lunar_typescript_1.Solar.fromYmd(year, month, day).getXingZuo() + "\u5EA7";
     };
     exports.getSign = getSign;
@@ -23796,10 +23840,10 @@ var require_misc = __commonJS({
     };
     exports.getZodiac = getZodiac;
     var getTotalDaysOfLunarMonth = function(solarDateStr) {
-      var _a;
+      var _a2;
       var _b = (0, convertor_1.solar2lunar)(solarDateStr), lunarYear = _b.lunarYear, lunarMonth = _b.lunarMonth, isLeap = _b.isLeap;
       var month = lunar_typescript_1.LunarMonth.fromYm(lunarYear, isLeap ? 0 - lunarMonth : lunarMonth);
-      return (_a = month === null || month === void 0 ? void 0 : month.getDayCount()) !== null && _a !== void 0 ? _a : 0;
+      return (_a2 = month === null || month === void 0 ? void 0 : month.getDayCount()) !== null && _a2 !== void 0 ? _a2 : 0;
     };
     exports.getTotalDaysOfLunarMonth = getTotalDaysOfLunarMonth;
   }
@@ -23825,7 +23869,7 @@ var require_ganzhi = __commonJS({
       if (options === void 0) {
         options = { year: "exact" };
       }
-      var _a = (0, convertor_1.normalizeDateStr)(dateStr), year = _a[0], month = _a[1], date = _a[2];
+      var _a2 = (0, convertor_1.normalizeDateStr)(dateStr), year = _a2[0], month = _a2[1], date = _a2[2];
       var solar = lunar_typescript_1.Solar.fromYmdHms(year, month, date, Math.max(timeIndex * 2 - 1, 0), 30, 0);
       var lunar = solar.getLunar();
       var yearlyGan = (options === null || options === void 0 ? void 0 : options.year) === "normal" ? lunar.getYearGan() : lunar.getYearGanByLiChun();
@@ -28693,8 +28737,8 @@ var require_i18n = __commonJS({
     exports.t = t;
     var kot = function(value, k) {
       var res = value;
-      for (var _i = 0, _a = Object.entries(resources); _i < _a.length; _i++) {
-        var _b = _a[_i], item = _b[1];
+      for (var _i = 0, _a2 = Object.entries(resources); _i < _a2.length; _i++) {
+        var _b = _a2[_i], item = _b[1];
         for (var _c = 0, _d = Object.entries(item.translation); _c < _d.length; _c++) {
           var _e = _d[_c], transKey = _e[0], trans = _e[1];
           if ((k && transKey.includes(k) || !k) && trans === value) {
@@ -28723,11 +28767,11 @@ var require_utils = __commonJS({
     var lunar_lite_1 = require_lib();
     var astro_1 = require_astro2();
     var getTargetMutagens = function(heavenlyStem) {
-      var _a, _b;
+      var _a2, _b;
       var mutagens = (0, astro_1.getConfig)().mutagens;
       var result;
       if (mutagens && mutagens[heavenlyStem]) {
-        result = (_a = mutagens[heavenlyStem]) !== null && _a !== void 0 ? _a : [];
+        result = (_a2 = mutagens[heavenlyStem]) !== null && _a2 !== void 0 ? _a2 : [];
       } else {
         result = (_b = data_1.heavenlyStems[heavenlyStem].mutagen) !== null && _b !== void 0 ? _b : [];
       }
@@ -28754,10 +28798,10 @@ var require_utils = __commonJS({
     };
     exports.earthlyBranchIndexToPalaceIndex = earthlyBranchIndexToPalaceIndex;
     var getBrightness = function(starName, index) {
-      var _a;
+      var _a2;
       var star2 = (0, i18n_1.kot)(starName);
       var brightness = (0, astro_1.getConfig)().brightness;
-      var targetBrightness = brightness[star2] ? brightness[star2] : (_a = data_1.STARS_INFO[star2]) === null || _a === void 0 ? void 0 : _a.brightness;
+      var targetBrightness = brightness[star2] ? brightness[star2] : (_a2 = data_1.STARS_INFO[star2]) === null || _a2 === void 0 ? void 0 : _a2.brightness;
       if (!targetBrightness) {
         return "";
       }
@@ -28785,7 +28829,7 @@ var require_utils = __commonJS({
     };
     exports.fixEarthlyBranchIndex = fixEarthlyBranchIndex;
     var fixLunarMonthIndex = function(solarDateStr, timeIndex, fixLeap) {
-      var _a = (0, lunar_lite_1.solar2lunar)(solarDateStr), lunarMonth = _a.lunarMonth, lunarDay = _a.lunarDay, isLeap = _a.isLeap;
+      var _a2 = (0, lunar_lite_1.solar2lunar)(solarDateStr), lunarMonth = _a2.lunarMonth, lunarDay = _a2.lunarDay, isLeap = _a2.isLeap;
       var firstIndex = data_1.EARTHLY_BRANCHES.indexOf("yinEarthly");
       var needToAdd = isLeap && fixLeap && lunarDay > 15 && timeIndex !== 12;
       return (0, exports.fixIndex)(lunarMonth + 1 - firstIndex + (needToAdd ? 1 : 0));
@@ -29159,9 +29203,9 @@ var require_FunctionalSurpalaces = __commonJS({
     var FunctionalSurpalaces = (
       /** @class */
       /* @__PURE__ */ (function() {
-        function FunctionalSurpalaces2(_a) {
+        function FunctionalSurpalaces2(_a2) {
           var _this = this;
-          var target = _a.target, opposite = _a.opposite, wealth = _a.wealth, career = _a.career;
+          var target = _a2.target, opposite = _a2.opposite, wealth = _a2.wealth, career = _a2.career;
           this.have = function(stars) {
             return (0, analyzer_1.isSurroundedByStars)(_this, stars);
           };
@@ -29249,8 +29293,8 @@ var require_analyzer = __commonJS({
         return star2.mutagen && (0, i18n_1.kot)(star2.mutagen) === mutagenKey;
       });
     };
-    var _getAllStarsInSurroundedPalaces = function(_a) {
-      var target = _a.target, opposite = _a.opposite, wealth = _a.wealth, career = _a.career;
+    var _getAllStarsInSurroundedPalaces = function(_a2) {
+      var target = _a2.target, opposite = _a2.opposite, wealth = _a2.wealth, career = _a2.career;
       return _concatStars(target.majorStars, target.minorStars, target.adjectiveStars, opposite.majorStars, opposite.minorStars, opposite.adjectiveStars, wealth.majorStars, wealth.minorStars, wealth.adjectiveStars, career.majorStars, career.minorStars, career.adjectiveStars);
     };
     var getSurroundedPalaces = function($, indexOrName) {
@@ -29447,12 +29491,12 @@ var require_FunctionalHoroscope = __commonJS({
             });
           };
           this.hasHoroscopeMutagen = function(palaceName, scope, horoscopeMutagen) {
-            var _a, _b, _c, _d;
+            var _a2, _b, _c, _d;
             if (scope === "origin") {
               return false;
             }
             var palaceIndex = _getHoroscopePalaceIndex(_this, scope, palaceName);
-            var majorStars = (_b = (_a = _this.astrolabe.palace(palaceIndex)) === null || _a === void 0 ? void 0 : _a.majorStars) !== null && _b !== void 0 ? _b : [];
+            var majorStars = (_b = (_a2 = _this.astrolabe.palace(palaceIndex)) === null || _a2 === void 0 ? void 0 : _a2.majorStars) !== null && _b !== void 0 ? _b : [];
             var minorStars = (_d = (_c = _this.astrolabe.palace(palaceIndex)) === null || _c === void 0 ? void 0 : _c.minorStars) !== null && _d !== void 0 ? _d : [];
             var stars = (0, utils_1.mergeStars)([majorStars], [minorStars])[0].map(function(star2) {
               return (0, i18n_1.kot)(star2.name);
@@ -29512,11 +29556,11 @@ var require_FunctionalAstrolabe = __commonJS({
       var _birthday = (0, lunar_lite_1.solar2lunar)($.solarDate);
       var _date = (0, lunar_lite_1.solar2lunar)(targetDate);
       var convertTimeIndex = (0, utils_1.timeToIndex)((0, dayjs_1.default)(targetDate).hour());
-      var _a = (0, lunar_lite_1.getHeavenlyStemAndEarthlyBranchBySolarDate)(targetDate, timeIndex || convertTimeIndex, {
+      var _a2 = (0, lunar_lite_1.getHeavenlyStemAndEarthlyBranchBySolarDate)(targetDate, timeIndex || convertTimeIndex, {
         // 运限是以立春为界，但为了满足部分流派允许配置
         year: (0, astro_1.getConfig)().horoscopeDivide,
         month: (0, astro_1.getConfig)().horoscopeDivide
-      }), yearly = _a.yearly, monthly = _a.monthly, daily = _a.daily, hourly = _a.hourly;
+      }), yearly = _a2.yearly, monthly = _a2.monthly, daily = _a2.daily, hourly = _a2.hourly;
       var nominalAge = _date.lunarYear - _birthday.lunarYear;
       var isChildhood = false;
       if ((0, astro_1.getConfig)().ageDivide === "birthday") {
@@ -29536,8 +29580,8 @@ var require_FunctionalAstrolabe = __commonJS({
       var hourlyIndex = -1;
       var heavenlyStemOfAge = "jia";
       var earthlyBranchOfAge = "zi";
-      $.palaces.some(function(_a2, index) {
-        var decadal = _a2.decadal;
+      $.palaces.some(function(_a3, index) {
+        var decadal = _a3.decadal;
         if (nominalAge >= decadal.range[0] && nominalAge <= decadal.range[1]) {
           decadalIndex = index;
           heavenlyStemOfDecade = decadal.heavenlyStem;
@@ -29556,8 +29600,8 @@ var require_FunctionalAstrolabe = __commonJS({
           earthlyBranchOfDecade = targetPalace.earthlyBranch;
         }
       }
-      $.palaces.some(function(_a2, index) {
-        var ages = _a2.ages, heavenlyStem = _a2.heavenlyStem, earthlyBranch = _a2.earthlyBranch;
+      $.palaces.some(function(_a3, index) {
+        var ages = _a3.ages, heavenlyStem = _a3.heavenlyStem, earthlyBranch = _a3.earthlyBranch;
         if (ages.includes(nominalAge)) {
           ageIndex = index;
           heavenlyStemOfAge = heavenlyStem;
@@ -29730,8 +29774,8 @@ var require_FunctionalPalace = __commonJS({
             return (0, analyzer_1.notHaveMutagenInPalce)(_this, mutagen);
           };
           this.isEmpty = function(excludeStars) {
-            var _a;
-            if ((_a = _this.majorStars) === null || _a === void 0 ? void 0 : _a.filter(function(star2) {
+            var _a2;
+            if ((_a2 = _this.majorStars) === null || _a2 === void 0 ? void 0 : _a2.filter(function(star2) {
               return star2.type === "major";
             }).length) {
               return false;
@@ -29748,8 +29792,8 @@ var require_FunctionalPalace = __commonJS({
             return _this._astrolabe;
           };
           this.fliesTo = function(to, withMutagens) {
-            var _a;
-            var toPalace = (_a = _this.astrolabe()) === null || _a === void 0 ? void 0 : _a.palace(to);
+            var _a2;
+            var toPalace = (_a2 = _this.astrolabe()) === null || _a2 === void 0 ? void 0 : _a2.palace(to);
             if (!toPalace) {
               return false;
             }
@@ -29761,8 +29805,8 @@ var require_FunctionalPalace = __commonJS({
             return toPalace.has(stars);
           };
           this.fliesOneOfTo = function(to, withMutagens) {
-            var _a;
-            var toPalace = (_a = _this.astrolabe()) === null || _a === void 0 ? void 0 : _a.palace(to);
+            var _a2;
+            var toPalace = (_a2 = _this.astrolabe()) === null || _a2 === void 0 ? void 0 : _a2.palace(to);
             if (!toPalace) {
               return false;
             }
@@ -29774,8 +29818,8 @@ var require_FunctionalPalace = __commonJS({
             return toPalace.hasOneOf(stars);
           };
           this.notFlyTo = function(to, withMutagens) {
-            var _a;
-            var toPalace = (_a = _this.astrolabe()) === null || _a === void 0 ? void 0 : _a.palace(to);
+            var _a2;
+            var toPalace = (_a2 = _this.astrolabe()) === null || _a2 === void 0 ? void 0 : _a2.palace(to);
             if (!toPalace) {
               return false;
             }
@@ -29881,21 +29925,21 @@ var require_astro = __commonJS({
       _plugins.push(plugin);
     };
     exports.loadPlugin = loadPlugin;
-    var config = function(_a) {
-      var mutagens = _a.mutagens, brightness = _a.brightness, _b = _a.yearDivide, yearDivide = _b === void 0 ? _yearDivide : _b, _c = _a.ageDivide, ageDivide = _c === void 0 ? _ageDivide : _c, _d = _a.horoscopeDivide, horoscopeDivide = _d === void 0 ? _horoscopeDivide : _d, _e = _a.dayDivide, dayDivide = _e === void 0 ? _dayDivide : _e, _f = _a.algorithm, algorithm = _f === void 0 ? _algorithm : _f;
+    var config = function(_a2) {
+      var mutagens = _a2.mutagens, brightness = _a2.brightness, _b = _a2.yearDivide, yearDivide = _b === void 0 ? _yearDivide : _b, _c = _a2.ageDivide, ageDivide = _c === void 0 ? _ageDivide : _c, _d = _a2.horoscopeDivide, horoscopeDivide = _d === void 0 ? _horoscopeDivide : _d, _e = _a2.dayDivide, dayDivide = _e === void 0 ? _dayDivide : _e, _f = _a2.algorithm, algorithm = _f === void 0 ? _algorithm : _f;
       if (mutagens) {
-        Object.entries(mutagens).forEach(function(_a2) {
+        Object.entries(mutagens).forEach(function(_a3) {
           var _b2;
-          var key = _a2[0], value = _a2[1];
+          var key = _a3[0], value = _a3[1];
           _mutagens[(0, i18n_1.kot)(key)] = (_b2 = value.map(function(item) {
             return (0, i18n_1.kot)(item);
           })) !== null && _b2 !== void 0 ? _b2 : [];
         });
       }
       if (brightness) {
-        Object.entries(brightness).forEach(function(_a2) {
+        Object.entries(brightness).forEach(function(_a3) {
           var _b2;
-          var key = _a2[0], value = _a2[1];
+          var key = _a3[0], value = _a3[1];
           _brightness[(0, i18n_1.kot)(key)] = (_b2 = value.map(function(item) {
             return (0, i18n_1.kot)(item);
           })) !== null && _b2 !== void 0 ? _b2 : [];
@@ -29943,11 +29987,11 @@ var require_astro = __commonJS({
       }).yearly;
       var earthlyBranchOfYear = (0, i18n_1.kot)(yearly[1], "Earthly");
       var heavenlyStemOfYear = (0, i18n_1.kot)(yearly[0], "Heavenly");
-      var _a = (0, palace_1.getSoulAndBody)({
+      var _a2 = (0, palace_1.getSoulAndBody)({
         solarDate,
         timeIndex: tIndex,
         fixLeap
-      }), bodyIndex = _a.bodyIndex, soulIndex = _a.soulIndex, heavenlyStemOfSoul = _a.heavenlyStemOfSoul, earthlyBranchOfSoul = _a.earthlyBranchOfSoul;
+      }), bodyIndex = _a2.bodyIndex, soulIndex = _a2.soulIndex, heavenlyStemOfSoul = _a2.heavenlyStemOfSoul, earthlyBranchOfSoul = _a2.earthlyBranchOfSoul;
       var palaceNames = (0, palace_1.getPalaceNames)(soulIndex);
       var majorStars = (0, star_1.getMajorStar)({ solarDate, timeIndex: tIndex, fixLeap });
       var minorStars = (0, star_1.getMinorStar)(solarDate, tIndex, fixLeap);
@@ -30040,8 +30084,8 @@ var require_astro = __commonJS({
       return bySolar(solarDate.toString(), timeIndex, gender, fixLeap, language);
     }
     exports.byLunar = byLunar;
-    function rearrangeAstrolable(_a) {
-      var from = _a.from, astrolable = _a.astrolable, option = _a.option;
+    function rearrangeAstrolable(_a2) {
+      var from = _a2.from, astrolable = _a2.astrolable, option = _a2.option;
       var timeIndex = option.timeIndex, fixLeap = option.fixLeap;
       var _b = (0, palace_1.getSoulAndBody)({
         solarDate: astrolable.solarDate,
@@ -30074,7 +30118,7 @@ var require_astro = __commonJS({
     }
     exports.rearrangeAstrolable = rearrangeAstrolable;
     function withOptions(option) {
-      var _a = option.type, type = _a === void 0 ? "solar" : _a, dateStr = option.dateStr, timeIndex = option.timeIndex, gender = option.gender, isLeapMonth = option.isLeapMonth, fixLeap = option.fixLeap, language = option.language, astroType = option.astroType, cfg = option.config;
+      var _a2 = option.type, type = _a2 === void 0 ? "solar" : _a2, dateStr = option.dateStr, timeIndex = option.timeIndex, gender = option.gender, isLeapMonth = option.isLeapMonth, fixLeap = option.fixLeap, language = option.language, astroType = option.astroType, cfg = option.config;
       if (cfg) {
         (0, exports.config)(cfg);
       }
@@ -30169,10 +30213,10 @@ var require_palace7 = __commonJS({
     var astro_1 = require_astro();
     var getSoulAndBody = function(param) {
       var solarDate = param.solarDate, timeIndex = param.timeIndex, fixLeap = param.fixLeap, from = param.from;
-      var _a = (0, lunar_lite_1.getHeavenlyStemAndEarthlyBranchBySolarDate)(solarDate, timeIndex, {
+      var _a2 = (0, lunar_lite_1.getHeavenlyStemAndEarthlyBranchBySolarDate)(solarDate, timeIndex, {
         year: (0, astro_1.getConfig)().yearDivide,
         month: (0, astro_1.getConfig)().horoscopeDivide
-      }), yearly = _a.yearly, hourly = _a.hourly;
+      }), yearly = _a2.yearly, hourly = _a2.hourly;
       var earthlyBranchOfTime = (0, i18n_1.kot)(hourly[1], "Earthly");
       var heavenlyStemOfYear = (0, i18n_1.kot)(yearly[0], "Heavenly");
       var firstIndex = data_1.EARTHLY_BRANCHES.indexOf("yinEarthly");
@@ -30219,7 +30263,7 @@ var require_palace7 = __commonJS({
     };
     exports.getPalaceNames = getPalaceNames;
     var getHoroscope = function(param) {
-      var _a, _b;
+      var _a2, _b;
       var solarDate = param.solarDate, timeIndex = param.timeIndex, gender = param.gender, from = param.from;
       var decadals = [];
       var genderKey = (0, i18n_1.kot)(gender);
@@ -30230,7 +30274,7 @@ var require_palace7 = __commonJS({
       var heavenlyStem = (0, i18n_1.kot)(yearly[0], "Heavenly");
       var earthlyBranch = (0, i18n_1.kot)(yearly[1], "Earthly");
       var _c = (0, exports.getSoulAndBody)(param), soulIndex = _c.soulIndex, heavenlyStemOfSoul = _c.heavenlyStemOfSoul, earthlyBranchOfSoul = _c.earthlyBranchOfSoul;
-      var fiveElementsClass = (0, i18n_1.kot)((0, exports.getFiveElementsClass)((_a = from === null || from === void 0 ? void 0 : from.heavenlyStem) !== null && _a !== void 0 ? _a : heavenlyStemOfSoul, (_b = from === null || from === void 0 ? void 0 : from.earthlyBranch) !== null && _b !== void 0 ? _b : earthlyBranchOfSoul));
+      var fiveElementsClass = (0, i18n_1.kot)((0, exports.getFiveElementsClass)((_a2 = from === null || from === void 0 ? void 0 : from.heavenlyStem) !== null && _a2 !== void 0 ? _a2 : heavenlyStemOfSoul, (_b = from === null || from === void 0 ? void 0 : from.earthlyBranch) !== null && _b !== void 0 ? _b : earthlyBranchOfSoul));
       var startHeavenlyStem = data_1.TIGER_RULE[heavenlyStem];
       for (var i = 0; i < 12; i++) {
         var idx = data_1.GENDER[genderKey] === data_1.earthlyBranches[earthlyBranch].yinYang ? (0, utils_1.fixIndex)(soulIndex + i) : (0, utils_1.fixIndex)(soulIndex - i);
@@ -30297,11 +30341,11 @@ var require_location = __commonJS({
     var i18n_1 = require_i18n();
     var utils_1 = require_utils();
     var getStartIndex = function(param) {
-      var _a, _b;
+      var _a2, _b;
       var solarDate = param.solarDate, timeIndex = param.timeIndex, fixLeap = param.fixLeap, from = param.from;
       var _c = (0, astro_1.getSoulAndBody)({ solarDate, timeIndex, fixLeap }), heavenlyStemOfSoul = _c.heavenlyStemOfSoul, earthlyBranchOfSoul = _c.earthlyBranchOfSoul;
       var lunarDay = (0, lunar_lite_1.solar2lunar)(solarDate).lunarDay;
-      var baseHeavenlyStem = (_a = from === null || from === void 0 ? void 0 : from.heavenlyStem) !== null && _a !== void 0 ? _a : heavenlyStemOfSoul;
+      var baseHeavenlyStem = (_a2 = from === null || from === void 0 ? void 0 : from.heavenlyStem) !== null && _a2 !== void 0 ? _a2 : heavenlyStemOfSoul;
       var baseEarthlyBranch = (_b = from === null || from === void 0 ? void 0 : from.earthlyBranch) !== null && _b !== void 0 ? _b : earthlyBranchOfSoul;
       var fiveElements = (0, i18n_1.kot)((0, astro_1.getFiveElementsClass)(baseHeavenlyStem, baseEarthlyBranch));
       var fiveElementsValue = data_1.FiveElementsClass[fiveElements];
@@ -30451,7 +30495,7 @@ var require_location = __commonJS({
     var getDailyStarIndex = function(solarDateStr, timeIndex, fixLeap) {
       var lunarDay = (0, lunar_lite_1.solar2lunar)(solarDateStr).lunarDay;
       var monthIndex = (0, utils_1.fixLunarMonthIndex)(solarDateStr, timeIndex, fixLeap);
-      var _a = (0, exports.getZuoYouIndex)(monthIndex + 1), zuoIndex = _a.zuoIndex, youIndex = _a.youIndex;
+      var _a2 = (0, exports.getZuoYouIndex)(monthIndex + 1), zuoIndex = _a2.zuoIndex, youIndex = _a2.youIndex;
       var _b = (0, exports.getChangQuIndex)(timeIndex), changIndex = _b.changIndex, quIndex = _b.quIndex;
       var dayIndex = (0, utils_1.fixLunarDayIndex)(lunarDay, timeIndex);
       var santaiIndex = (0, utils_1.fixIndex)((zuoIndex + dayIndex) % 12);
@@ -30643,7 +30687,7 @@ var require_location = __commonJS({
     };
     exports.getDahaoIndex = getDahaoIndex;
     var getYearlyStarIndex = function(param) {
-      var _a;
+      var _a2;
       var solarDate = param.solarDate, timeIndex = param.timeIndex, gender = param.gender, fixLeap = param.fixLeap;
       var _b = (0, astro_1.getConfig)(), horoscopeDivide = _b.horoscopeDivide, algorithm = _b.algorithm;
       var yearly = (0, lunar_lite_1.getHeavenlyStemAndEarthlyBranchBySolarDate)(solarDate, timeIndex, {
@@ -30685,7 +30729,7 @@ var require_location = __commonJS({
       var tianshangIndex = (0, utils_1.fixIndex)(data_1.PALACES.indexOf("friendsPalace") + soulIndex);
       var tianshiIndex = (0, utils_1.fixIndex)(data_1.PALACES.indexOf("healthPalace") + soulIndex);
       if (algorithm === "zhongzhou" && !sameYinyang) {
-        _a = [tianshangIndex, tianshiIndex], tianshiIndex = _a[0], tianshangIndex = _a[1];
+        _a2 = [tianshangIndex, tianshiIndex], tianshiIndex = _a2[0], tianshangIndex = _a2[1];
       }
       return {
         xianchiIndex,
@@ -30814,11 +30858,11 @@ var require_FunctionalStar = __commonJS({
             return _this._palace;
           };
           this.surroundedPalaces = function() {
-            var _a;
+            var _a2;
             if (!_this._palace) {
               return void 0;
             }
-            return (_a = _this._astrolabe) === null || _a === void 0 ? void 0 : _a.surroundedPalaces(_this._palace.name);
+            return (_a2 = _this._astrolabe) === null || _a2 === void 0 ? void 0 : _a2.surroundedPalaces(_this._palace.name);
           };
           this.withMutagen = function(mutagen) {
             if (Array.isArray(mutagen)) {
@@ -30868,7 +30912,7 @@ var require_majorStar = __commonJS({
     var astro_1 = require_astro2();
     var getMajorStar = function(param) {
       var solarDate = param.solarDate, timeIndex = param.timeIndex;
-      var _a = (0, location_1.getStartIndex)(param), ziweiIndex = _a.ziweiIndex, tianfuIndex = _a.tianfuIndex;
+      var _a2 = (0, location_1.getStartIndex)(param), ziweiIndex = _a2.ziweiIndex, tianfuIndex = _a2.tianfuIndex;
       var yearly = (0, lunar_lite_1.getHeavenlyStemAndEarthlyBranchBySolarDate)(solarDate, timeIndex, {
         year: (0, astro_1.getConfig)().yearDivide
       }).yearly;
@@ -30947,7 +30991,7 @@ var require_minorStar = __commonJS({
         year: (0, astro_1.getConfig)().yearDivide
       }).yearly;
       var monthIndex = (0, utils_1.fixLunarMonthIndex)(solarDateStr, timeIndex, fixLeap);
-      var _a = (0, location_1.getZuoYouIndex)(monthIndex + 1), zuoIndex = _a.zuoIndex, youIndex = _a.youIndex;
+      var _a2 = (0, location_1.getZuoYouIndex)(monthIndex + 1), zuoIndex = _a2.zuoIndex, youIndex = _a2.youIndex;
       var _b = (0, location_1.getChangQuIndex)(timeIndex), changIndex = _b.changIndex, quIndex = _b.quIndex;
       var _c = (0, location_1.getKuiYueIndex)(yearly[0]), kuiIndex = _c.kuiIndex, yueIndex = _c.yueIndex;
       var _d = (0, location_1.getHuoLingIndex)(yearly[1], timeIndex), huoIndex = _d.huoIndex, lingIndex = _d.lingIndex;
@@ -31073,7 +31117,7 @@ var require_adjectiveStar = __commonJS({
       var monthlyIndex = (0, location_1.getMonthlyStarIndex)(solarDate, timeIndex, fixLeap);
       var dailyIndex = (0, location_1.getDailyStarIndex)(solarDate, timeIndex, fixLeap);
       var timelyIndex = (0, location_1.getTimelyStarIndex)(timeIndex);
-      var _a = (0, location_1.getLuanXiIndex)(yearly[1]), hongluanIndex = _a.hongluanIndex, tianxiIndex = _a.tianxiIndex;
+      var _a2 = (0, location_1.getLuanXiIndex)(yearly[1]), hongluanIndex = _a2.hongluanIndex, tianxiIndex = _a2.tianxiIndex;
       var suiqian12 = (0, _1.getYearly12)(solarDate).suiqian12;
       stars[hongluanIndex].push(new FunctionalStar_1.default({ name: (0, i18n_1.t)("hongluan"), type: "flower", scope: "origin" }));
       stars[tianxiIndex].push(new FunctionalStar_1.default({ name: (0, i18n_1.t)("tianxi"), type: "flower", scope: "origin" }));
@@ -31175,7 +31219,7 @@ var require_decorativeStar = __commonJS({
       }).yearly;
       var earthlyBranchNameOfYear = yearly[1];
       var earthlyBranchOfYear = (0, i18n_1.kot)(earthlyBranchNameOfYear, "Earthly");
-      var _a = (0, astro_1.getSoulAndBody)(param), heavenlyStemOfSoul = _a.heavenlyStemOfSoul, earthlyBranchOfSoul = _a.earthlyBranchOfSoul;
+      var _a2 = (0, astro_1.getSoulAndBody)(param), heavenlyStemOfSoul = _a2.heavenlyStemOfSoul, earthlyBranchOfSoul = _a2.earthlyBranchOfSoul;
       var fiveElementClass = (0, astro_1.getFiveElementsClass)(heavenlyStemOfSoul, earthlyBranchOfSoul);
       var stars = [
         "changsheng",
@@ -31327,7 +31371,7 @@ var require_horoscopeStar = __commonJS({
     var FunctionalStar_1 = __importDefault(require_FunctionalStar());
     var location_1 = require_location();
     var getHoroscopeStar = function(heavenlyStem, earthlyBranch, scope) {
-      var _a = (0, location_1.getKuiYueIndex)(heavenlyStem), kuiIndex = _a.kuiIndex, yueIndex = _a.yueIndex;
+      var _a2 = (0, location_1.getKuiYueIndex)(heavenlyStem), kuiIndex = _a2.kuiIndex, yueIndex = _a2.yueIndex;
       var _b = (0, location_1.getChangQuIndexByHeavenlyStem)(heavenlyStem), changIndex = _b.changIndex, quIndex = _b.quIndex;
       var _c = (0, location_1.getLuYangTuoMaIndex)(heavenlyStem, earthlyBranch), luIndex = _c.luIndex, yangIndex = _c.yangIndex, tuoIndex = _c.tuoIndex, maIndex = _c.maIndex;
       var _d = (0, location_1.getLuanXiIndex)(earthlyBranch), hongluanIndex = _d.hongluanIndex, tianxiIndex = _d.tianxiIndex;
@@ -31946,9 +31990,9 @@ var require_dist2 = __commonJS({
           }
           function Wa(e3, a3) {
             var t2;
-            return e3 && ((t2 = c(a3) ? ma(e3) : _a(e3, a3)) ? ca = t2 : "undefined" != typeof console && console.warn && console.warn("Locale " + e3 + " not found. Did you forget to load it?")), ca._abbr;
+            return e3 && ((t2 = c(a3) ? ma(e3) : _a2(e3, a3)) ? ca = t2 : "undefined" != typeof console && console.warn && console.warn("Locale " + e3 + " not found. Did you forget to load it?")), ca._abbr;
           }
-          function _a(e3, a3) {
+          function _a2(e3, a3) {
             if (null !== a3) {
               var t2, n2 = Ma;
               if (a3.abbr = e3, null != Ya[e3]) y("defineLocaleOverride", "use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."), n2 = Ya[e3]._config;
@@ -31958,7 +32002,7 @@ var require_dist2 = __commonJS({
                 n2 = t2._config;
               }
               return Ya[e3] = new N(D(n2, a3)), da[e3] && da[e3].forEach((function(e4) {
-                _a(e4.name, e4.config);
+                _a2(e4.name, e4.config);
               })), Wa(e3), Ya[e3];
             }
             return delete Ya[e3], null;
@@ -32757,7 +32801,7 @@ var require_dist2 = __commonJS({
             return Ut(e3, a3, "monthsShort");
           }, i.weekdaysMin = function(e3, a3, t2) {
             return Vt(e3, a3, t2, "weekdaysMin");
-          }, i.defineLocale = _a, i.updateLocale = function(e3, a3) {
+          }, i.defineLocale = _a2, i.updateLocale = function(e3, a3) {
             if (null != a3) {
               var t2, n2, i2 = Ma;
               null != (n2 = la(e3)) && (i2 = n2._config), a3 = D(i2, a3), (t2 = new N(a3)).parentLocale = Ya[e3], Ya[e3] = t2, Wa(e3);
@@ -40045,12 +40089,12 @@ var require_code = __commonJS({
         return item === "" || item === '""';
       }
       get str() {
-        var _a;
-        return (_a = this._str) !== null && _a !== void 0 ? _a : this._str = this._items.reduce((s, c) => `${s}${c}`, "");
+        var _a2;
+        return (_a2 = this._str) !== null && _a2 !== void 0 ? _a2 : this._str = this._items.reduce((s, c) => `${s}${c}`, "");
       }
       get names() {
-        var _a;
-        return (_a = this._names) !== null && _a !== void 0 ? _a : this._names = this._items.reduce((names, c) => {
+        var _a2;
+        return (_a2 = this._names) !== null && _a2 !== void 0 ? _a2 : this._names = this._items.reduce((names, c) => {
           if (c instanceof Name)
             names[c.str] = (names[c.str] || 0) + 1;
           return names;
@@ -40196,8 +40240,8 @@ var require_scope = __commonJS({
         return `${prefix}${ng.index++}`;
       }
       _nameGroup(prefix) {
-        var _a, _b;
-        if (((_b = (_a = this._parent) === null || _a === void 0 ? void 0 : _a._prefixes) === null || _b === void 0 ? void 0 : _b.has(prefix)) || this._prefixes && !this._prefixes.has(prefix)) {
+        var _a2, _b;
+        if (((_b = (_a2 = this._parent) === null || _a2 === void 0 ? void 0 : _a2._prefixes) === null || _b === void 0 ? void 0 : _b.has(prefix)) || this._prefixes && !this._prefixes.has(prefix)) {
           throw new Error(`CodeGen: prefix "${prefix}" is not allowed in this scope`);
         }
         return this._names[prefix] = { prefix, index: 0 };
@@ -40230,12 +40274,12 @@ var require_scope = __commonJS({
         return new ValueScopeName(prefix, this._newName(prefix));
       }
       value(nameOrPrefix, value) {
-        var _a;
+        var _a2;
         if (value.ref === void 0)
           throw new Error("CodeGen: ref must be passed in value");
         const name2 = this.toName(nameOrPrefix);
         const { prefix } = name2;
-        const valueKey = (_a = value.key) !== null && _a !== void 0 ? _a : value.ref;
+        const valueKey = (_a2 = value.key) !== null && _a2 !== void 0 ? _a2 : value.ref;
         let vs = this._values[prefix];
         if (vs) {
           const _name = vs.get(valueKey);
@@ -40553,8 +40597,8 @@ var require_codegen = __commonJS({
         return this;
       }
       optimizeNames(names, constants) {
-        var _a;
-        this.else = (_a = this.else) === null || _a === void 0 ? void 0 : _a.optimizeNames(names, constants);
+        var _a2;
+        this.else = (_a2 = this.else) === null || _a2 === void 0 ? void 0 : _a2.optimizeNames(names, constants);
         if (!(super.optimizeNames(names, constants) || this.else))
           return;
         this.condition = optimizeExpr(this.condition, names, constants);
@@ -40658,16 +40702,16 @@ var require_codegen = __commonJS({
         return code;
       }
       optimizeNodes() {
-        var _a, _b;
+        var _a2, _b;
         super.optimizeNodes();
-        (_a = this.catch) === null || _a === void 0 ? void 0 : _a.optimizeNodes();
+        (_a2 = this.catch) === null || _a2 === void 0 ? void 0 : _a2.optimizeNodes();
         (_b = this.finally) === null || _b === void 0 ? void 0 : _b.optimizeNodes();
         return this;
       }
       optimizeNames(names, constants) {
-        var _a, _b;
+        var _a2, _b;
         super.optimizeNames(names, constants);
-        (_a = this.catch) === null || _a === void 0 ? void 0 : _a.optimizeNames(names, constants);
+        (_a2 = this.catch) === null || _a2 === void 0 ? void 0 : _a2.optimizeNames(names, constants);
         (_b = this.finally) === null || _b === void 0 ? void 0 : _b.optimizeNames(names, constants);
         return this;
       }
@@ -41447,8 +41491,8 @@ var require_applicability = __commonJS({
     }
     exports.shouldUseGroup = shouldUseGroup;
     function shouldUseRule(schema2, rule) {
-      var _a;
-      return schema2[rule.keyword] !== void 0 || ((_a = rule.definition.implements) === null || _a === void 0 ? void 0 : _a.some((kwd) => schema2[kwd] !== void 0));
+      var _a2;
+      return schema2[rule.keyword] !== void 0 || ((_a2 = rule.definition.implements) === null || _a2 === void 0 ? void 0 : _a2.some((kwd) => schema2[kwd] !== void 0));
     }
     exports.shouldUseRule = shouldUseRule;
   }
@@ -41836,14 +41880,14 @@ var require_keyword = __commonJS({
     }
     exports.macroKeywordCode = macroKeywordCode;
     function funcKeywordCode(cxt, def2) {
-      var _a;
+      var _a2;
       const { gen, keyword, schema: schema2, parentSchema, $data, it } = cxt;
       checkAsyncKeyword(it, def2);
       const validate = !$data && def2.compile ? def2.compile.call(it.self, schema2, parentSchema, it) : def2.validate;
       const validateRef = useKeyword(gen, keyword, validate);
       const valid = gen.let("valid");
       cxt.block$data(valid, validateKeyword);
-      cxt.ok((_a = def2.valid) !== null && _a !== void 0 ? _a : valid);
+      cxt.ok((_a2 = def2.valid) !== null && _a2 !== void 0 ? _a2 : valid);
       function validateKeyword() {
         if (def2.errors === false) {
           assignValid();
@@ -41874,8 +41918,8 @@ var require_keyword = __commonJS({
         gen.assign(valid, (0, codegen_1._)`${_await}${(0, code_1.callValidateCode)(cxt, validateRef, passCxt, passSchema)}`, def2.modifying);
       }
       function reportErrs(errors) {
-        var _a2;
-        gen.if((0, codegen_1.not)((_a2 = def2.valid) !== null && _a2 !== void 0 ? _a2 : valid), errors);
+        var _a3;
+        gen.if((0, codegen_1.not)((_a3 = def2.valid) !== null && _a3 !== void 0 ? _a3 : valid), errors);
       }
     }
     exports.funcKeywordCode = funcKeywordCode;
@@ -42843,7 +42887,7 @@ var require_compile = __commonJS({
     var validate_1 = require_validate();
     var SchemaEnv = class {
       constructor(env) {
-        var _a;
+        var _a2;
         this.refs = {};
         this.dynamicAnchors = {};
         let schema2;
@@ -42852,7 +42896,7 @@ var require_compile = __commonJS({
         this.schema = env.schema;
         this.schemaId = env.schemaId;
         this.root = env.root || this;
-        this.baseId = (_a = env.baseId) !== null && _a !== void 0 ? _a : (0, resolve_1.normalizeId)(schema2 === null || schema2 === void 0 ? void 0 : schema2[env.schemaId || "$id"]);
+        this.baseId = (_a2 = env.baseId) !== null && _a2 !== void 0 ? _a2 : (0, resolve_1.normalizeId)(schema2 === null || schema2 === void 0 ? void 0 : schema2[env.schemaId || "$id"]);
         this.schemaPath = env.schemaPath;
         this.localRefs = env.localRefs;
         this.meta = env.meta;
@@ -42948,14 +42992,14 @@ var require_compile = __commonJS({
     }
     exports.compileSchema = compileSchema;
     function resolveRef(root, baseId, ref) {
-      var _a;
+      var _a2;
       ref = (0, resolve_1.resolveUrl)(this.opts.uriResolver, baseId, ref);
       const schOrFunc = root.refs[ref];
       if (schOrFunc)
         return schOrFunc;
       let _sch = resolve.call(this, root, ref);
       if (_sch === void 0) {
-        const schema2 = (_a = root.localRefs) === null || _a === void 0 ? void 0 : _a[ref];
+        const schema2 = (_a2 = root.localRefs) === null || _a2 === void 0 ? void 0 : _a2[ref];
         const { schemaId } = this.opts;
         if (schema2)
           _sch = new SchemaEnv({ schema: schema2, schemaId, root, baseId });
@@ -43024,8 +43068,8 @@ var require_compile = __commonJS({
       "definitions"
     ]);
     function getJsonPointer(parsedRef, { baseId, schema: schema2, root }) {
-      var _a;
-      if (((_a = parsedRef.fragment) === null || _a === void 0 ? void 0 : _a[0]) !== "/")
+      var _a2;
+      if (((_a2 = parsedRef.fragment) === null || _a2 === void 0 ? void 0 : _a2[0]) !== "/")
         return;
       for (const part of parsedRef.fragment.slice(1).split("/")) {
         if (typeof schema2 === "boolean")
@@ -44339,9 +44383,9 @@ var require_core = __commonJS({
     };
     var MAX_EXPRESSION = 200;
     function requiredOptions(o) {
-      var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
+      var _a2, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
       const s = o.strict;
-      const _optz = (_a = o.code) === null || _a === void 0 ? void 0 : _a.optimize;
+      const _optz = (_a2 = o.code) === null || _a2 === void 0 ? void 0 : _a2.optimize;
       const optimize = _optz === true || _optz === void 0 ? 1 : _optz || 0;
       const regExp = (_c = (_b = o.code) === null || _b === void 0 ? void 0 : _b.regExp) !== null && _c !== void 0 ? _c : defaultRegExp;
       const uriResolver = (_d = o.uriResolver) !== null && _d !== void 0 ? _d : uri_1.default;
@@ -44815,7 +44859,7 @@ var require_core = __commonJS({
       }
     }
     function addRule(keyword, definition, dataType) {
-      var _a;
+      var _a2;
       const post = definition === null || definition === void 0 ? void 0 : definition.post;
       if (dataType && post)
         throw new Error('keyword with "post" flag cannot have "type"');
@@ -44841,7 +44885,7 @@ var require_core = __commonJS({
       else
         ruleGroup.rules.push(rule);
       RULES.all[keyword] = rule;
-      (_a = definition.implements) === null || _a === void 0 ? void 0 : _a.forEach((kwd) => this.addKeyword(kwd));
+      (_a2 = definition.implements) === null || _a2 === void 0 ? void 0 : _a2.forEach((kwd) => this.addKeyword(kwd));
     }
     function addBeforeRule(ruleGroup, rule, before) {
       const i = ruleGroup.rules.findIndex((_rule) => _rule.keyword === before);
@@ -44975,10 +45019,10 @@ var require_ref = __commonJS({
         gen.assign(names_1.default.errors, (0, codegen_1._)`${names_1.default.vErrors}.length`);
       }
       function addEvaluatedFrom(source) {
-        var _a;
+        var _a2;
         if (!it.opts.unevaluated)
           return;
-        const schEvaluated = (_a = sch === null || sch === void 0 ? void 0 : sch.validate) === null || _a === void 0 ? void 0 : _a.evaluated;
+        const schEvaluated = (_a2 = sch === null || sch === void 0 ? void 0 : sch.validate) === null || _a2 === void 0 ? void 0 : _a2.evaluated;
         if (it.props !== true) {
           if (schEvaluated && !schEvaluated.dynamicProps) {
             if (schEvaluated.props !== void 0) {
@@ -46620,7 +46664,7 @@ var require_discriminator = __commonJS({
           return _valid;
         }
         function getMapping() {
-          var _a;
+          var _a2;
           const oneOfMapping = {};
           const topRequired = hasRequired(parentSchema);
           let tagRequired = true;
@@ -46634,7 +46678,7 @@ var require_discriminator = __commonJS({
               if (sch === void 0)
                 throw new ref_error_1.default(it.opts.uriResolver, it.baseId, ref);
             }
-            const propSch = (_a = sch === null || sch === void 0 ? void 0 : sch.properties) === null || _a === void 0 ? void 0 : _a[tagName];
+            const propSch = (_a2 = sch === null || sch === void 0 ? void 0 : sch.properties) === null || _a2 === void 0 ? void 0 : _a2[tagName];
             if (typeof propSch != "object") {
               throw new Error(`discriminator: oneOf subschemas (or referenced schemas) must have "properties/${tagName}"`);
             }
@@ -46917,6 +46961,14 @@ var require_tz = __commonJS({
 // src/index.ts
 import { homedir } from "node:os";
 import { join as join3 } from "node:path";
+
+// src/service.ts
+import { Remote, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
+
+// src/birth.ts
+var import_lunar_javascript15 = __toESM(require_lunar_javascript(), 1);
+import { existsSync, mkdirSync, readFileSync as readFileSync2, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 // node_modules/.pnpm/taibu-core@3.6.0/node_modules/taibu-core/dist/mcp/schema-builders.js
 var STRING_DESCRIPTION_ALIASES = {
@@ -48094,8 +48146,8 @@ function zonedTimeToUtc(input, timeZone, disambiguation = "reject") {
   const policy = resolveEnum(disambiguation, ["reject", "earlier", "later", "compatible"], "reject", "disambiguation");
   const wall = createUtcDateTime(input).getTime();
   const offsets = new Set([-36, -12, 0, 12, 36].map((hours) => getTimeZoneOffsetMinutes(timeZone, new Date(wall + hours * 36e5))));
-  const candidates = [...offsets].map((offset) => new Date(wall - offset * 6e4));
-  const exact = candidates.filter((date) => createUtcDateTime(getZonedDateTimeParts(date, timeZone), false).getTime() === wall).sort((a, b) => a.getTime() - b.getTime());
+  const candidates2 = [...offsets].map((offset) => new Date(wall - offset * 6e4));
+  const exact = candidates2.filter((date) => createUtcDateTime(getZonedDateTimeParts(date, timeZone), false).getTime() === wall).sort((a, b) => a.getTime() - b.getTime());
   if (exact.length === 1)
     return exact[0];
   if (exact.length > 1) {
@@ -48105,7 +48157,7 @@ function zonedTimeToUtc(input, timeZone, disambiguation = "reject") {
   }
   if (policy === "reject")
     throw new CoreInputError("date", "\u8BE5\u65F6\u533A\u7684\u672C\u5730\u65F6\u95F4\u4E0D\u5B58\u5728\uFF08\u590F\u4EE4\u65F6\u8DF3\u65F6\uFF09", "NONEXISTENT_LOCAL_TIME");
-  const shifts = candidates.map((date) => ({
+  const shifts = candidates2.map((date) => ({
     date,
     delta: createUtcDateTime(getZonedDateTimeParts(date, timeZone), false).getTime() - wall
   }));
@@ -53549,7 +53601,7 @@ function buildNextCallArgs(candidate) {
   };
 }
 async function reversePillarsToCandidates(pillars, input, skipped) {
-  const candidates = [];
+  const candidates2 = [];
   const accepted = /* @__PURE__ */ new Set();
   const yieldControl = createYieldControl();
   const years = await reverseYear(pillars.year, input.startYear, input.endYear, yieldControl);
@@ -53586,13 +53638,13 @@ async function reversePillarsToCandidates(pillars, input, skipped) {
       }
     }
   }
-  const minutes = [...accepted].sort((left, right) => left - right);
-  for (let index = 0; index < minutes.length; ) {
-    const start = new Date(minutes[index]);
+  const minutes2 = [...accepted].sort((left, right) => left - right);
+  for (let index = 0; index < minutes2.length; ) {
+    const start = new Date(minutes2[index]);
     let endIndex = index;
-    while (endIndex + 1 < minutes.length && minutes[endIndex + 1] === minutes[endIndex] + 6e4)
+    while (endIndex + 1 < minutes2.length && minutes2[endIndex + 1] === minutes2[endIndex] + 6e4)
       endIndex++;
-    const end = new Date(minutes[endIndex] + 6e4);
+    const end = new Date(minutes2[endIndex] + 6e4);
     const solar = import_lunar_javascript4.Solar.fromYmdHms(start.getUTCFullYear(), start.getUTCMonth() + 1, start.getUTCDate(), start.getUTCHours(), start.getUTCMinutes(), 0);
     const lunar = solar.getLunar();
     const calendarType = lunar.getYear() >= 1 && lunar.getYear() <= 9999 ? "lunar" : "solar";
@@ -53611,8 +53663,8 @@ async function reversePillarsToCandidates(pillars, input, skipped) {
     };
     const endText = toSolarText(end.getUTCFullYear(), end.getUTCMonth() + 1, end.getUTCDate(), end.getUTCHours(), end.getUTCMinutes());
     const solarText = toSolarText(solar.getYear(), solar.getMonth(), solar.getDay(), solar.getHour(), solar.getMinute());
-    candidates.push({
-      candidateId: `cand_${candidates.length + 1}`,
+    candidates2.push({
+      candidateId: `cand_${candidates2.length + 1}`,
       calendarType,
       isLeapMonth: nextArgs.isLeapMonth,
       birthYear: nextArgs.birthYear,
@@ -53627,7 +53679,7 @@ async function reversePillarsToCandidates(pillars, input, skipped) {
     });
     index = endIndex + 1;
   }
-  return candidates;
+  return candidates2;
 }
 async function calculateBaziPillarsResolve(input) {
   const parsed = {
@@ -53647,7 +53699,7 @@ async function calculateBaziPillarsResolve(input) {
   if (input.longitude !== void 0)
     assertFiniteNumber(input.longitude, "longitude", -180, 180);
   const skipped = { ambiguous: 0 };
-  const candidates = await reversePillarsToCandidates(parsed, { ...input, startYear, endYear, timezone, dayBoundary, disambiguation }, skipped);
+  const candidates2 = await reversePillarsToCandidates(parsed, { ...input, startYear, endYear, timezone, dayBoundary, disambiguation }, skipped);
   return {
     pillars: {
       yearPillar: `${parsed.year.stem}${parsed.year.branch}`,
@@ -53655,8 +53707,8 @@ async function calculateBaziPillarsResolve(input) {
       dayPillar: `${parsed.day.stem}${parsed.day.branch}`,
       hourPillar: `${parsed.hour.stem}${parsed.hour.branch}`
     },
-    count: candidates.length,
-    candidates,
+    count: candidates2.length,
+    candidates: candidates2,
     calculationOptions: { startYear, endYear, timezone, dayBoundary, disambiguation, ...input.longitude === void 0 ? {} : { longitude: input.longitude }, precision: "minute", excludedAmbiguousMinutes: skipped.ambiguous, ruleVersion: "bazi-resolve-2026.10" }
   };
 }
@@ -67019,8 +67071,8 @@ function resolveSingleKeMisclassifiedAsMaoXing(method, siKe) {
   ];
   const upperKeLower = lessons.filter(([upper, lower]) => upper && lower && keRelation(ZHI_WUXING[upper] || upper, lower)).map(([upper]) => upper);
   const lowerKeUpper = lessons.filter(([upper, lower]) => upper && lower && keRelation(lower, ZHI_WUXING[upper] || upper)).map(([upper]) => upper);
-  const candidates = lowerKeUpper.length > 0 ? lowerKeUpper : upperKeLower;
-  const uniqueCandidates = [...new Set(candidates)];
+  const candidates2 = lowerKeUpper.length > 0 ? lowerKeUpper : upperKeLower;
+  const uniqueCandidates = [...new Set(candidates2)];
   if (uniqueCandidates.length !== 1)
     return null;
   return {
@@ -69224,20 +69276,20 @@ function sanHeLineSickness(yao, monthZhi, dayZhi) {
     return `${zhi}\u5408\u6708\uFF0C\u9022${LIU_CHONG2[zhi]}\u6216${LIU_CHONG2[monthZhi]}\u51B2\u5F00\u4E4B\u65E5\u6210\u5C40`;
   return void 0;
 }
-function pickSanHeMembers(candidates) {
+function pickSanHeMembers(candidates2) {
   const keyOf = (members) => [
     members.filter((member) => member.active).length,
     members.reduce((sum, member) => sum + SAN_HE_SUPPLEMENT_RANK[member.source], 0)
   ];
   let best;
   const visit = (chosen) => {
-    if (chosen.length === candidates.length) {
+    if (chosen.length === candidates2.length) {
       const key = keyOf(chosen);
       if (!best || key[0] > best.key[0] || key[0] === best.key[0] && key[1] > best.key[1])
         best = { members: chosen, key };
       return;
     }
-    for (const member of candidates[chosen.length])
+    for (const member of candidates2[chosen.length])
       visit([...chosen, member]);
   };
   visit([]);
@@ -69269,10 +69321,10 @@ function analyzeSanHe(fullYaos, monthZhi, dayZhi, kongBranches) {
   const formed = [];
   const unformed = [];
   for (const sanHe of SAN_HE_TABLE) {
-    const candidates = sanHe.branches.map(membersOf);
-    if (candidates.some((list) => list.length === 0))
+    const candidates2 = sanHe.branches.map(membersOf);
+    if (candidates2.some((list) => list.length === 0))
       continue;
-    const members = pickSanHeMembers(candidates);
+    const members = pickSanHeMembers(candidates2);
     const activeCount = members.filter((member) => member.active).length;
     const positions = [...new Set(members.filter((member) => member.position > 0).map((member) => member.position))];
     const labels = members.map((member) => member.label).join("\u3001");
@@ -69686,16 +69738,16 @@ function buildTemporalCandidates(target, gongElement, monthZhi, dayZhi) {
     kongWangState: "not_kong",
     evidence: [`\u7528\u795E${target}\u4E0D\u4E0A\u5366`, `\u4EE5${label}${branch}\u4EE3\u7528`]
   });
-  const candidates = [];
+  const candidates2 = [];
   const monthMatches = getLiuQin2(gongElement, DIZHI_WUXING[monthZhi]) === target;
   const dayMatches = getLiuQin2(gongElement, DIZHI_WUXING[dayZhi]) === target;
   if (monthMatches) {
-    candidates.push(build(monthZhi, "\u6708\u5EFA", dayZhi === monthZhi ? "\u6708\u65E5\u540C\u4E34\u4EE3\u7528" : "\u6708\u5EFA\u4EE3\u7528"));
+    candidates2.push(build(monthZhi, "\u6708\u5EFA", dayZhi === monthZhi ? "\u6708\u65E5\u540C\u4E34\u4EE3\u7528" : "\u6708\u5EFA\u4EE3\u7528"));
   }
   if (dayMatches && dayZhi !== monthZhi) {
-    candidates.push(build(dayZhi, "\u65E5\u8FB0", "\u65E5\u8FB0\u4EE3\u7528"));
+    candidates2.push(build(dayZhi, "\u65E5\u8FB0", "\u65E5\u8FB0\u4EE3\u7528"));
   }
-  return candidates;
+  return candidates2;
 }
 var FU_SHEN_STRENGTH = {
   available: { strength: "strong", label: "\u4F0F\u795E\u6709\u7528" },
@@ -69853,7 +69905,7 @@ function buildYongShenGroups(targets, context) {
     }
     const fuShenCandidates = (fuShenByTarget.get(target) || []).map((item) => buildFuShenCandidate(item, fullYaos.find((yao) => yao.position === item.fuShen.feiShenPosition))).sort((a, b) => STRENGTH_ORDER[a.strength] - STRENGTH_ORDER[b.strength] || (a.position ?? 0) - (b.position ?? 0));
     if (fuShenCandidates.length > 0) {
-      const [selected, ...candidates] = fuShenCandidates;
+      const [selected, ...candidates2] = fuShenCandidates;
       const feiShen = fullYaos.find((yao) => yao.position === selected.position);
       const place = feiShen ? `\u4F0F\u4E8E${yaoName(feiShen)}${feiShen.naJia}${feiShen.wuXing}\u4E4B\u4E0B` : "\u4F0F\u85CF";
       return {
@@ -69861,7 +69913,7 @@ function buildYongShenGroups(targets, context) {
         selectionStatus: "from_fushen",
         selectionNote: `\u672C\u5366\u3001\u53D8\u723B\u4E0E\u6708\u65E5\u7686\u65E0${target}\uFF0C\u4E8E\u672C\u5BAB\u9996\u5366\u5BFB\u4F0F\u795E\uFF1A${target}${selected.naJia}${selected.element}${place}\uFF0C${selected.strengthLabel}\uFF08\u300A\u589E\u5220\u535C\u6613\xB7\u98DE\u4F0F\u795E\u7AE0\u300B\uFF09\u3002`,
         selected,
-        candidates
+        candidates: candidates2
       };
     }
     return {
@@ -71803,8 +71855,8 @@ function normalizeSentencePairInput(value) {
 }
 function resolveCueToTrigram(value, fieldLabel, category) {
   const key = normalizeCueKey(value, fieldLabel);
-  const candidates = (CUE_LOOKUP.get(key) ?? []).filter((entry) => !category || entry.category === category);
-  const trigramNames = [...new Set(candidates.map((entry) => entry.trigram))];
+  const candidates2 = (CUE_LOOKUP.get(key) ?? []).filter((entry) => !category || entry.category === category);
+  const trigramNames = [...new Set(candidates2.map((entry) => entry.trigram))];
   if (trigramNames.length === 0) {
     throw new Error(`${fieldLabel} \u65E0\u6CD5\u5339\u914D\u5230\u516B\u5366\u7C7B\u8C61: ${value}`);
   }
@@ -71850,12 +71902,12 @@ function mapModernPinyinToClassicalTone(value) {
     return 3;
   return null;
 }
-function resolveClassicalToneValue(char, candidates) {
+function resolveClassicalToneValue(char, candidates2) {
   if (MEIHUA_RUSHENG_CHAR_SET.has(char)) {
     return 4;
   }
   const values = /* @__PURE__ */ new Set();
-  for (const candidate of candidates) {
+  for (const candidate of candidates2) {
     const mapped = mapModernPinyinToClassicalTone(candidate);
     if (mapped === null) {
       return null;
@@ -71898,8 +71950,8 @@ function resolveClassicalToneNumbers(chars) {
       if (!ambiguousPronunciations || ambiguousPronunciations.length !== chars.length) {
         return { fallbackReason: "\u62FC\u97F3\u5207\u5206\u7ED3\u679C\u4E0E\u5B57\u6570\u4E0D\u4E00\u81F4" };
       }
-      const candidates = ambiguousPronunciations[index] ?? [];
-      toneValue = resolveClassicalToneValue(char, candidates);
+      const candidates2 = ambiguousPronunciations[index] ?? [];
+      toneValue = resolveClassicalToneValue(char, candidates2);
     }
     if (toneValue === null) {
       return { fallbackReason: `\u7B2C ${index + 1} \u5B57\u201C${char}\u201D\u65E0\u6CD5\u7A33\u5B9A\u5224\u5B9A\u5E73\u4E0A\u53BB\u5165` };
@@ -76231,8 +76283,8 @@ function renderZiweiHoroscopeCanonicalJSONBase(result, options = {}) {
   };
   const formatMutagen = (stars) => mutagenOrder.map((mutagen, index) => stars[index] ? `${stars[index]}[\u5316${mutagen}]` : null).filter((value) => !!value);
   const transitGroups = (() => {
-    const entries = result.transitStars || [];
-    const pick = (names) => entries.filter((entry) => names.includes(entry.starName)).map((entry) => `${entry.starName}(${formatPalace(entry.palaceName)})`);
+    const entries2 = result.transitStars || [];
+    const pick = (names) => entries2.filter((entry) => names.includes(entry.starName)).map((entry) => `${entry.starName}(${formatPalace(entry.palaceName)})`);
     return {
       \u5409\u661F\u5206\u5E03: pick(["\u6D41\u7984", "\u6D41\u9B41", "\u6D41\u94BA", "\u6D41\u9A6C"]),
       \u715E\u661F\u5206\u5E03: pick(["\u6D41\u7F8A", "\u6D41\u9640"]),
@@ -76487,9 +76539,9 @@ function renderZiweiHoroscopeCanonicalTextBase(result, options = {}) {
   if (detailLevel === "full") {
     lines.push("", "## \u5404\u5C42\u6D41\u66DC");
     for (const { layer, data } of periodRows) {
-      const entries = data.stars?.flatMap((stars, index) => stars.map((star2) => `${star2.name}${star2.mutagen ? `[\u5316${star2.mutagen}]` : ""}(\u5BAB\u4F4D\u7D22\u5F15${index})`)) ?? [];
-      if (entries.length)
-        lines.push(`- ${layer}: ${entries.join("\u3001")}`);
+      const entries2 = data.stars?.flatMap((stars, index) => stars.map((star2) => `${star2.name}${star2.mutagen ? `[\u5316${star2.mutagen}]` : ""}(\u5BAB\u4F4D\u7D22\u5F15${index})`)) ?? [];
+      if (entries2.length)
+        lines.push(`- ${layer}: ${entries2.join("\u3001")}`);
     }
     if (result.yearlyDecStar?.suiqian12.length) {
       lines.push("");
@@ -77456,13 +77508,46 @@ function renderToolResult(toolName, result, options) {
   };
 }
 
-// src/birth.ts
-var import_lunar_javascript15 = __toESM(require_lunar_javascript(), 1);
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-
 // src/cities.ts
 var import_tz_lookup = __toESM(require_tz(), 1);
+import { readFileSync } from "node:fs";
+var table;
+var entries = () => {
+  if (!table) {
+    const { rows } = JSON.parse(readFileSync(new URL("../data/cities.json", import.meta.url), "utf8"));
+    rows.sort((a, b) => b[8] - a[8]);
+    table = rows.map((row) => ({
+      row,
+      aliases: [...row[3], row[1], row[2]].map((alias) => alias.toLowerCase())
+    }));
+  }
+  return table;
+};
+var city = ([geonameid, name2, , zh, country, , lat, lng]) => ({
+  geonameid,
+  name: name2,
+  zh: zh.find((alias) => /^[一-鿿]+$/.test(alias)) ?? name2,
+  country,
+  lat,
+  lng,
+  timezone: (0, import_tz_lookup.default)(lat, lng)
+});
+function searchCities(query, limit = 8) {
+  const term = query.trim().toLowerCase().replace(/市$/, "");
+  if (!term) return [];
+  const exact = [];
+  const prefix = [];
+  for (const { row, aliases } of entries()) {
+    if (aliases.some((alias) => alias === term || alias === `${term}\u5E02`)) exact.push(row);
+    else if (prefix.length < limit && aliases.some((alias) => alias.startsWith(term))) prefix.push(row);
+  }
+  return [...exact, ...prefix].slice(0, limit).map(city);
+}
+function cityById(geonameid) {
+  const entry = entries().find(({ row }) => row[0] === geonameid);
+  if (!entry) throw new Error("\u57CE\u5E02\u5E93\u91CC\u6CA1\u6709\u8FD9\u4E2A\u57CE\u5E02");
+  return city(entry.row);
+}
 
 // src/birth.ts
 var file = (dir) => join(dir, "birth.json");
@@ -77481,11 +77566,111 @@ function chartArgs(birth, at) {
     timezone: birth.city.timezone
   };
 }
-var readBirth = (dir) => existsSync(file(dir)) ? JSON.parse(readFileSync(file(dir), "utf8")) : void 0;
+var minutes = (hhmm) => {
+  const [hour, minute] = hhmm.split(":").map(Number);
+  return hour * 60 + minute;
+};
+var pad2 = (value) => String(value).padStart(2, "0");
+var stamp = (at) => `${at.year}-${pad2(at.month)}-${pad2(at.day)} ${pad2(at.hour)}:${pad2(at.minute)}`;
+async function candidates(birth, from, to) {
+  const start = minutes(from);
+  const span = (minutes(to) - start + 1440) % 1440;
+  const groups = /* @__PURE__ */ new Map();
+  for (let offset = 0; offset <= span; offset += 10) {
+    const date = new Date(
+      Date.UTC(birth.solar.year, birth.solar.month - 1, birth.solar.day, 0, start + offset)
+    );
+    const at = {
+      year: date.getUTCFullYear(),
+      month: date.getUTCMonth() + 1,
+      day: date.getUTCDate(),
+      hour: date.getUTCHours(),
+      minute: date.getUTCMinutes()
+    };
+    const chart = await executeTool("bazi", {
+      ...chartArgs(birth, at),
+      latitude: void 0,
+      disambiguation: "compatible"
+    });
+    const { year, month, day, hour } = chart.fourPillars;
+    const key = [year, month, day, hour].map((pillar) => pillar.stem + pillar.branch).join(" ");
+    if (!groups.has(key)) groups.set(key, at);
+  }
+  const result = [];
+  for (const [key, at] of groups) {
+    const pillars = key.split(" ");
+    const resolved = await executeTool("bazi_pillars_resolve", {
+      yearPillar: pillars[0],
+      monthPillar: pillars[1],
+      dayPillar: pillars[2],
+      hourPillar: pillars[3],
+      startYear: at.year,
+      endYear: at.year,
+      longitude: birth.city.lng,
+      timezone: birth.city.timezone,
+      disambiguation: "compatible"
+    });
+    const window = resolved.candidates.map((candidate) => candidate.timeWindow).find((window2) => window2.start <= stamp(at) && stamp(at) < window2.end);
+    result.push({ pillars, start: window?.start ?? stamp(at), end: window?.end ?? stamp(at), at });
+  }
+  return result;
+}
+async function saveBirth(dir, input) {
+  const solar = input.calendar === "lunar" ? import_lunar_javascript15.Lunar.fromYmd(input.year, input.leapMonth ? -input.month : input.month, input.day).getSolar() : void 0;
+  const base = {
+    ...input,
+    city: cityById(input.cityId),
+    solar: solar ? { year: solar.getYear(), month: solar.getMonth(), day: solar.getDay() } : { year: input.year, month: input.month, day: input.day }
+  };
+  const birth = {
+    ...base,
+    ..."from" in input.time ? { candidates: await candidates(base, input.time.from, input.time.to) } : {},
+    savedAt: (/* @__PURE__ */ new Date()).toISOString()
+  };
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(file(dir), JSON.stringify(birth, null, 2));
+  return birth;
+}
+var readBirth = (dir) => existsSync(file(dir)) ? JSON.parse(readFileSync2(file(dir), "utf8")) : void 0;
+var deleteAll = (dir) => rmSync(dir, { recursive: true, force: true });
+
+// src/requests.ts
+async function handle(dir, operation, args) {
+  switch (operation) {
+    case "state":
+      return { birth: readBirth(dir) ?? null };
+    case "cities":
+      return searchCities(String(args.query ?? ""));
+    case "saveBirth":
+      return saveBirth(dir, args.birth);
+    case "deleteAll":
+      deleteAll(dir);
+      return { deleted: true };
+    default:
+      throw new Error(`\u672A\u77E5\u64CD\u4F5C\uFF1A${operation}`);
+  }
+}
+
+// src/service.ts
+var _request_dec, _a, _init;
+var FortuneService = class extends (_a = TypertRemoteService, _request_dec = [Remote("request")], _a) {
+  constructor(ctx, dir) {
+    super(ctx, "kaituFortune");
+    this.dir = dir;
+    __runInitializers(_init, 5, this);
+  }
+  dir;
+  async request(operation, input) {
+    return JSON.stringify(await handle(this.dir, operation, JSON.parse(input)));
+  }
+};
+_init = __decoratorStart(_a);
+__decorateElement(_init, 1, "request", _request_dec, FortuneService);
+__decoratorMetadata(_init, FortuneService);
 
 // src/draws.ts
 import { randomBytes, randomInt } from "node:crypto";
-import { mkdirSync as mkdirSync2, readFileSync as readFileSync2, writeFileSync as writeFileSync2 } from "node:fs";
+import { mkdirSync as mkdirSync2, readFileSync as readFileSync3, writeFileSync as writeFileSync2 } from "node:fs";
 import { join as join2 } from "node:path";
 var tarotSeed = () => randomBytes(16).toString("hex");
 var coinYao = () => Array.from({ length: 6 }, () => [0, 1, 2].reduce((sum) => sum + (randomInt(2) ? 3 : 2), 0));
@@ -77498,7 +77683,7 @@ function saveDraw(dir, tool, input) {
 }
 function readDraw(dir, id) {
   if (!/^\d{4}-\d{2}-\d{2}-[0-9a-f]{8}$/.test(id)) throw new Error("\u6CA1\u6709\u8FD9\u6761\u62BD\u724C\u8BB0\u5F55");
-  return JSON.parse(readFileSync2(join2(dir, "draws", `${id}.json`), "utf8"));
+  return JSON.parse(readFileSync3(join2(dir, "draws", `${id}.json`), "utf8"));
 }
 
 // src/synastry.ts
@@ -77655,6 +77840,7 @@ var inject = ["tools"];
 var dataDir = () => join3(process.env.DSH_HOME?.trim() || join3(homedir(), ".dsh"), "kaitu-fortune");
 function apply(ctx) {
   const host = ctx;
+  new FortuneService(ctx, dataDir());
   for (const tool of fortuneTools(dataDir()))
     ctx.effect(
       () => host.tools.register({

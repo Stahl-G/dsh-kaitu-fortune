@@ -1,24 +1,27 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { Context } from "@deepseek-ai/cordis";
 import { expect, test } from "vitest";
 // 测打包后的 dist：确认装上就能用，不依赖 node_modules 里的 taibu-core。
-const { apply, dataDir } = (await import("../dist/index.js" as string)) as typeof import("../src/index.js");
+const plugin = (await import("../dist/index.js" as string)) as typeof import("../src/index.js");
+const { dataDir } = plugin;
 
 interface Registered {
   name: string;
   execute(args: unknown, exec: { signal: AbortSignal }): Promise<Record<string, unknown>>;
 }
+// 用真的 cordis 上下文装卸插件，宿主的 tools 只记下注册情况。
 const tools = new Map<string, Registered>();
-const disposers: (() => void)[] = [];
-apply({
-  effect: (fn: () => () => void) => disposers.push(fn()),
-  tools: {
-    register: (tool: Registered) => {
-      tools.set(tool.name, tool);
-      return () => tools.delete(tool.name);
-    },
+const root = new Context();
+root.provide("tools");
+root.set("tools", {
+  register: (tool: Registered) => {
+    tools.set(tool.name, tool);
+    return () => tools.delete(tool.name);
   },
-} as never);
+});
+const fiber = root.plugin(plugin);
+await new Promise((resolve) => setTimeout(resolve, 0));
 const call = (name: string, args: object) =>
   (tools.get(name) as Registered).execute(args, { signal: new AbortController().signal });
 const birth = { birthYear: 1990, birthMonth: 5, birthDay: 15, birthHour: 14, birthMinute: 30 };
@@ -77,7 +80,7 @@ test("合盘：同一张盘和自己比，太阳合太阳", async () => {
   );
 });
 
-test("卸载后工具全部撤销", () => {
-  for (const dispose of disposers) dispose();
+test("卸载后工具全部撤销", async () => {
+  await fiber.dispose();
   expect(tools.size).toBe(0);
 });
