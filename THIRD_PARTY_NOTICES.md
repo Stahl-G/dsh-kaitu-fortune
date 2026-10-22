@@ -28,6 +28,17 @@
 | dayjs | 1.11.23 | MIT | https://github.com/iamkun/dayjs |
 | tz-lookup（按出生城市经纬度推时区） | 6.1.25 | CC0-1.0 | https://github.com/darkskyapp/tz-lookup |
 
+界面（`dist/client.js`）另外打进了下面几个包，react 由 DSH 提供，不打包：
+
+| 名称 | 版本 | 许可 | 来源 |
+|---|---|---|---|
+| react-iztro | 1.5.0 | MIT | https://github.com/SylarLong/react-iztro |
+| iztro-hook | 1.3.4 | MIT | https://github.com/SylarLong/iztro-hook |
+| iztro | 2.6.3 | MIT | https://github.com/SylarLong/iztro |
+| lunar-lite | 0.2.8 | MIT | https://github.com/SylarLong/lunar-lite |
+| classnames | 2.5.1 | MIT | https://github.com/JedWatson/classnames |
+| @astrodraw/astrochart | 3.0.2 | MIT | https://github.com/AstroDraw/AstroChart |
+
 MPL-2.0 的几个包原样使用、没有修改，源码在上面的仓库或 npm 上可以取得。
 taibu-core 依赖的 pinyin 只有梅花易数字占用到，第一版不注册梅花，打包时换成了空模块，没有打进 dist。
 
@@ -36,3 +47,4 @@ taibu-core 依赖的 pinyin 只有梅花易数字占用到，第一版不注册�
 | 名称 | 许可 | 来源 |
 |---|---|---|
 | `data/cities.json`：GeoNames cities15000 精简版，原样取自人生开图 `packages/core/data/cities.json` | CC BY 4.0 | https://www.geonames.org/ |
+| `data/tarot/*.jpg`：Rider–Waite–Smith 塔罗 1909 年初版（Pamela Colman Smith 绘）的扫描，缩到 250×420 | 公有领域 | Wikimedia Commons「Rider–Waite tarot deck (Roses & Lilies)」；本仓库取自 GitHub 上的镜像副本，逐张对照过是同一批扫描 |

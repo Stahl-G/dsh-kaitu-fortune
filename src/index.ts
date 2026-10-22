@@ -1,6 +1,7 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 import type { Context } from "@deepseek-ai/cordis";
+import { FortuneService } from "./service.js";
 import { fortuneTools } from "./tools.js";
 
 export const name = "kaitu-fortune";
@@ -15,6 +16,8 @@ export const dataDir = () => join(process.env.DSH_HOME?.trim() || join(homedir()
 
 export function apply(ctx: Context) {
   const host = ctx as unknown as Host;
+  // 界面接口的登记由 DSH 的 typert-loader 按 package.json 的 ./typert 导出自动完成，这里只建服务。
+  new FortuneService(ctx, dataDir());
   for (const tool of fortuneTools(dataDir()))
     ctx.effect(() =>
       host.tools.register({

@@ -40,10 +40,29 @@ export async function compute(tool: string, args: Args) {
     .structuredContent as object;
 }
 
-/** 随机结果由插件用系统安全随机数生成并存档，引擎只做确定性计算。 */
-async function drawn(dir: string, tool: string, input: Args) {
+/** 随机结果由插件用系统安全随机数生成并存档，引擎只做确定性计算。界面用 raw，模型用结构化 JSON。 */
+export async function cast(dir: string, tool: "tarot" | "liuyao", args: Args) {
+  const input =
+    tool === "tarot"
+      ? { ...args, referenceYear: args.referenceYear ?? new Date().getFullYear(), seed: tarotSeed() }
+      : {
+          ...args,
+          date: args.date ?? local(new Date()),
+          timezone: args.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+          method: "coins",
+          yaoValues: coinYao(),
+        };
   const draw = saveDraw(dir, tool, input);
-  return { drawId: draw.id, ...(await compute(tool, input)) };
+  return { draw, raw: await executeTool(tool, input) };
+}
+
+async function drawn(dir: string, tool: "tarot" | "liuyao", args: Args) {
+  const { draw, raw } = await cast(dir, tool, args);
+  return {
+    drawId: draw.id,
+    ...(renderToolResult(tool, raw, { detailLevel: args.detailLevel as "default" })
+      .structuredContent as object),
+  };
 }
 
 const BIRTH = [
@@ -86,25 +105,13 @@ export function fortuneTools(dir: string): FortuneTool[] {
         ["method", "numbers", "yaoValues", "hexagramName", "changedHexagramName"],
         ["date"],
       ),
-      run: (args) =>
-        drawn(dir, "liuyao", {
-          ...args,
-          date: args.date ?? local(new Date()),
-          timezone: args.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
-          method: "coins",
-          yaoValues: coinYao(),
-        }),
+      run: (args) => drawn(dir, "liuyao", args),
     },
     {
       name: "fortune_tarot",
       description: `${def("tarot").description}牌由插件随机抽出并存档，返回 drawId 可重放。`,
       parameters: schema("tarot", ["seed", "seedScope"]),
-      run: (args) =>
-        drawn(dir, "tarot", {
-          ...args,
-          referenceYear: args.referenceYear ?? new Date().getFullYear(),
-          seed: tarotSeed(),
-        }),
+      run: (args) => drawn(dir, "tarot", args),
     },
     {
       name: "fortune_synastry",

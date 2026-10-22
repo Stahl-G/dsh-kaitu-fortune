@@ -1,0 +1,450 @@
+/* 变量、卡片、按钮、标签页、chip 的写法原样取自人生开图 packages/dsh-plugin/src/client/Prototype.module.css，深浅色跟开图一致。 */
+.app {
+  --bg: #fcfcfb;
+  --surface: #ffffff;
+  --sunken: #f5f5f3;
+  --control: #f0efec;
+  --line: #e6e4dd;
+  --ink: #1f1e1d;
+  --ink2: #4d4c48;
+  --muted: #6b6a66;
+  --link: #2b4c7e;
+  --primary: #1f1e1d;
+  --on-primary: #ffffff;
+  --strong: #1f1e1d;
+  --on-strong: #ffffff;
+  --ask: #f7f6f3;
+  --ask-line: #e6e4dd;
+  --scrim: rgba(31, 30, 29, 0.42);
+  --health: #3e8a5a;
+  --health-tint: #e5f1e9;
+  --health-ink: #2a6a41;
+  --doing: #4a6a8f;
+  --doing-tint: #e7edf4;
+  --doing-ink: #344e6e;
+  --explore: #1b3254;
+  --explore-tint: #eef2f7;
+  --explore-ink: #1b3254;
+  --news: #b5711a;
+  --news-tint: #f7ecdc;
+  --news-ink: #84520f;
+  --finance: #5f6f2a;
+  --finance-tint: #eef1e2;
+  --finance-ink: #4a5720;
+  --me: #b5577a;
+  --empty: #f0efec;
+  --map-land: #eef1ec;
+  --map-grid: #dde2da;
+  --map-sea: #f4f6f7;
+  --map-dot: #d3dad4;
+  --me-tint: #f6e7ed;
+  --me-ink: #8a3a5a;
+  --on-health: #020d05;
+  --on-news: #191005;
+  --on-me: #ffffff;
+  --on-explore: #ffffff;
+  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC",
+    sans-serif;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  .app:not([data-theme="light"]) {
+    --bg: #171716;
+    --surface: #201f1e;
+    --sunken: #1b1b1a;
+    --control: #2a2927;
+    --line: #2f2e2c;
+    --ink: #ecebe8;
+    --ink2: #c9c7c2;
+    --muted: #a09e98;
+    --link: #b8cbe4;
+    --primary: #ecebe8;
+    --on-primary: #171716;
+    --strong: #ecebe8;
+    --on-strong: #171716;
+    --ask: #252422;
+    --ask-line: #393735;
+    --scrim: rgba(0, 0, 0, 0.6);
+    --health-tint: #203a2b;
+    --health-ink: #a2d9b6;
+    --doing-tint: #263243;
+    --doing-ink: #bfd0e4;
+    --explore-tint: #242e3e;
+    --explore-ink: #b8cbe4;
+    --news-tint: #43331e;
+    --news-ink: #f0ca8f;
+    --finance-tint: #2f3420;
+    --finance-ink: #cbd69a;
+    --empty: #2a2927;
+    --map-land: #1f2620;
+    --map-grid: #2d352e;
+    --map-sea: #1a1c1d;
+    --map-dot: #343d36;
+    --health: #6dba8a;
+    --doing: #93adcb;
+    --explore: #8faed6;
+    --news: #ddaa5e;
+    --finance: #a9b86a;
+    --me: #dc92ae;
+    --me-tint: #452b36;
+    --me-ink: #f1bbcf;
+    --on-health: #020d05;
+    --on-news: #191005;
+    --on-me: #361525;
+    --on-explore: #16243a;
+    color-scheme: dark;
+  }
+}
+.app[data-theme="dark"] {
+  --bg: #171716;
+  --surface: #201f1e;
+  --sunken: #1b1b1a;
+  --control: #2a2927;
+  --line: #2f2e2c;
+  --ink: #ecebe8;
+  --ink2: #c9c7c2;
+  --muted: #a09e98;
+  --link: #b8cbe4;
+  --primary: #ecebe8;
+  --on-primary: #171716;
+  --strong: #ecebe8;
+  --on-strong: #171716;
+  --ask: #252422;
+  --ask-line: #393735;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --health-tint: #203a2b;
+  --health-ink: #a2d9b6;
+  --doing-tint: #263243;
+  --doing-ink: #bfd0e4;
+  --explore-tint: #242e3e;
+  --explore-ink: #b8cbe4;
+  --news-tint: #43331e;
+  --news-ink: #f0ca8f;
+  --finance-tint: #2f3420;
+  --finance-ink: #cbd69a;
+  --empty: #2a2927;
+  --map-land: #1f2620;
+  --map-grid: #2d352e;
+  --map-sea: #1a1c1d;
+  --map-dot: #343d36;
+  --health: #6dba8a;
+  --doing: #93adcb;
+  --explore: #8faed6;
+  --news: #ddaa5e;
+  --finance: #a9b86a;
+  --me: #dc92ae;
+  --me-tint: #452b36;
+  --me-ink: #f1bbcf;
+  --on-health: #020d05;
+  --on-news: #191005;
+  --on-me: #361525;
+  --on-explore: #16243a;
+  color-scheme: dark;
+}
+
+.app,
+.app * {
+  box-sizing: border-box;
+}
+.app {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.app a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 500;
+}
+.app a:hover {
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+:where(.app) button,
+:where(.app) input {
+  font: inherit;
+  color: inherit;
+}
+.app button {
+  cursor: pointer;
+}
+.app :focus-visible {
+  outline: 2px solid var(--explore);
+  outline-offset: 2px;
+}
+:where(.app) :where(h1, h2, h3, p) {
+  margin: 0;
+}
+.app h1,
+.app h2,
+.app h3 {
+  text-wrap: balance;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* —— 页面骨架按开图自己的模块页（HealthPage.module.css）：页头带色点、圆角标签、卡片加小标题 —— */
+.app {
+  height: 100%;
+  overflow: auto;
+  container-type: inline-size;
+  scrollbar-gutter: stable;
+}
+.content {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-block: 28px 72px;
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+.header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 26px;
+  line-height: 34px;
+  font-weight: 600;
+}
+.header h1 > span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--me);
+}
+.header p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 22px;
+}
+.actions,
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.button {
+  min-height: 36px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--control);
+  color: var(--ink);
+  font-size: 15px;
+}
+.primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.tabs {
+  gap: 6px;
+}
+.tabs button {
+  min-height: 34px;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--control);
+  color: var(--ink);
+  font-size: 14px;
+}
+.tabs button[aria-selected="true"] {
+  background: var(--me);
+  color: var(--bg);
+  font-weight: 500;
+}
+.app button:hover:not(:disabled) {
+  filter: brightness(0.94);
+}
+.app button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.card {
+  min-width: 0;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 0 2px 10px;
+}
+.heading h2 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.heading > span,
+.small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  background: var(--control);
+  color: var(--ink2);
+}
+.empty {
+  padding: 14px 2px;
+  color: var(--muted);
+}
+.notice {
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--news-tint);
+  color: var(--news-ink);
+}
+.link {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--link);
+  font-weight: 500;
+}
+
+/* —— 插件自己的部分：只用上面的变量 —— */
+.foot {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.form {
+  display: grid;
+  gap: 16px;
+}
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.form label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--ink2);
+}
+.form input,
+.form select {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+.form .check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form .check input {
+  width: auto;
+  height: auto;
+}
+.form label:has(.suggest) {
+  position: relative;
+}
+.suggest {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: grid;
+  margin-top: 4px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--line), 0 8px 24px rgba(31, 30, 29, 0.12);
+  background: var(--surface);
+  overflow: hidden;
+}
+.suggest button {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  text-align: start;
+}
+.suggest button:hover {
+  background: var(--sunken);
+}
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.choices button {
+  min-height: 34px;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--control);
+  color: var(--ink);
+  font-size: 14px;
+}
+.choices button[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+@media (max-width: 720px) {
+  .header h1 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
