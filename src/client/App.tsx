@@ -92,22 +92,39 @@ export function FortunePage({ request }: { request: Request }) {
   return (
     <div className={css.app} data-theme={theme} lang="zh-CN">
       <main className={css.content} aria-busy={birth === undefined}>
-        <header className={css.header}>
-          <div>
-            <h1>
-              <span aria-hidden="true" />
-              命理与星象
-            </h1>
-            <p>八字、紫微、黄历、星盘与塔罗，都在这台电脑上计算</p>
+        {/* 嵌在开图内容区里：没有自己的页头，标签和操作放一行，宽度跟着宿主走 */}
+        <div className={css.toolbar}>
+          <div className={css.tabs} role="tablist" aria-label="分类">
+            {TABS.map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                role="tab"
+                id={`fortune-tab-${key}`}
+                aria-controls="fortune-panel"
+                aria-selected={tab === key}
+                tabIndex={tab === key ? 0 : -1}
+                onClick={() => setTab(key)}
+                onKeyDown={(event) => {
+                  const index = TABS.findIndex(([name]) => name === tab);
+                  const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+                  if (!step) return;
+                  event.preventDefault();
+                  const next = TABS[(index + step + TABS.length) % TABS.length]?.[0] ?? tab;
+                  setTab(next);
+                  document.getElementById(`fortune-tab-${next}`)?.focus();
+                }}
+              >
+                {label}
+              </button>
+            ))}
           </div>
           {birth && !editing && (
-            <div className={css.actions}>
-              <button type="button" className={css.button} onClick={() => setEditing(true)}>
-                修改出生信息
-              </button>
-            </div>
+            <button type="button" className={css.button} onClick={() => setEditing(true)}>
+              修改出生信息
+            </button>
           )}
-        </header>
+        </div>
         {error && (
           <p className={css.notice} role="alert">
             {error}
@@ -128,31 +145,6 @@ export function FortunePage({ request }: { request: Request }) {
         ) : (
           birth && <p className={css.small}>{birthLine(birth)} · 只存在这台电脑上，不进开图资料，也不同步</p>
         )}
-        <div className={css.tabs} role="tablist" aria-label="分类">
-          {TABS.map(([key, label]) => (
-            <button
-              key={key}
-              type="button"
-              role="tab"
-              id={`fortune-tab-${key}`}
-              aria-controls="fortune-panel"
-              aria-selected={tab === key}
-              tabIndex={tab === key ? 0 : -1}
-              onClick={() => setTab(key)}
-              onKeyDown={(event) => {
-                const index = TABS.findIndex(([name]) => name === tab);
-                const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-                if (!step) return;
-                event.preventDefault();
-                const next = TABS[(index + step + TABS.length) % TABS.length]?.[0] ?? tab;
-                setTab(next);
-                document.getElementById(`fortune-tab-${next}`)?.focus();
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
         <div
           key={version}
           className={css.panel}
