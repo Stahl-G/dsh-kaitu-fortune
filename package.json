@@ -1,7 +1,7 @@
 {
   "name": "kaitu-fortune",
   "version": "0.1.2",
-  "description": "DSH 插件：八字、紫微、黄历、六爻、塔罗与西洋星盘，盲评后在开图新对话继续聊",
+  "description": "DSH 插件：MBTI、中式命理、西洋星盘与塔罗，本机测试、解读与新对话",
   "type": "module",
   "license": "AGPL-3.0-only",
   "repository": {
@@ -61,7 +61,7 @@
         "zh": "命理与星象",
         "en": "Fortune"
       },
-      "description": "八字、紫微、黄历、星盘与塔罗，都在这台电脑上计算",
+      "description": "MBTI 自测，八字、紫微、星盘与塔罗",
       "icon": "命",
       "page": "kaitu-fortune"
     }
