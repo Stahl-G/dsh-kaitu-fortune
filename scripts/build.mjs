@@ -270,6 +270,9 @@ const sections = [...bundled]
       .filter((line) => line !== undefined)
       .join("\n");
   });
+sections.push(
+  `== 太卜 MBTI (AGPL-3.0-only)\nCopyright (c) 2026 hhszzzz\n来源与修改见 THIRD_PARTY_NOTICES.md\n\n${readFileSync(resolve(root, "licenses/AGPL-3.0-only"), "utf8")}`,
+);
 writeFileSync(
   resolve(root, "THIRD_PARTY_LICENSES.txt"),
   `本文件由 scripts/build.mjs 生成：列出实际打进 dist/index.js 和 dist/client.js 的第三方包及其许可全文。\n\n${sections.join("\n\n\n")}\n`,

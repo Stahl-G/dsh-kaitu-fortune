@@ -19,7 +19,9 @@
 
 ## 许可
 
-代码 MIT。第三方依赖与素材见 `THIRD_PARTY_NOTICES.md`。
+本独立 DSH 插件复用太卜的 MBTI 代码，组合版本按 AGPL-3.0-only 发布，许可全文见 `LICENSE`。
+原有 MIT 代码的版权与许可保留在 `licenses/fortune-MIT`，第三方材料保留各自许可。
+源码、构建脚本及依赖锁文件随插件分发，也可从本仓库对应提交取得。第三方来源见 `THIRD_PARTY_NOTICES.md`。
 
 ### 结合近况继续聊
 

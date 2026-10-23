@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "DSH 插件：八字、紫微、黄历、六爻、塔罗与西洋星盘，盲评后在开图新对话继续聊",
   "type": "module",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "https://github.com/Stahl-G/dsh-kaitu-fortune.git"
@@ -34,7 +34,12 @@
     "THIRD_PARTY_NOTICES.md",
     "THIRD_PARTY_LICENSES.txt",
     "third_party",
-    "licenses"
+    "licenses",
+    "src",
+    "scripts",
+    "tsconfig.json",
+    "tsconfig.client.json",
+    "pnpm-lock.yaml"
   ],
   "dsh": {
     "bundle": {
