@@ -2455,7 +2455,7 @@ For more information, please see
 
 
 == zod@4.4.3 (MIT)
-打进：dist/client.js
+打进：dist/index.js、dist/client.js
 仓库：https://github.com/colinhacks/zod.git
 许可原文取自包内 LICENSE
 

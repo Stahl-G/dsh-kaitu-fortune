@@ -26,13 +26,14 @@ const call = (name: string, args: object) =>
   (tools.get(name) as Registered).execute(args, { signal: new AbortController().signal });
 const birth = { birthYear: 1990, birthMonth: 5, birthDay: 15, birthHour: 14, birthMinute: 30 };
 
-test("只注册第一版的几项，卸载时全部撤销", () => {
+test("注册当前提供的工具，卸载时全部撤销", () => {
   expect([...tools.keys()].sort()).toEqual([
     "fortune_almanac",
     "fortune_astrology",
     "fortune_bazi",
     "fortune_bazi_dayun",
     "fortune_liuyao",
+    "fortune_mbti",
     "fortune_my_birth",
     "fortune_replay",
     "fortune_synastry",

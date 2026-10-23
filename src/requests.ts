@@ -11,6 +11,7 @@ import {
 } from "./birth.js";
 import { searchCities } from "./cities.js";
 import { countDraws } from "./draws.js";
+import { mbtiAction, readMbti } from "./mbti.js";
 import { type Readings, type Subject, countReadings } from "./reading.js";
 import { cast } from "./tools.js";
 
@@ -103,11 +104,21 @@ export async function handle(
   readings?: Readings,
 ): Promise<unknown> {
   switch (operation) {
-    case "state":
+    case "mbti":
+      return mbtiAction(dir, args);
+    case "state": {
+      const mbti = readMbti(dir);
       return {
         birth: readBirth(dir) ?? null,
-        stored: { dir, draws: countDraws(dir), readings: countReadings(dir) },
+        stored: {
+          dir,
+          draws: countDraws(dir),
+          readings: countReadings(dir),
+          mbti: mbti.records.length,
+          mbtiDraft: !!mbti.session,
+        },
       };
+    }
     case "cities":
       return searchCities(String(args.query ?? ""));
     case "saveBirth":

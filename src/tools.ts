@@ -6,6 +6,7 @@ import {
 } from "taibu-core/mcp";
 import { chartArgs, readBirth } from "./birth.js";
 import { coinYao, readDraw, saveDraw, tarotSeed } from "./draws.js";
+import { mbtiTool } from "./mbti-tools.js";
 import { synastry } from "./synastry.js";
 
 type Args = Record<string, unknown>;
@@ -91,6 +92,7 @@ export function fortuneTools(dir: string): FortuneTool[] {
     required: ["birthYear", "birthMonth", "birthDay", "birthHour", "latitude", "longitude"],
   };
   return [
+    mbtiTool(dir),
     plain("bazi"),
     plain("bazi_dayun"),
     plain("ziwei"),
