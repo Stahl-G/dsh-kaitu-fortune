@@ -1,6 +1,6 @@
 {
   "name": "kaitu-fortune",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "DSH 插件：八字、紫微、黄历、六爻、塔罗与西洋星盘，盲评后在开图新对话继续聊",
   "type": "module",
   "license": "MIT",
