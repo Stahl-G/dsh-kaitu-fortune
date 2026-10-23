@@ -40,3 +40,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.wheel svg text {
+  font-family: var(--font);
+}
