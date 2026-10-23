@@ -92380,7 +92380,12 @@ function mbtiTool(dir) {
         mode: { type: "string", enum: ["quick", "full"] },
         sessionId: { type: "string" },
         questionId: { type: "integer" },
-        value: { type: "integer", minimum: 1, maximum: 7 },
+        value: {
+          type: "integer",
+          minimum: 1,
+          maximum: 7,
+          description: "1 \u5B8C\u5168\u503E\u5411 choice_a\uFF0C2 \u8F83\u503E\u5411 A\uFF0C3 \u7A0D\u503E\u5411 A\uFF0C4 \u4E2D\u7ACB\uFF0C5 \u7A0D\u503E\u5411 B\uFF0C6 \u8F83\u503E\u5411 B\uFF0C7 \u5B8C\u5168\u503E\u5411 choice_b"
+        },
         type: { type: "string", description: "\u7528\u6237\u81EA\u5DF1\u63D0\u4F9B\u7684\u56DB\u5B57\u6BCD\u7C7B\u578B" },
         id: { type: "string" }
       },
