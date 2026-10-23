@@ -232,8 +232,7 @@ export function FortunePage({
                   每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果，以及旧版「结合近况」当时带上的开图资料原文；删除单条解读或「删除我的资料」时一起删除。
                 </p>
                 <p className={css.small}>
-                  MBTI 答案、类型和 AI
-                  猜测也保存在插件目录。卸载插件不会删除资料；要清掉，请在卸载前点下面的按钮。
+                  MBTI 答案和类型也保存在插件目录。卸载插件不会删除资料；要清掉，请在卸载前点下面的按钮。
                 </p>
                 <p className={css.small}>
                   <a href="https://github.com/Stahl-G/dsh-kaitu-fortune" target="_blank" rel="noreferrer">
