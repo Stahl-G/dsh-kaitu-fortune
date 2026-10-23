@@ -8,14 +8,16 @@ import { BirthForm } from "./BirthForm.js";
 import { ChatContext } from "./Chat.js";
 import { Chinese } from "./Chinese.js";
 import css from "./Fortune.module.css";
+import { Mbti } from "./Mbti.js";
 import { Tarot } from "./Tarot.js";
 import { TaskContext } from "./Task.js";
 
 export type Request = <T>(operation: string, input?: object) => Promise<T>;
 /** 接上一条正在生成的解读，每多一段回调一次；返回值用来断开。 */
 export type Watch = (id: string, onReading: (reading: Reading) => void) => () => void;
-type Tab = "chinese" | "astro" | "tarot";
+type Tab = "mbti" | "chinese" | "astro" | "tarot";
 const TABS: [Tab, string][] = [
+  ["mbti", "MBTI"],
   ["chinese", "中式"],
   ["astro", "星象"],
   ["tarot", "塔罗"],
@@ -80,7 +82,7 @@ export function FortunePage({
   useEffect(() => connectChat?.(setChat), [connectChat]);
   const theme = useTheme();
   const embedded = new URLSearchParams(window.location.hash.slice(1)).get("kaitu-embed") === "1";
-  const [tab, setTab] = useState<Tab>("chinese");
+  const [tab, setTab] = useState<Tab>("mbti");
   const [birth, setBirth] = useState<Birth | null | undefined>();
   const [editing, setEditing] = useState(false);
   const [stored, setStored] = useState<Stored | null>(null);
@@ -127,7 +129,7 @@ export function FortunePage({
             {!embedded && (
               <header className={css.pageTitle}>
                 <h1>命理与星象</h1>
-                <p>八字、紫微、黄历、星盘与塔罗</p>
+                <p>MBTI、中式命理、星盘与塔罗</p>
               </header>
             )}
             <div className={css.toolbar}>
@@ -156,7 +158,7 @@ export function FortunePage({
                   </button>
                 ))}
               </div>
-              {birth && !editing && (
+              {tab !== "mbti" && birth && !editing && (
                 <button type="button" className={css.button} onClick={() => setEditing(true)}>
                   修改出生信息
                 </button>
@@ -167,23 +169,24 @@ export function FortunePage({
                 {error}
               </p>
             )}
-            {birth === undefined ? (
-              <p className={css.empty}>正在读取…</p>
-            ) : editing ? (
-              <BirthForm
-                request={request}
-                birth={birth}
-                onSaved={(saved) => {
-                  setBirth(saved);
-                  setEditing(false);
-                }}
-                onCancel={birth ? () => setEditing(false) : undefined}
-              />
-            ) : (
-              birth && (
-                <p className={css.small}>{birthLine(birth)} · 只存在这台电脑上，不进开图资料，也不同步</p>
-              )
-            )}
+            {tab !== "mbti" &&
+              (birth === undefined ? (
+                <p className={css.empty}>正在读取…</p>
+              ) : editing ? (
+                <BirthForm
+                  request={request}
+                  birth={birth}
+                  onSaved={(saved) => {
+                    setBirth(saved);
+                    setEditing(false);
+                  }}
+                  onCancel={birth ? () => setEditing(false) : undefined}
+                />
+              ) : (
+                birth && (
+                  <p className={css.small}>{birthLine(birth)} · 只存在这台电脑上，不进开图资料，也不同步</p>
+                )
+              ))}
             <div
               key={version}
               className={css.panel}
@@ -191,6 +194,7 @@ export function FortunePage({
               role="tabpanel"
               aria-labelledby={`fortune-tab-${tab}`}
             >
+              {tab === "mbti" && <Mbti request={request} onSaved={refreshStored} />}
               {tab === "chinese" && (
                 <Chinese
                   request={request}
@@ -227,7 +231,15 @@ export function FortunePage({
                 <p className={css.small}>
                   每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果，以及旧版「结合近况」当时带上的开图资料原文；删除单条解读或「删除我的资料」时一起删除。
                 </p>
-                <p className={css.small}>卸载插件不会删除这些资料；要清掉，请在卸载前点下面的按钮。</p>
+                <p className={css.small}>
+                  MBTI 答案、类型和 AI
+                  猜测也保存在插件目录。卸载插件不会删除资料；要清掉，请在卸载前点下面的按钮。
+                </p>
+                <p className={css.small}>
+                  <a href="https://github.com/Stahl-G/dsh-kaitu-fortune" target="_blank" rel="noreferrer">
+                    插件源码与许可
+                  </a>
+                </p>
                 <div className={css.actions}>
                   <button
                     type="button"
