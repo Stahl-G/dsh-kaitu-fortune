@@ -5,6 +5,7 @@ import type { Request, Watch } from "./App.js";
 import { ChatContext } from "./Chat.js";
 import css from "./Fortune.module.css";
 import own from "./Reading.module.css";
+import { ReadingTask } from "./Task.js";
 
 const time = (iso: string) => new Date(iso).toLocaleString("zh-CN", { hour12: false }).slice(0, -3);
 
@@ -179,6 +180,7 @@ export function Reading({
           </button>
         )}
       </div>
+      {shown?.status === "done" && <ReadingTask key={shown.id} readingId={shown.id} />}
       {earlier.length > 0 && (
         <details className={own.earlier}>
           <summary>以前的解读（{earlier.length}）</summary>
