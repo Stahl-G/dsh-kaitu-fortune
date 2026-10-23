@@ -92557,6 +92557,7 @@ function fortuneTools(dir) {
 
 // src/reading.ts
 var LABEL = {
+  mbti: "MBTI \u503E\u5411",
   chinese: "\u516B\u5B57\u548C\u7D2B\u5FAE\u6597\u6570",
   astro: "\u897F\u6D0B\u672C\u547D\u661F\u76D8",
   tarot: "\u5854\u7F57\u62BD\u724C"
@@ -92578,6 +92579,15 @@ var SYSTEM = `\u4F60\u5728\u300C\u547D\u7406\u4E0E\u661F\u8C61\u300D\u63D2\u4EF6
 - \u4E0D\u8BF4\u5BBF\u547D\u6216\u5413\u4EBA\u7684\u8BDD\uFF08\u4F8B\u5982\u300C\u5FC5\u6709\u5927\u707E\u300D\uFF09\uFF0C\u7528\u300C\u53EF\u80FD\u7684\u503E\u5411\u300D\u300C\u503C\u5F97\u7559\u610F\u7684\u5730\u65B9\u300D\u8FD9\u7C7B\u8BF4\u6CD5\u3002
 
 \u7528\u7B80\u4F53\u4E2D\u6587\uFF0C\u5168\u6587 1000 \u5B57\u4EE5\u5185\u3002`;
+var MBTI_SYSTEM = `\u6839\u636E\u7528\u6237\u9009\u62E9\u7684\u6750\u6599\u63A8\u6D4B\u5176 MBTI \u503E\u5411\uFF0C\u7528\u7B80\u4F53\u4E2D\u6587\u5199 600 \u5B57\u4EE5\u5185\u3002\u4F7F\u7528\u666E\u901A\u6BB5\u843D\uFF0C\u4E0D\u7528\u661F\u53F7\u6216\u9879\u76EE\u5217\u8868\uFF0C\u4E0B\u9762\u4E09\u4E2A\u4E8C\u7EA7\u6807\u9898\u9664\u5916\u3002
+\u7528\u4E09\u4E2A\u5C0F\u6807\u9898\uFF1A
+## \u6211\u66F4\u50CF\u54EA\u79CD\u7C7B\u578B
+\u7ED9\u51FA\u6700\u7B26\u5408\u7684\u7C7B\u578B\uFF0C\u4EE5\u53CA\u786E\u6709\u6B67\u4E49\u65F6\u7684 1\u20132 \u4E2A\u5019\u9009\uFF1B\u6750\u6599\u4E0D\u8DB3\u7684\u7EF4\u5EA6\u8BF4\u6E05\u695A\uFF0C\u4E0D\u7F16\u7CBE\u786E\u6982\u7387\u3002
+## \u4E3A\u4EC0\u4E48\u8FD9\u6837\u731C
+\u9010\u7EF4\u8BF4\u660E\u4F9D\u636E\u3002\u73B0\u5B9E\u884C\u4E3A\u548C\u81EA\u8FF0\u4F5C\u4E3A\u884C\u4E3A\u8BC1\u636E\uFF0C\u547D\u76D8\u53EA\u4F5C\u4E3A\u4F20\u7EDF\u6027\u683C\u8054\u60F3\uFF0C\u5206\u5F00\u8BF4\u660E\u3002
+\u53EA\u7528\u63D0\u4F9B\u7684\u6750\u6599\uFF0C\u4E0D\u7F16\u9020\u7ECF\u5386\u3001\u4E0D\u628A\u547D\u76D8\u8F6C\u6210\u95EE\u5377\u5206\u6570\uFF0C\u4E5F\u4E0D\u4FEE\u6539\u7528\u6237\u81EA\u5DF1\u586B\u5199\u6216\u6D4B\u51FA\u7684\u7ED3\u679C\u3002
+## \u8FD8\u60F3\u95EE\u4F60\u7684\u95EE\u9898
+\u95EE 2\u20133 \u4E2A\u80FD\u5E2E\u52A9\u533A\u5206\u5019\u9009\u7C7B\u578B\u7684\u5177\u4F53\u751F\u6D3B\u95EE\u9898\u3002\u4E0D\u8981\u52A0\u514D\u8D23\u58F0\u660E\u6216\u5BBF\u547D\u5224\u65AD\u3002`;
 async function facts(dir, subject, drawId) {
   if (subject === "tarot") {
     const draw = readDraw(dir, String(drawId));
@@ -92600,6 +92610,16 @@ async function facts(dir, subject, drawId) {
   ]);
   return JSON.stringify({ \u516B\u5B57: bazi, \u5927\u8FD0: dayun, \u7D2B\u5FAE\u6597\u6570: ziwei });
 }
+async function mbtiMaterials(dir, description, charts) {
+  if (typeof description !== "string" || !Array.isArray(charts) || charts.some((subject) => subject !== "chinese" && subject !== "astro"))
+    throw new Error("\u8BF7\u9009\u62E9\u6709\u6548\u7684\u53C2\u8003\u6750\u6599");
+  if (!description.trim() && charts.length === 0) throw new Error("\u5199\u4E00\u70B9\u81EA\u5DF1\u7684\u503E\u5411\uFF0C\u6216\u9009\u62E9\u4E00\u4EFD\u547D\u76D8");
+  const parts = description.trim() ? [`\u3010\u6211\u7684\u63CF\u8FF0\u3011
+${description.trim()}`] : [];
+  for (const subject of new Set(charts)) parts.push(`\u3010${LABEL[subject]}\u3011
+${await facts(dir, subject)}`);
+  return parts.join("\n\n");
+}
 var folder = (dir) => join4(dir, "readings");
 var file3 = (dir, id) => {
   if (!/^\d{4}-\d{2}-\d{2}-[0-9a-f]{8}$/.test(id)) throw new Error("\u6CA1\u6709\u8FD9\u6761\u89E3\u8BFB");
@@ -92614,6 +92634,7 @@ var Readings = class {
   preparing = /* @__PURE__ */ new Set();
   model;
   async start(subject, drawId) {
+    if (subject === "mbti") throw new Error("\u8BF7\u63D0\u4F9B\u60F3\u8BA9 AI \u53C2\u8003\u7684\u63CF\u8FF0\u6216\u547D\u76D8");
     if (!this.model) throw new Error("DSH \u91CC\u8FD8\u6CA1\u6709\u53EF\u7528\u7684\u6A21\u578B\uFF0C\u5148\u5728\u8BBE\u7F6E\u91CC\u9009\u4E00\u4E2A\u6A21\u578B");
     const controller = new AbortController();
     this.preparing.add(controller);
@@ -92631,6 +92652,18 @@ ${input}` },
       { kind: "blind", ...subject === "tarot" ? { drawId: String(drawId) } : {} },
       controller
     );
+  }
+  async guessMbti(description, charts) {
+    if (!this.model) throw new Error("DSH \u91CC\u8FD8\u6CA1\u6709\u53EF\u7528\u7684\u6A21\u578B\uFF0C\u5148\u5728\u8BBE\u7F6E\u91CC\u9009\u4E00\u4E2A\u6A21\u578B");
+    const controller = new AbortController();
+    this.preparing.add(controller);
+    try {
+      const input = await mbtiMaterials(this.dir, description, charts);
+      controller.signal.throwIfAborted();
+      return this.launch("mbti", { system: MBTI_SYSTEM, user: input }, { kind: "guess" }, controller);
+    } finally {
+      this.preparing.delete(controller);
+    }
   }
   launch(subject, request, source, controller = new AbortController()) {
     if (!this.model) throw new Error("DSH \u91CC\u8FD8\u6CA1\u6709\u53EF\u7528\u7684\u6A21\u578B\uFF0C\u5148\u5728\u8BBE\u7F6E\u91CC\u9009\u4E00\u4E2A\u6A21\u578B");
@@ -92876,7 +92909,11 @@ async function handle(dir, operation, args, readings) {
       const data = readFileSync6(new URL(`../data/tarot/${name2}.jpg`, import.meta.url)).toString("base64");
       return `data:image/jpeg;base64,${data}`;
     }
+    case "mbtiMaterials":
+      return mbtiMaterials(dir, args.description, args.charts);
     case "startReading":
+      if (args.subject === "mbti")
+        return readings?.guessMbti(args.description, args.charts);
       return readings?.start(args.subject, args.drawId);
     case "readings":
       return readings?.list(args.subject) ?? [];
