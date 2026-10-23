@@ -1,147 +1,120 @@
-/* 变量、卡片、按钮、标签页、chip 的写法原样取自人生开图 packages/dsh-plugin/src/client/Prototype.module.css，深浅色跟开图一致。 */
+/* 开图设计稿 C：docs/design/desktop-c.html 的产品配色。 */
 .app {
-  --bg: #fcfcfb;
-  --surface: #ffffff;
-  --sunken: #f5f5f3;
-  --control: #f0efec;
-  --line: #e6e4dd;
-  --ink: #1f1e1d;
-  --ink2: #4d4c48;
-  --muted: #6b6a66;
+  --bg: #f7f5f0;
+  --surface: #fffdf8;
+  --sunken: #f4f1ea;
+  --control: #f1eee6;
+  --line: #e6e1d6;
+  --line-strong: #d5cfc1;
+  --ink: #20221f;
+  --ink2: #595e56;
+  --muted: #656b60;
   --link: #2b4c7e;
-  --primary: #1f1e1d;
-  --on-primary: #ffffff;
-  --strong: #1f1e1d;
-  --on-strong: #ffffff;
-  --ask: #f7f6f3;
-  --ask-line: #e6e4dd;
-  --scrim: rgba(31, 30, 29, 0.42);
-  --health: #3e8a5a;
-  --health-tint: #e5f1e9;
-  --health-ink: #2a6a41;
+  --link-soft: #edf1f7;
+  --link-line: rgba(43, 76, 126, 0.26);
+  --primary: #22324a;
+  --on-primary: #f7f5f0;
+  --primary-hover: #2e4263;
+  --strong: #22324a;
+  --on-strong: #f7f5f0;
+  --secondary: #fffdf8;
+  --secondary-line: #d5cfc1;
+  --ask: #f1eee6;
+  --ask-line: #e6e1d6;
+  --scrim: rgba(32, 34, 31, 0.42);
+  --danger: #9b3a2e;
+  --ok: #2e5d4a;
+  --health: #4e7a5e;
+  --health-tint: #e8ede4;
+  --health-ink: #2f5a40;
   --doing: #4a6a8f;
-  --doing-tint: #e7edf4;
+  --doing-tint: #edf1f7;
   --doing-ink: #344e6e;
-  --explore: #1b3254;
-  --explore-tint: #eef2f7;
-  --explore-ink: #1b3254;
-  --news: #b5711a;
-  --news-tint: #f7ecdc;
-  --news-ink: #84520f;
-  --finance: #5f6f2a;
-  --finance-tint: #eef1e2;
+  --explore: #1f3550;
+  --explore-tint: #edf1f7;
+  --explore-ink: #1f3550;
+  --news: #9a6b2f;
+  --news-tint: #f1ebdd;
+  --news-ink: #7a5320;
+  --finance: #66713e;
+  --finance-tint: #eef0e3;
   --finance-ink: #4a5720;
-  --me: #b5577a;
-  --empty: #f0efec;
-  --map-land: #eef1ec;
-  --map-grid: #dde2da;
-  --map-sea: #f4f6f7;
-  --map-dot: #d3dad4;
-  --me-tint: #f6e7ed;
-  --me-ink: #8a3a5a;
-  --on-health: #020d05;
-  --on-news: #191005;
-  --on-me: #ffffff;
-  --on-explore: #ffffff;
-  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC",
-    sans-serif;
-  --radius: 14px;
-}
-@media (prefers-color-scheme: dark) {
-  .app:not([data-theme="light"]) {
-    --bg: #171716;
-    --surface: #201f1e;
-    --sunken: #1b1b1a;
-    --control: #2a2927;
-    --line: #2f2e2c;
-    --ink: #ecebe8;
-    --ink2: #c9c7c2;
-    --muted: #a09e98;
-    --link: #b8cbe4;
-    --primary: #ecebe8;
-    --on-primary: #171716;
-    --strong: #ecebe8;
-    --on-strong: #171716;
-    --ask: #252422;
-    --ask-line: #393735;
-    --scrim: rgba(0, 0, 0, 0.6);
-    --health-tint: #203a2b;
-    --health-ink: #a2d9b6;
-    --doing-tint: #263243;
-    --doing-ink: #bfd0e4;
-    --explore-tint: #242e3e;
-    --explore-ink: #b8cbe4;
-    --news-tint: #43331e;
-    --news-ink: #f0ca8f;
-    --finance-tint: #2f3420;
-    --finance-ink: #cbd69a;
-    --empty: #2a2927;
-    --map-land: #1f2620;
-    --map-grid: #2d352e;
-    --map-sea: #1a1c1d;
-    --map-dot: #343d36;
-    --health: #6dba8a;
-    --doing: #93adcb;
-    --explore: #8faed6;
-    --news: #ddaa5e;
-    --finance: #a9b86a;
-    --me: #dc92ae;
-    --me-tint: #452b36;
-    --me-ink: #f1bbcf;
-    --on-health: #020d05;
-    --on-news: #191005;
-    --on-me: #361525;
-    --on-explore: #16243a;
-    color-scheme: dark;
-  }
+  --me: #9c5b73;
+  --me-tint: #f3e8ec;
+  --me-ink: #7a3f57;
+  --empty: #f1eee6;
+  --map-land: #f1eee4;
+  --map-sea: #e4eae3;
+  --map-grid: #d5d9ce;
+  --map-dot: #cfcabe;
+  --map-line: #a7b1a6;
+  --mark-0: #1f3550;
+  --mark-1: #2b4c7e;
+  --mark-2: #e8dfcc;
+  --mark-route: #ffffff;
+  --sky-dim: 1;
 }
 .app[data-theme="dark"] {
-  --bg: #171716;
-  --surface: #201f1e;
-  --sunken: #1b1b1a;
-  --control: #2a2927;
-  --line: #2f2e2c;
-  --ink: #ecebe8;
-  --ink2: #c9c7c2;
-  --muted: #a09e98;
-  --link: #b8cbe4;
-  --primary: #ecebe8;
-  --on-primary: #171716;
-  --strong: #ecebe8;
-  --on-strong: #171716;
-  --ask: #252422;
-  --ask-line: #393735;
+  --bg: #1a1916;
+  --surface: #22201c;
+  --sunken: #1e1d1a;
+  --control: #2a2723;
+  --line: #34312c;
+  --line-strong: #4a463f;
+  --ink: #ece6da;
+  --ink2: #c2bbae;
+  --muted: #9e978a;
+  --link: #a3b9dd;
+  --link-soft: rgba(163, 185, 221, 0.12);
+  --link-line: rgba(163, 185, 221, 0.32);
+  --primary: #a9bedf;
+  --on-primary: #16202e;
+  --primary-hover: #bfd0ea;
+  --strong: #a9bedf;
+  --on-strong: #16202e;
+  --secondary: #3a362f;
+  --secondary-line: #5a554c;
+  --ask: #2a2723;
+  --ask-line: #3a362f;
   --scrim: rgba(0, 0, 0, 0.6);
-  --health-tint: #203a2b;
-  --health-ink: #a2d9b6;
+  --danger: #e69d91;
+  --ok: #9bcab1;
+  --health: #8fbf9f;
+  --health-tint: #243029;
+  --health-ink: #b5d6bf;
+  --doing: #93adcb;
   --doing-tint: #263243;
   --doing-ink: #bfd0e4;
+  --explore: #8faed6;
   --explore-tint: #242e3e;
   --explore-ink: #b8cbe4;
-  --news-tint: #43331e;
+  --news: #ddaa5e;
+  --news-tint: #3a3020;
   --news-ink: #f0ca8f;
+  --finance: #a9b86a;
   --finance-tint: #2f3420;
   --finance-ink: #cbd69a;
-  --empty: #2a2927;
-  --map-land: #1f2620;
-  --map-grid: #2d352e;
-  --map-sea: #1a1c1d;
-  --map-dot: #343d36;
-  --health: #6dba8a;
-  --doing: #93adcb;
-  --explore: #8faed6;
-  --news: #ddaa5e;
-  --finance: #a9b86a;
   --me: #dc92ae;
   --me-tint: #452b36;
   --me-ink: #f1bbcf;
-  --on-health: #020d05;
-  --on-news: #191005;
-  --on-me: #361525;
-  --on-explore: #16243a;
+  --empty: #2a2723;
+  --map-land: #26231e;
+  --map-sea: #14171a;
+  --map-grid: #3a372f;
+  --map-dot: #4a463e;
+  --map-line: #4a463e;
+  --mark-0: #3a5a86;
+  --mark-1: #5c7daa;
+  --mark-2: #cfc4ad;
+  --mark-route: #ece6da;
+  --sky-dim: 0.78;
   color-scheme: dark;
 }
-
+.app {
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", system-ui, sans-serif;
+  --radius: 10px;
+}
 .app,
 .app * {
   box-sizing: border-box;
@@ -224,10 +197,10 @@
   gap: 8px;
 }
 .button {
-  min-height: 36px;
+  min-height: 44px;
   padding: 6px 16px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--control);
   color: var(--ink);
   font-size: 15px;
@@ -240,17 +213,17 @@
   gap: 6px;
 }
 .tabs button {
-  min-height: 34px;
+  min-height: 44px;
   padding: 6px 14px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 10px;
   background: var(--control);
   color: var(--ink);
   font-size: 14px;
 }
 .tabs button[aria-selected="true"] {
-  background: var(--me);
-  color: var(--bg);
+  background: var(--primary);
+  color: var(--on-primary);
   font-weight: 500;
 }
 .app button:hover:not(:disabled) {
@@ -309,7 +282,7 @@
 }
 .notice {
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--news-tint);
   color: var(--news-ink);
 }
@@ -358,7 +331,7 @@
   height: 40px;
   padding: 0 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--surface);
   color: var(--ink);
   font: inherit;
@@ -383,7 +356,7 @@
   z-index: 2;
   display: grid;
   margin-top: 4px;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 0 0 1px var(--line), 0 8px 24px rgba(31, 30, 29, 0.12);
   background: var(--surface);
   overflow: hidden;
@@ -406,10 +379,10 @@
   gap: 6px;
 }
 .choices button {
-  min-height: 34px;
+  min-height: 44px;
   padding: 6px 14px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 10px;
   background: var(--control);
   color: var(--ink);
   font-size: 14px;
@@ -417,4 +390,19 @@
 .choices button[aria-pressed="true"] {
   background: var(--primary);
   color: var(--on-primary);
+}
+
+.app[data-embed="true"] {
+  padding: 0;
+  width: 100%;
+}
+.pageTitle {
+  display: grid;
+  gap: 6px;
+}
+.pageTitle h1 {
+  font-size: 24px;
+}
+.pageTitle p {
+  color: var(--ink2);
 }

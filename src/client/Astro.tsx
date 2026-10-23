@@ -33,7 +33,7 @@ function chartColors(element: HTMLElement) {
   const style = getComputedStyle(element);
   const read = (name: string) => style.getPropertyValue(name).trim();
   const ink = read("--ink2");
-  const line = read("--line");
+  const line = read("--line-strong");
   const signs = [read("--me-tint"), read("--news-tint"), read("--explore-tint"), read("--health-tint")];
   return {
     COLOR_BACKGROUND: "transparent",
@@ -47,10 +47,10 @@ function chartColors(element: HTMLElement) {
     COLORS_SIGNS: Array.from({ length: 12 }, (_, index) => signs[index % 4] ?? ink),
     ASPECTS: {
       conjunction: { degree: 0, orbit: 8, color: "transparent" },
-      square: { degree: 90, orbit: 7, color: read("--news") },
-      trine: { degree: 120, orbit: 8, color: read("--health") },
-      opposition: { degree: 180, orbit: 8, color: read("--me") },
-      sextile: { degree: 60, orbit: 6, color: read("--explore") },
+      square: { degree: 90, orbit: 7, color: read("--danger") },
+      trine: { degree: 120, orbit: 8, color: read("--ok") },
+      opposition: { degree: 180, orbit: 8, color: read("--danger") },
+      sextile: { degree: 60, orbit: 6, color: read("--link") },
     },
   };
 }

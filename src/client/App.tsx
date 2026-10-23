@@ -71,6 +71,7 @@ export function FortunePage({
   const [chat, setChat] = useState<ChatDestination>();
   useEffect(() => connectChat?.(setChat), [connectChat]);
   const theme = useTheme();
+  const embedded = new URLSearchParams(window.location.hash.slice(1)).get("kaitu-embed") === "1";
   const [tab, setTab] = useState<Tab>("chinese");
   const [birth, setBirth] = useState<Birth | null | undefined>();
   const [editing, setEditing] = useState(false);
@@ -112,9 +113,14 @@ export function FortunePage({
   };
   return (
     <ChatContext.Provider value={chat}>
-      <div className={css.app} data-theme={theme} lang="zh-CN">
+      <div className={css.app} data-theme={theme} data-embed={embedded} lang="zh-CN">
         <main className={css.content} aria-busy={birth === undefined}>
-          {/* 嵌在开图内容区里：没有自己的页头，标签和操作放一行，宽度跟着宿主走 */}
+          {!embedded && (
+            <header className={css.pageTitle}>
+              <h1>命理与星象</h1>
+              <p>八字、紫微、黄历、星盘与塔罗</p>
+            </header>
+          )}
           <div className={css.toolbar}>
             <div className={css.tabs} role="tablist" aria-label="分类">
               {TABS.map(([key, label]) => (
