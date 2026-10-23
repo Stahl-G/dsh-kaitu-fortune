@@ -47,7 +47,7 @@ MPL 文件继续按 MPL-2.0 提供，未改为其他许可。
 Copyright (c) 2026 hhszzzz。抽取日期：2026-10-23。
 固定来源提交：[f885fd1143a6cd4ca15c30ea946cf7e53a5c6a98](https://github.com/hhszzzz/taibu/tree/f885fd1143a6cd4ca15c30ea946cf7e53a5c6a98)。
 
-- `src/vendor/taibu-mbti.ts`：来自 `src/lib/divination/mbti.ts` 的类型、七档权重及计分函数，仅整理格式并去掉浏览器加载和类型介绍。
+- `src/vendor/taibu-mbti.ts`：来自 `src/lib/divination/mbti.ts` 的类型、七档权重及计分函数，整理格式并去掉浏览器加载和类型介绍；百分比只舍入一端，另一端取补数，修正两端合计可能为 101% 的问题。
 - `data/mbti/taibu-questions.json`：来自 `public/mbti/questions/output.txt`，保留全部 93 道原题和顺序，仅调整 JSON 排版。
 - 上游仓库将 `src/`、`public/` 列入 AGPL 范围，原文随插件附在 `licenses/AGPL-3.0-only`。题库文件未另外列出原始量表来源。
 

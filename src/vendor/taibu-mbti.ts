@@ -1,6 +1,7 @@
 // Adapted from hhszzzz/taibu @ f885fd1143a6cd4ca15c30ea946cf7e53a5c6a98
 // Copyright (c) 2026 hhszzzz. SPDX-License-Identifier: AGPL-3.0-only
 // Extracted 2026-10-23: types and deterministic scoring. Browser loading/UI omitted.
+// Modified percentage rounding so each opposite pair totals 100.
 // MBTI 四个维度
 export type Dimension = "E" | "I" | "S" | "N" | "T" | "F" | "J" | "P";
 
@@ -118,7 +119,8 @@ export function calculateResult(questions: MBTIQuestion[], answers: TestAnswer[]
   const calcPercent = (a: number, b: number) => {
     const total = a + b;
     if (total === 0) return { a: 50, b: 50 };
-    return { a: Math.round((a / total) * 100), b: Math.round((b / total) * 100) };
+    const first = Math.round((a / total) * 100);
+    return { a: first, b: 100 - first };
   };
 
   const eiPercent = calcPercent(scores.E, scores.I);
