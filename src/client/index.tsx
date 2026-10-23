@@ -10,6 +10,7 @@ import {
   nativeChatDestination,
   openReadingSession,
 } from "../chat.js";
+import { type ConnectTasks, taskProposer } from "../tasks.js";
 import { FortunePage, type Request, type Watch } from "./App.js";
 
 export const inject = ["slots", "remote", "layout"];
@@ -81,9 +82,18 @@ export async function apply(ctx: Context) {
           void fiber.dispose();
         };
       };
+      const connectTasks: ConnectTasks = (notify) => {
+        const fiber = ctx.inject(["remote.kaitu"], (scope) => {
+          notify(taskProposer(scope.get("remote.kaitu") as Parameters<typeof taskProposer>[0]));
+          scope.effect(() => () => notify());
+        });
+        return () => {
+          void fiber.dispose();
+        };
+      };
       ctx.slots.inject("main", () =>
         ctx.slots.register(
-          { name: "main", key: panel, inject: () => ({ request, watch, connectChat }) },
+          { name: "main", key: panel, inject: () => ({ request, watch, connectChat, connectTasks }) },
           FortunePage,
         ),
       );

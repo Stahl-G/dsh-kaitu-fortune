@@ -5,6 +5,7 @@ import type { Request, Watch } from "./App.js";
 import { ChatContext } from "./Chat.js";
 import css from "./Fortune.module.css";
 import own from "./Reading.module.css";
+import { ReadingTask } from "./Task.js";
 
 const time = (iso: string) => new Date(iso).toLocaleString("zh-CN", { hour12: false }).slice(0, -3);
 
@@ -28,7 +29,7 @@ function Body({ text }: { text: string }) {
 }
 
 /**
- * 先把计算结果交给默认模型盲读，完成后可以由用户选择资料包范围，再结合近况。
+ * 先把计算结果交给默认模型盲读，完成后可以带入新对话草稿，继续结合近况讨论。
  * 解读在插件后台跑，换标签页回来还在；每条连同发出去的全文一起存着，可以回看、删除。
  */
 export function Reading({
@@ -179,6 +180,7 @@ export function Reading({
           </button>
         )}
       </div>
+      {shown?.status === "done" && <ReadingTask key={shown.id} readingId={shown.id} />}
       {earlier.length > 0 && (
         <details className={own.earlier}>
           <summary>以前的解读（{earlier.length}）</summary>
