@@ -13,7 +13,13 @@ export function mbtiTool(dir: string): FortuneTool {
         mode: { type: "string", enum: ["quick", "full"] },
         sessionId: { type: "string" },
         questionId: { type: "integer" },
-        value: { type: "integer", minimum: 1, maximum: 7 },
+        value: {
+          type: "integer",
+          minimum: 1,
+          maximum: 7,
+          description:
+            "1 完全倾向 choice_a，2 较倾向 A，3 稍倾向 A，4 中立，5 稍倾向 B，6 较倾向 B，7 完全倾向 choice_b",
+        },
         type: { type: "string", description: "用户自己提供的四字母类型" },
         id: { type: "string" },
       },

@@ -52,6 +52,7 @@ export function Reading({
   const [list, setList] = useState<Saved[]>([]);
   const [shown, setShown] = useState<Saved | null>(null);
   const [error, setError] = useState("");
+  const [preparing, setPreparing] = useState(false);
   const chat = useContext(ChatContext);
   const [opening, setOpening] = useState(false);
 
@@ -84,6 +85,7 @@ export function Reading({
   }, [running, watch, onSaved]);
 
   const start = async () => {
+    setPreparing(true);
     setError("");
     try {
       const reading = await request<Saved>("startReading", { subject, drawId, ...mbtiInput });
@@ -91,6 +93,8 @@ export function Reading({
       setShown(reading);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setPreparing(false);
     }
   };
   const remove = async (id: string) => {
@@ -169,23 +173,26 @@ export function Reading({
             type="button"
             className={`${css.button} ${css.primary}`}
             disabled={
+              preparing ||
               shown?.status === "running" ||
               (subject === "tarot" && !drawId) ||
               (guessing && !mbtiInput?.description.trim() && !mbtiInput?.charts.length)
             }
             onClick={start}
           >
-            {shown?.status === "running"
-              ? "正在解读…"
-              : guessing
-                ? shown
-                  ? "重新猜一次"
-                  : "请 AI 猜一下"
-                : subject === "tarot" && !drawId
-                  ? "先抽牌再解读"
-                  : shown
-                    ? "再做一次盲读"
-                    : "请 AI 解读"}
+            {preparing
+              ? "正在准备材料…"
+              : shown?.status === "running"
+                ? "正在解读…"
+                : guessing
+                  ? shown
+                    ? "重新猜一次"
+                    : "请 AI 猜一下"
+                  : subject === "tarot" && !drawId
+                    ? "先抽牌再解读"
+                    : shown
+                      ? "再做一次盲读"
+                      : "请 AI 解读"}
           </button>
         )}
         {chat && shown && (shown.kind === "blind" || shown.kind === "guess") && shown.status === "done" && (
