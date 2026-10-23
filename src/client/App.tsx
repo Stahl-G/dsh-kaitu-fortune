@@ -46,6 +46,8 @@ interface Stored {
   dir: string;
   draws: number;
   readings: number;
+  mbti: number;
+  mbtiDraft: boolean;
 }
 
 export const pad = (value: number) => String(value).padStart(2, "0");
@@ -112,7 +114,7 @@ export function FortunePage({
     }
   };
   const remove = async () => {
-    if (!confirm("删除出生信息、抽牌记录和解读？删除后不能恢复。")) return;
+    if (!confirm("删除出生信息、抽牌记录、MBTI 答案和解读？删除后不能恢复。")) return;
     await request("deleteAll");
     setVersion((value) => value + 1);
     await load();
@@ -219,7 +221,8 @@ export function FortunePage({
                 </div>
                 <p className={css.small}>
                   {birth ? "出生信息 1 份" : "没有出生信息"} · 抽牌、起卦记录 {stored.draws} 条 · 解读{" "}
-                  {stored.readings} 条 · 存放在 {stored.dir}
+                  {stored.readings} 条 · MBTI 记录 {stored.mbti} 条
+                  {stored.mbtiDraft ? "（有未完成测试）" : ""} · 存放在 {stored.dir}
                 </p>
                 <p className={css.small}>
                   每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果，以及旧版「结合近况」当时带上的开图资料原文；删除单条解读或「删除我的资料」时一起删除。
@@ -230,7 +233,9 @@ export function FortunePage({
                     type="button"
                     className={css.button}
                     onClick={remove}
-                    disabled={!birth && !stored.draws && !stored.readings}
+                    disabled={
+                      !birth && !stored.draws && !stored.readings && !stored.mbti && !stored.mbtiDraft
+                    }
                   >
                     删除我的资料
                   </button>
