@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import type { MbtiRecord, MbtiState } from "../mbti.js";
-import type { Request } from "./App.js";
+import type { Request, Watch } from "./App.js";
 import css from "./Fortune.module.css";
 import own from "./Mbti.module.css";
+import { MbtiGuess } from "./MbtiGuess.js";
 
 const levels = ["完全偏向左边", "偏向左边", "稍偏左边", "两边差不多", "稍偏右边", "偏向右边", "完全偏向右边"];
 const names = { E: "外向", I: "内向", S: "实感", N: "直觉", T: "思考", F: "情感", J: "判断", P: "知觉" };
@@ -40,9 +41,14 @@ export function MbtiResultCard({ record }: { record: MbtiRecord }) {
   );
 }
 
-export function Mbti({ request, onSaved }: { request: Request; onSaved: () => void }) {
+export function Mbti({
+  request,
+  watch,
+  hasBirth,
+  onSaved,
+}: { request: Request; watch: Watch; hasBirth: boolean; onSaved: () => void }) {
   const [state, setState] = useState<MbtiState>();
-  const [mode, setMode] = useState<"test" | "manual">("test");
+  const [mode, setMode] = useState<"test" | "manual" | "guess">("test");
   const [index, setIndex] = useState(0);
   const [manual, setManual] = useState("");
   const [busy, setBusy] = useState(false);
@@ -100,6 +106,9 @@ export function Mbti({ request, onSaved }: { request: Request; onSaved: () => vo
           <button type="button" aria-pressed={mode === "test"} onClick={() => setMode("test")}>
             自己测
           </button>
+          <button type="button" aria-pressed={mode === "guess"} onClick={() => setMode("guess")}>
+            让 AI 猜
+          </button>
           <button type="button" aria-pressed={mode === "manual"} onClick={() => setMode("manual")}>
             直接填写
           </button>
@@ -111,7 +120,7 @@ export function Mbti({ request, onSaved }: { request: Request; onSaved: () => vo
         )}
         {!state ? (
           <p className={css.empty}>正在读取…</p>
-        ) : mode === "manual" ? (
+        ) : mode === "guess" ? null : mode === "manual" ? (
           <form
             className={own.manual}
             onSubmit={(event) => {
@@ -239,6 +248,9 @@ export function Mbti({ request, onSaved }: { request: Request; onSaved: () => vo
           </div>
         )}
       </section>
+      {mode === "guess" && (
+        <MbtiGuess request={request} watch={watch} hasBirth={hasBirth} onSaved={onSaved} />
+      )}
       {!!state?.records.length && (
         <section className={css.card} aria-labelledby="mbti-records">
           <div className={css.heading}>

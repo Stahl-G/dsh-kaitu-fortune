@@ -3,6 +3,7 @@ import type { Reading } from "./reading.js";
 
 /** 继续讨论时带上的原始上下文；开图资料留给对话中的 Agent 按问题读取。 */
 export function readingChatDraft(reading: Reading) {
+  if (reading.subject === "mbti") return mbtiChatDraft(reading.request.user, reading.text);
   return `我在开图的「命理与星象」里完成了一次盲评，想结合实际情况继续讨论。
 
 开图是我的个人工作区，保存目标、项目、记忆和原始记录。先读工作区的 AGENTS.md、OVERVIEW.md 和 NOW.md 了解结构，
@@ -63,4 +64,18 @@ export function nativeChatDestination(hash: string): ChatDestination | undefined
       window.location.assign(target.href);
     },
   };
+}
+
+export function mbtiChatDraft(materials: string, guess = "") {
+  return `我想结合实际经历，探索自己更像哪种 MBTI 类型。
+开图是我的个人工作区，保存目标、项目、记忆和原始记录。请先读 AGENTS.md、OVERVIEW.md 和 NOW.md 了解结构，
+再围绕我的问题按需查阅资料。逐维说明你参考的实际行为与原文，材料不足时可以追问。
+命盘联想与实际行为分开讨论，保留问卷测出、自己填写和 AI 猜测的来源区别。
+
+【我提供的材料】
+${materials || "请根据开图工作区中的相关资料分析。"}
+
+${guess ? `【之前的 AI 猜测】\n${guess}\n` : ""}
+【我想补充的问题】
+`;
 }

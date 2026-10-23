@@ -28,10 +28,10 @@ export interface Model {
   route(): Route;
 }
 
-export type Subject = "chinese" | "astro" | "tarot";
+export type Subject = "chinese" | "astro" | "tarot" | "mbti";
 export interface Reading {
   id: string;
-  kind: "blind" | "context";
+  kind: "blind" | "context" | "guess";
   blindId?: string;
   subject: Subject;
   /** 塔罗是哪次抽牌。 */
@@ -46,6 +46,7 @@ export interface Reading {
 }
 
 const LABEL: Record<Subject, string> = {
+  mbti: "MBTI 倾向",
   chinese: "八字和紫微斗数",
   astro: "西洋本命星盘",
   tarot: "塔罗抽牌",
@@ -68,6 +69,16 @@ export const SYSTEM = `你在「命理与星象」插件里做一次盲读：只
 - 不说宿命或吓人的话（例如「必有大灾」），用「可能的倾向」「值得留意的地方」这类说法。
 
 用简体中文，全文 1000 字以内。`;
+
+export const MBTI_SYSTEM = `根据用户选择的材料推测其 MBTI 倾向，用简体中文写 600 字以内。使用普通段落，不用星号或项目列表，下面三个二级标题除外。
+用三个小标题：
+## 我更像哪种类型
+给出最符合的类型，以及确有歧义时的 1–2 个候选；材料不足的维度说清楚，不编精确概率。
+## 为什么这样猜
+逐维说明依据。现实行为和自述作为行为证据，命盘只作为传统性格联想，分开说明。
+只用提供的材料，不编造经历、不把命盘转成问卷分数，也不修改用户自己填写或测出的结果。
+## 还想问你的问题
+问 2–3 个能帮助区分候选类型的具体生活问题。不要加免责声明或宿命判断。`;
 
 /** 交给模型的计算结果：和 DSH 里模型调工具拿到的结构化 JSON 相同。 */
 async function facts(dir: string, subject: Subject, drawId?: string) {
@@ -93,6 +104,19 @@ async function facts(dir: string, subject: Subject, drawId?: string) {
   return JSON.stringify({ 八字: bazi, 大运: dayun, 紫微斗数: ziwei });
 }
 
+export async function mbtiMaterials(dir: string, description: string, charts: ("chinese" | "astro")[]) {
+  if (
+    typeof description !== "string" ||
+    !Array.isArray(charts) ||
+    charts.some((subject) => subject !== "chinese" && subject !== "astro")
+  )
+    throw new Error("请选择有效的参考材料");
+  if (!description.trim() && charts.length === 0) throw new Error("写一点自己的倾向，或选择一份命盘");
+  const parts = description.trim() ? [`【我的描述】\n${description.trim()}`] : [];
+  for (const subject of new Set(charts)) parts.push(`【${LABEL[subject]}】\n${await facts(dir, subject)}`);
+  return parts.join("\n\n");
+}
+
 const folder = (dir: string) => join(dir, "readings");
 const file = (dir: string, id: string) => {
   if (!/^\d{4}-\d{2}-\d{2}-[0-9a-f]{8}$/.test(id)) throw new Error("没有这条解读");
@@ -114,6 +138,7 @@ export class Readings {
   constructor(private readonly dir: string) {}
 
   async start(subject: Subject, drawId?: string): Promise<Reading> {
+    if (subject === "mbti") throw new Error("请提供想让 AI 参考的描述或命盘");
     if (!this.model) throw new Error("DSH 里还没有可用的模型，先在设置里选一个模型");
     const controller = new AbortController();
     this.preparing.add(controller);
@@ -130,6 +155,19 @@ export class Readings {
       { kind: "blind", ...(subject === "tarot" ? { drawId: String(drawId) } : {}) },
       controller,
     );
+  }
+
+  async guessMbti(description: string, charts: ("chinese" | "astro")[]): Promise<Reading> {
+    if (!this.model) throw new Error("DSH 里还没有可用的模型，先在设置里选一个模型");
+    const controller = new AbortController();
+    this.preparing.add(controller);
+    try {
+      const input = await mbtiMaterials(this.dir, description, charts);
+      controller.signal.throwIfAborted();
+      return this.launch("mbti", { system: MBTI_SYSTEM, user: input }, { kind: "guess" }, controller);
+    } finally {
+      this.preparing.delete(controller);
+    }
   }
 
   private launch(

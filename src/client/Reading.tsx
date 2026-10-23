@@ -39,6 +39,7 @@ export function Reading({
   drawId,
   onSaved,
   historyOnly = false,
+  mbtiInput,
 }: {
   request: Request;
   watch: Watch;
@@ -46,6 +47,7 @@ export function Reading({
   drawId?: string;
   onSaved: () => void;
   historyOnly?: boolean;
+  mbtiInput?: { description: string; charts: ("chinese" | "astro")[] };
 }) {
   const [list, setList] = useState<Saved[]>([]);
   const [shown, setShown] = useState<Saved | null>(null);
@@ -84,7 +86,7 @@ export function Reading({
   const start = async () => {
     setError("");
     try {
-      const reading = await request<Saved>("startReading", { subject, drawId });
+      const reading = await request<Saved>("startReading", { subject, drawId, ...mbtiInput });
       setList((current) => [reading, ...current]);
       setShown(reading);
     } catch (err) {
@@ -111,22 +113,27 @@ export function Reading({
   };
   const earlier = list.filter((reading) => reading.id !== shown?.id);
   if (historyOnly && list.length === 0) return null;
+  const guessing = subject === "mbti";
+  const kindLabel = (kind: Saved["kind"]) =>
+    kind === "guess" ? "AI 猜测" : kind === "context" ? "结合近况" : "盲读";
   const heading = `fortune-reading-${subject}${historyOnly ? "-history" : ""}`;
 
   return (
     <section className={css.card} aria-labelledby={heading}>
       <div className={css.heading}>
-        <h2 id={heading}>{historyOnly ? "历史塔罗解读" : "请 AI 解读"}</h2>
+        <h2 id={heading}>{guessing ? "AI 猜我的 MBTI" : historyOnly ? "历史塔罗解读" : "请 AI 解读"}</h2>
         <span>
-          {historyOnly
-            ? "对应当时的抽牌，牌面与问题可在「发给模型的全文」回看"
-            : "先只看计算结果做盲评，之后可以开新对话，补充问题再发送"}
+          {guessing
+            ? "只参考上面提供的材料，保留猜测依据"
+            : historyOnly
+              ? "对应当时的抽牌，牌面与问题可在「发给模型的全文」回看"
+              : "先只看计算结果做盲评，之后可以开新对话，补充问题再发送"}
         </span>
       </div>
       {shown ? (
         <>
           <p className={css.small}>
-            {time(shown.createdAt)} · {shown.kind === "context" ? "结合近况" : "盲读"} · {shown.model.model}
+            {time(shown.createdAt)} · {kindLabel(shown.kind)} · {shown.model.model}
             {shown.status === "running" && " · 正在解读…"}
           </p>
           {shown.text ? (
@@ -145,7 +152,11 @@ export function Reading({
           </details>
         </>
       ) : (
-        <p className={css.small}>还没有解读过。解读分三段：计算事实、传统解读、可以想想的问题。</p>
+        <p className={css.small}>
+          {guessing
+            ? "写下自己的习惯与倾向，或选择想参考的命盘。"
+            : "还没有解读过。解读分三段：计算事实、传统解读、可以想想的问题。"}
+        </p>
       )}
       {error && (
         <p className={css.notice} role="alert">
@@ -157,19 +168,27 @@ export function Reading({
           <button
             type="button"
             className={`${css.button} ${css.primary}`}
-            disabled={shown?.status === "running" || (subject === "tarot" && !drawId)}
+            disabled={
+              shown?.status === "running" ||
+              (subject === "tarot" && !drawId) ||
+              (guessing && !mbtiInput?.description.trim() && !mbtiInput?.charts.length)
+            }
             onClick={start}
           >
             {shown?.status === "running"
               ? "正在解读…"
-              : subject === "tarot" && !drawId
-                ? "先抽牌再解读"
-                : shown
-                  ? "再做一次盲读"
-                  : "请 AI 解读"}
+              : guessing
+                ? shown
+                  ? "重新猜一次"
+                  : "请 AI 猜一下"
+                : subject === "tarot" && !drawId
+                  ? "先抽牌再解读"
+                  : shown
+                    ? "再做一次盲读"
+                    : "请 AI 解读"}
           </button>
         )}
-        {chat && shown?.kind === "blind" && shown.status === "done" && (
+        {chat && shown && (shown.kind === "blind" || shown.kind === "guess") && shown.status === "done" && (
           <button type="button" className={css.button} disabled={opening} onClick={continueChat}>
             {opening ? "正在打开新对话…" : chat.label}
           </button>
@@ -194,8 +213,7 @@ export function Reading({
                     setShown(reading);
                   }}
                 >
-                  {time(reading.createdAt)} · {reading.kind === "context" ? "结合近况" : "盲读"} ·{" "}
-                  {reading.model.model}
+                  {time(reading.createdAt)} · {kindLabel(reading.kind)} · {reading.model.model}
                   {reading.status === "failed" ? " · 没有完成" : ""}
                 </button>
                 <button type="button" className={css.link} onClick={() => void remove(reading.id)}>

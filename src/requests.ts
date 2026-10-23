@@ -12,7 +12,7 @@ import {
 import { searchCities } from "./cities.js";
 import { countDraws } from "./draws.js";
 import { mbtiAction, readMbti } from "./mbti.js";
-import { type Readings, type Subject, countReadings } from "./reading.js";
+import { type Readings, type Subject, countReadings, mbtiMaterials } from "./reading.js";
 import { cast } from "./tools.js";
 
 type Args = Record<string, unknown>;
@@ -161,7 +161,11 @@ export async function handle(
       const data = readFileSync(new URL(`../data/tarot/${name}.jpg`, import.meta.url)).toString("base64");
       return `data:image/jpeg;base64,${data}`;
     }
+    case "mbtiMaterials":
+      return mbtiMaterials(dir, args.description as string, args.charts as ("chinese" | "astro")[]);
     case "startReading":
+      if (args.subject === "mbti")
+        return readings?.guessMbti(args.description as string, args.charts as ("chinese" | "astro")[]);
       return readings?.start(args.subject as Subject, args.drawId as string | undefined);
     case "readings":
       return readings?.list(args.subject as Subject | undefined) ?? [];

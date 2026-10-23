@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { expect, test } from "vitest";
 import { saveBirth } from "../src/birth.js";
 import { searchCities } from "../src/cities.js";
+import { mbtiAction } from "../src/mbti.js";
 import { type Chunk, type Llm, type Reading, Readings } from "../src/reading.js";
 import { handle } from "../src/requests.js";
 
@@ -194,4 +195,34 @@ test("塔罗解读用这次抽到的牌和当时问的事；一键删除连解�
 
   await handle(at, "deleteAll", {});
   expect(existsSync(join(at, "readings"))).toBe(false);
+});
+
+test("MBTI 猜测只用选定材料，与问卷和自填结果分开保存，删除时连材料一起删除", async () => {
+  const at = await withBirth();
+  mbtiAction(at, { action: "manual", type: "INFP" });
+  const readings = new Readings(at);
+  const fake = fakeLlm([delta("INTJ，也可能是 INTP。")]);
+  readings.model = { llm: fake.llm, route: () => route };
+  const description = "合成描述：我喜欢独处，遇到决定会列出利弊。";
+  const started = await readings.guessMbti(description, []);
+  fake.release();
+  await all(readings.watch(started.id));
+  const request = fake.sent[0] as { messages: { content: { text: string }[] }[]; tools?: unknown };
+  const user = request.messages[0]?.content[0]?.text ?? "";
+  expect(user).toContain(description);
+  expect(user).not.toContain("INFP");
+  expect(user).not.toContain("1990");
+  expect(request.tools).toBeUndefined();
+  const saved = readings.read(started.id);
+  expect(saved).toMatchObject({ subject: "mbti", kind: "guess", status: "done", request: { user } });
+  const chartGuess = await readings.guessMbti("", ["chinese"]);
+  await all(readings.watch(chartGuess.id));
+  const payload = readings.read(chartGuess.id).request.user;
+  const facts = JSON.parse(payload.slice(payload.indexOf("{")));
+  expect(Object.keys(facts)).toEqual(["八字", "大运", "紫微斗数"]);
+  readings.remove(started.id);
+  expect(existsSync(join(at, "readings", `${started.id}.json`))).toBe(false);
+  await handle(at, "deleteAll", {}, readings);
+  expect(readings.list()).toEqual([]);
+  expect(existsSync(join(at, "mbti.json"))).toBe(false);
 });
