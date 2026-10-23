@@ -216,7 +216,7 @@ export function FortunePage({
                   {stored.readings} 条 · 存放在 {stored.dir}
                 </p>
                 <p className={css.small}>
-                  每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果和当时带上的近况原文；删除解读时一起删除。
+                  每条解读都连同当时发给模型的全文一起存着，包括盘面的计算结果，以及旧版「结合近况」当时带上的开图资料原文；删除单条解读或「删除我的资料」时一起删除。
                 </p>
                 <p className={css.small}>卸载插件不会删除这些资料；要清掉，请在卸载前点下面的按钮。</p>
                 <div className={css.actions}>
@@ -231,7 +231,7 @@ export function FortunePage({
                 </div>
               </section>
             )}
-            <footer className={css.foot}>传统文化与自我反思参考，不是预测。</footer>
+            <footer className={css.foot}>传统文化与自我反思参考</footer>
           </main>
         </div>
       </TaskContext.Provider>
