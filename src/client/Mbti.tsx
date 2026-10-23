@@ -73,7 +73,13 @@ export function Mbti({ request, onSaved }: { request: Request; onSaved: () => vo
     try {
       const next = await request<MbtiState>("mbti", input);
       setState(next);
-      setIndex(advance ? Math.min(index + 1, next.total - 1) : 0);
+      setIndex(
+        advance
+          ? index + 1 >= next.total && next.next
+            ? next.questions.findIndex((q) => q.id === next.next?.id)
+            : Math.min(index + 1, next.total - 1)
+          : 0,
+      );
       onSaved();
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));

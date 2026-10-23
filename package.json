@@ -61,7 +61,7 @@
         "zh": "命理与星象",
         "en": "Fortune"
       },
-      "description": "MBTI 自测与 AI 猜测，八字、紫微、星盘与塔罗",
+      "description": "MBTI 自测，八字、紫微、星盘与塔罗",
       "icon": "命",
       "page": "kaitu-fortune"
     }
