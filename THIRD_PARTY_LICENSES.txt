@@ -40,7 +40,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-== @deepseek-ai/dsh-typert-protocol@0.2.1-rc.2 (MIT)
+== @deepseek-ai/dsh-typert-protocol@0.2.1-rc.3 (MIT)
 打进：dist/client.js
 仓库：https://github.com/deepseek-ai/deepseek-harness.git
 许可原文取自包内 LICENSE

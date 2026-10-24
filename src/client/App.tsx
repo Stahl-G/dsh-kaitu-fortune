@@ -23,11 +23,15 @@ const TABS: [Tab, string][] = [
   ["tarot", "塔罗"],
 ];
 
-/** 跟开图页面一样：DSH 切深色时 body 上有 data-ds-dark-theme，否则看系统设置。 */
-const read = () =>
-  document.body.hasAttribute("data-ds-dark-theme") || matchMedia("(prefers-color-scheme: dark)").matches
+/** rc.3 在根元素发布已解析的 color-scheme，固定浅色不跟随系统深色。 */
+const read = () => {
+  const scheme = document.documentElement.style.colorScheme;
+  if (scheme === "light" || scheme === "dark") return scheme;
+  return document.body.hasAttribute("data-ds-dark-theme") ||
+    matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
+};
 function useTheme() {
   const [theme, setTheme] = useState(read);
   useEffect(() => {
@@ -36,6 +40,7 @@ function useTheme() {
     media.addEventListener("change", update);
     const observer = new MutationObserver(update);
     observer.observe(document.body, { attributes: true, attributeFilter: ["data-ds-dark-theme"] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
     return () => {
       media.removeEventListener("change", update);
       observer.disconnect();
