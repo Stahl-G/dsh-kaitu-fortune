@@ -10,7 +10,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { WorkspaceTypertGenerator } from "@deepseek-ai/dsh-typert-generator";
 import { build } from "esbuild";
@@ -28,7 +28,7 @@ try {
   mkdirSync(resolve(pkg, "lib"), { recursive: true });
   cpSync(resolve(root, "src"), resolve(pkg, "src"), {
     recursive: true,
-    filter: (path) => !path.includes("/client"),
+    filter: (path) => relative(resolve(root, "src"), path).split(sep)[0] !== "client",
   });
   // 生成器按 exports 找源码入口（lib/x.js 对应 src/x.ts）；临时目录里没有 dist，入口指到源码。
   const manifest = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8"));
@@ -36,7 +36,7 @@ try {
   manifest.exports = { ...exports, ".": "./lib/index.js" };
   writeFileSync(resolve(pkg, "package.json"), JSON.stringify(manifest));
   writeFileSync(resolve(pkg, "lib/typert.host.d.ts"), "export declare const TYPERT: unknown;\n");
-  symlinkSync(modules, resolve(pkg, "node_modules"));
+  symlinkSync(modules, resolve(pkg, "node_modules"), "junction");
   for (const name of sdk) {
     const dir = resolve(analysis, "packages", name);
     cpSync(resolve(modules, `@deepseek-ai/${name}/lib/types`), resolve(dir, "src"), { recursive: true });
@@ -44,7 +44,7 @@ try {
       resolve(dir, "package.json"),
       JSON.stringify({ name: `@deepseek-ai/${name}`, exports: { ".": "./src/index.d.ts" } }),
     );
-    symlinkSync(modules, resolve(dir, "node_modules"));
+    symlinkSync(modules, resolve(dir, "node_modules"), "junction");
   }
   const options = JSON.parse(readFileSync(resolve(root, "tsconfig.json"), "utf8"));
   options.compilerOptions.noEmit = false;
@@ -56,7 +56,7 @@ try {
     resolve(analysis, "tsconfig.base.json"),
     JSON.stringify({ compilerOptions: options.compilerOptions }),
   );
-  symlinkSync(modules, resolve(analysis, "node_modules"));
+  symlinkSync(modules, resolve(analysis, "node_modules"), "junction");
   for (const dir of [pkg, ...sdk.map((name) => resolve(analysis, "packages", name))])
     writeFileSync(
       resolve(dir, "tsconfig.json"),
@@ -103,13 +103,16 @@ const host = await build({
       // taibu 的星盘用 createRequire 动态加载这个 CJS 包，esbuild 看不到，改成静态 import 才能打进来。
       name: "static-horoscope",
       setup(b) {
-        b.onLoad({ filter: /taibu-core\/dist\/domains\/astrology\/calculate\.js$/ }, ({ path }) => ({
-          contents: readFileSync(path, "utf8").replace(
-            "const horoscopePackage = require('circular-natal-horoscope-js');",
-            "import horoscopePackage from 'circular-natal-horoscope-js';",
-          ),
-          loader: "js",
-        }));
+        b.onLoad(
+          { filter: /taibu-core[\\/]dist[\\/]domains[\\/]astrology[\\/]calculate\.js$/ },
+          ({ path }) => ({
+            contents: readFileSync(path, "utf8").replace(
+              "const horoscopePackage = require('circular-natal-horoscope-js');",
+              "import horoscopePackage from 'circular-natal-horoscope-js';",
+            ),
+            loader: "js",
+          }),
+        );
       },
     },
     {
@@ -150,7 +153,7 @@ const client = await build({
         b.onLoad({ filter: /\.css$/ }, ({ path }) => {
           const module = path.endsWith(".module.css");
           const result = transform({
-            filename: path,
+            filename: relative(root, path).split(sep).join("/"),
             code: readFileSync(path),
             minify: true,
             cssModules: module ? { pattern: "kf_[local]_[hash]" } : false,
@@ -185,7 +188,7 @@ writeFileSync(
       [...css]
         .sort(
           ([a], [b]) =>
-            Number(!a.endsWith("/Fortune.module.css")) - Number(!b.endsWith("/Fortune.module.css")) ||
+            Number(basename(a) !== "Fortune.module.css") - Number(basename(b) !== "Fortune.module.css") ||
             a.localeCompare(b),
         )
         .map(([, code]) => code)
@@ -275,5 +278,8 @@ sections.push(
 );
 writeFileSync(
   resolve(root, "THIRD_PARTY_LICENSES.txt"),
-  `本文件由 scripts/build.mjs 生成：列出实际打进 dist/index.js 和 dist/client.js 的第三方包及其许可全文。\n\n${sections.join("\n\n\n")}\n`,
+  `本文件由 scripts/build.mjs 生成：列出实际打进 dist/index.js 和 dist/client.js 的第三方包及其许可全文。\n\n${sections.join("\n\n\n")}\n`.replace(
+    /\r\n/g,
+    "\n",
+  ),
 );

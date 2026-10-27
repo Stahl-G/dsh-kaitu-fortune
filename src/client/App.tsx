@@ -11,6 +11,7 @@ import css from "./Fortune.module.css";
 import { Mbti } from "./Mbti.js";
 import { Tarot } from "./Tarot.js";
 import { TaskContext } from "./Task.js";
+import { readTheme } from "./theme.js";
 
 export type Request = <T>(operation: string, input?: object) => Promise<T>;
 /** 接上一条正在生成的解读，每多一段回调一次；返回值用来断开。 */
@@ -23,19 +24,15 @@ const TABS: [Tab, string][] = [
   ["tarot", "塔罗"],
 ];
 
-/** 跟开图页面一样：DSH 切深色时 body 上有 data-ds-dark-theme，否则看系统设置。 */
-const read = () =>
-  document.body.hasAttribute("data-ds-dark-theme") || matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
 function useTheme() {
-  const [theme, setTheme] = useState(read);
+  const [theme, setTheme] = useState(readTheme);
   useEffect(() => {
     const media = matchMedia("(prefers-color-scheme: dark)");
-    const update = () => setTheme(read());
+    const update = () => setTheme(readTheme());
     media.addEventListener("change", update);
     const observer = new MutationObserver(update);
     observer.observe(document.body, { attributes: true, attributeFilter: ["data-ds-dark-theme"] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
     return () => {
       media.removeEventListener("change", update);
       observer.disconnect();
