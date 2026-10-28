@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { type Dispatch, type SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { mbtiChatDraft } from "../chat.js";
 import type { Request, Watch } from "./App.js";
 import { ChatContext } from "./Chat.js";
@@ -11,14 +11,17 @@ export function MbtiGuess({
   watch,
   hasBirth,
   onSaved,
+  draft,
+  setDraft,
 }: {
   request: Request;
   watch: Watch;
   hasBirth: boolean;
   onSaved: () => void;
+  draft: { description: string; charts: ("chinese" | "astro")[] };
+  setDraft: Dispatch<SetStateAction<{ description: string; charts: ("chinese" | "astro")[] }>>;
 }) {
-  const [description, setDescription] = useState("");
-  const [charts, setCharts] = useState<("chinese" | "astro")[]>([]);
+  const { description, charts } = draft;
   const [error, setError] = useState("");
   const [opening, setOpening] = useState(false);
   const active = useRef(true);
@@ -60,7 +63,7 @@ export function MbtiGuess({
           <textarea
             className={own.description}
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
+            onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
             placeholder="例如：独处后更有精神；做决定先列利弊；旅行时喜欢留白……"
             rows={4}
           />
@@ -73,11 +76,12 @@ export function MbtiGuess({
                   type="checkbox"
                   checked={charts.includes(subject)}
                   onChange={(event) =>
-                    setCharts((current) =>
-                      event.target.checked
-                        ? [...current, subject]
-                        : current.filter((item) => item !== subject),
-                    )
+                    setDraft((current) => ({
+                      ...current,
+                      charts: event.target.checked
+                        ? [...current.charts, subject]
+                        : current.charts.filter((item) => item !== subject),
+                    }))
                   }
                 />
                 {subject === "chinese" ? "参考八字与紫微" : "参考星盘"}

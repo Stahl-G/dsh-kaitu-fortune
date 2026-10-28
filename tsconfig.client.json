@@ -7,6 +7,6 @@
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "types": ["node"]
   },
-  "include": ["src/client/**/*", "src/modules.d.ts"],
+  "include": ["src/client/**/*", "src/modules.d.ts", "test/chat-cancel.test.tsx"],
   "exclude": []
 }

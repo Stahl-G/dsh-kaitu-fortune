@@ -85,6 +85,10 @@ export function FortunePage({
   const [stored, setStored] = useState<Stored | null>(null);
   // 删除资料后各面板重新开始，不留着已经删掉的抽牌结果
   const [version, setVersion] = useState(0);
+  const [guessDraft, setGuessDraft] = useState<{ description: string; charts: ("chinese" | "astro")[] }>({
+    description: "",
+    charts: [],
+  });
   const [error, setError] = useState("");
   const load = useCallback(async () => {
     try {
@@ -115,6 +119,7 @@ export function FortunePage({
   const remove = async () => {
     if (!confirm("删除出生信息、抽牌记录、MBTI 答案和解读？删除后不能恢复。")) return;
     await request("deleteAll");
+    setGuessDraft({ description: "", charts: [] });
     setVersion((value) => value + 1);
     await load();
   };
@@ -192,7 +197,14 @@ export function FortunePage({
               aria-labelledby={`fortune-tab-${tab}`}
             >
               {tab === "mbti" && (
-                <Mbti request={request} watch={watch} hasBirth={!!birth} onSaved={refreshStored} />
+                <Mbti
+                  request={request}
+                  watch={watch}
+                  hasBirth={!!birth}
+                  onSaved={refreshStored}
+                  guessDraft={guessDraft}
+                  setGuessDraft={setGuessDraft}
+                />
               )}
               {tab === "chinese" && (
                 <Chinese
