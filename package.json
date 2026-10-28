@@ -1,6 +1,6 @@
 {
   "name": "kaitu-fortune",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "DSH 插件：MBTI、中式命理、西洋星盘与塔罗，本机测试、解读与新对话",
   "type": "module",
   "license": "AGPL-3.0-only",

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { readingChatDraft } from "../chat.js";
 import type { Reading as Saved, Subject } from "../reading.js";
 import type { Request, Watch } from "./App.js";
@@ -55,6 +55,14 @@ export function Reading({
   const [preparing, setPreparing] = useState(false);
   const chat = useContext(ChatContext);
   const [opening, setOpening] = useState(false);
+  const openingRef = useRef(false);
+  const active = useRef(true);
+  useEffect(() => {
+    active.current = true;
+    return () => {
+      active.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -104,15 +112,17 @@ export function Reading({
     onSaved();
   };
   const continueChat = async () => {
-    if (!chat || !shown) return;
+    if (!chat || !shown || openingRef.current) return;
+    openingRef.current = true;
     setOpening(true);
     setError("");
     try {
       await chat.open(readingChatDraft(shown));
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (active.current) setError(err instanceof Error ? err.message : String(err));
     } finally {
-      setOpening(false);
+      openingRef.current = false;
+      if (active.current) setOpening(false);
     }
   };
   const earlier = list.filter((reading) => reading.id !== shown?.id);

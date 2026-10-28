@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { mbtiChatDraft } from "../chat.js";
 import type { Request, Watch } from "./App.js";
 import { ChatContext } from "./Chat.js";
@@ -21,9 +21,18 @@ export function MbtiGuess({
   const [charts, setCharts] = useState<("chinese" | "astro")[]>([]);
   const [error, setError] = useState("");
   const [opening, setOpening] = useState(false);
+  const active = useRef(true);
+  const openingRef = useRef(false);
+  useEffect(() => {
+    active.current = true;
+    return () => {
+      active.current = false;
+    };
+  }, []);
   const chat = useContext(ChatContext);
   const open = async () => {
-    if (!chat) return;
+    if (!chat || openingRef.current) return;
+    openingRef.current = true;
     setOpening(true);
     setError("");
     try {
@@ -31,11 +40,12 @@ export function MbtiGuess({
         description.trim() || charts.length
           ? await request<string>("mbtiMaterials", { description, charts })
           : "";
-      await chat.open(mbtiChatDraft(materials));
+      if (active.current) await chat.open(mbtiChatDraft(materials));
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (active.current) setError(err instanceof Error ? err.message : String(err));
     } finally {
-      setOpening(false);
+      openingRef.current = false;
+      if (active.current) setOpening(false);
     }
   };
   return (

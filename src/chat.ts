@@ -50,6 +50,55 @@ export async function openReadingSession(services: SessionServices, workspace: s
   services.conversation.input.for(scope).setDraft(draft);
 }
 
+/** 嵌入开图时，只把用户选择的草稿交给已指定的父页面。 */
+export function embeddedChatDestination(hash: string): ChatDestination | undefined {
+  const route = new URLSearchParams(hash.slice(1));
+  if (route.get("kaitu-embed") !== "1" || window.parent === window) return;
+  const parent = URL.parse(route.get("kaitu-parent") ?? "");
+  if (
+    !parent ||
+    parent.protocol !== "http:" ||
+    parent.hostname !== "127.0.0.1" ||
+    parent.username ||
+    parent.password ||
+    parent.origin !== parent.href.replace(/\/$/, "")
+  )
+    return;
+  let pending: { id: string; draft: string } | undefined;
+  return {
+    label: "结合近况，开新对话",
+    async open(draft) {
+      if (!pending || pending.draft !== draft) pending = { id: crypto.randomUUID(), draft };
+      const request = pending;
+      await new Promise<void>((resolve, reject) => {
+        const finish = (error?: string) => {
+          clearTimeout(timer);
+          window.removeEventListener("message", receive);
+          if (error) reject(new Error(error));
+          else {
+            pending = undefined;
+            resolve();
+          }
+        };
+        const receive = (event: MessageEvent) => {
+          if (
+            event.source !== window.parent ||
+            event.origin !== parent.origin ||
+            event.data?.type !== "kaitu:open-ask-draft-result" ||
+            event.data.id !== request.id
+          )
+            return;
+          if (event.data.accepted === true) finish();
+          else finish("问问中有未发送的草稿或正在处理，请先处理后重试；当前材料已保留。");
+        };
+        const timer = setTimeout(() => finish("打开问问超时，请重试；当前材料已保留。"), 10000);
+        window.addEventListener("message", receive);
+        window.parent.postMessage({ type: "kaitu:open-ask-draft", ...request }, parent.origin);
+      });
+    },
+  };
+}
+
 /** N4 的原生模块路由提供返回地址；片段不进入 HTTP 请求，问问领取后立即清掉。 */
 export function nativeChatDestination(hash: string): ChatDestination | undefined {
   const back = new URLSearchParams(hash.slice(1)).get("kaitu-return");
