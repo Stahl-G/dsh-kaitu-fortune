@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { type Dispatch, type SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { mbtiChatDraft } from "../chat.js";
 import type { Request, Watch } from "./App.js";
 import { ChatContext } from "./Chat.js";
@@ -11,19 +11,31 @@ export function MbtiGuess({
   watch,
   hasBirth,
   onSaved,
+  draft,
+  setDraft,
 }: {
   request: Request;
   watch: Watch;
   hasBirth: boolean;
   onSaved: () => void;
+  draft: { description: string; charts: ("chinese" | "astro")[] };
+  setDraft: Dispatch<SetStateAction<{ description: string; charts: ("chinese" | "astro")[] }>>;
 }) {
-  const [description, setDescription] = useState("");
-  const [charts, setCharts] = useState<("chinese" | "astro")[]>([]);
+  const { description, charts } = draft;
   const [error, setError] = useState("");
   const [opening, setOpening] = useState(false);
+  const active = useRef(true);
+  const openingRef = useRef(false);
+  useEffect(() => {
+    active.current = true;
+    return () => {
+      active.current = false;
+    };
+  }, []);
   const chat = useContext(ChatContext);
   const open = async () => {
-    if (!chat) return;
+    if (!chat || openingRef.current) return;
+    openingRef.current = true;
     setOpening(true);
     setError("");
     try {
@@ -31,11 +43,12 @@ export function MbtiGuess({
         description.trim() || charts.length
           ? await request<string>("mbtiMaterials", { description, charts })
           : "";
-      await chat.open(mbtiChatDraft(materials));
+      if (active.current) await chat.open(mbtiChatDraft(materials));
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (active.current) setError(err instanceof Error ? err.message : String(err));
     } finally {
-      setOpening(false);
+      openingRef.current = false;
+      if (active.current) setOpening(false);
     }
   };
   return (
@@ -50,7 +63,7 @@ export function MbtiGuess({
           <textarea
             className={own.description}
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
+            onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
             placeholder="例如：独处后更有精神；做决定先列利弊；旅行时喜欢留白……"
             rows={4}
           />
@@ -63,11 +76,12 @@ export function MbtiGuess({
                   type="checkbox"
                   checked={charts.includes(subject)}
                   onChange={(event) =>
-                    setCharts((current) =>
-                      event.target.checked
-                        ? [...current, subject]
-                        : current.filter((item) => item !== subject),
-                    )
+                    setDraft((current) => ({
+                      ...current,
+                      charts: event.target.checked
+                        ? [...current.charts, subject]
+                        : current.charts.filter((item) => item !== subject),
+                    }))
                   }
                 />
                 {subject === "chinese" ? "参考八字与紫微" : "参考星盘"}
