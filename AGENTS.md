@@ -8,3 +8,5 @@
 - 排盘继续只用 taibu-core。用户已批准此独立 DSH 插件复用太卜 AGPL 的 MBTI 题库与计分，保留来源和许可；不移植 Web/App 登录、云存储或页面。
 - 改发行代码后运行 `pnpm build`，提交 `dist` 供 GitHub 直接安装；验收截图只放 PR 描述，不提交进仓库。
 - PR 净增代码超过约 400 行先拆。
+
+- Avoid unnecessary secondary labels and descriptions. Let the layout do the explaining.
