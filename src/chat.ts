@@ -91,10 +91,10 @@ export function embeddedChatDestination(hash: string): ChatDestination | undefin
           )
             return;
           if (event.data.accepted === true) finish();
-          else if (event.data.reason === "inactive") finish("已离开命理页面，材料已保留；返回后可重试。");
-          else finish("问问中有未发送的草稿或正在处理，请先处理后重试；当前材料已保留。");
+          else if (event.data.reason === "inactive") finish("已离开命理页面，请返回后重试。");
+          else finish("问问中有未发送的草稿或正在处理，请先处理后重试。");
         };
-        const timer = setTimeout(() => finish("打开问问超时，请重试；当前材料已保留。"), 10000);
+        const timer = setTimeout(() => finish("打开问问超时，请重试。"), 10000);
         window.addEventListener("message", receive);
         window.parent.postMessage({ type: "kaitu:open-ask-draft", ...request }, parent.origin);
       });

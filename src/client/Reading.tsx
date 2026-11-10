@@ -167,9 +167,7 @@ export function Reading({
         </>
       ) : (
         <p className={css.small}>
-          {guessing
-            ? "写下自己的习惯与倾向，或选择想参考的命盘。"
-            : "还没有解读过。解读分三段：计算事实、传统解读、可以想想的问题。"}
+          {guessing ? "写下自己的习惯与倾向，或选择想参考的命盘。" : "还没有解读。"}
         </p>
       )}
       {error && (
