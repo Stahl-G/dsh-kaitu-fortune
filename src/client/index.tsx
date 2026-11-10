@@ -7,6 +7,7 @@ import contribution from "../../lib/typert.remote-client.js";
 import {
   type ConnectChat,
   type SessionServices,
+  embeddedChatDestination,
   nativeChatDestination,
   openReadingSession,
 } from "../chat.js";
@@ -44,7 +45,8 @@ export async function apply(ctx: Context) {
         return () => stream.dispose();
       };
       const connectChat: ConnectChat = (notify) => {
-        const native = nativeChatDestination(window.location.hash);
+        const native =
+          embeddedChatDestination(window.location.hash) ?? nativeChatDestination(window.location.hash);
         if (native) {
           notify(native);
           return () => notify();
