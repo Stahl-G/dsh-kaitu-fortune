@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useCallback, useEffect, useState } from "react";
 import type { MbtiRecord, MbtiState } from "../mbti.js";
 import type { Request, Watch } from "./App.js";
 import css from "./Fortune.module.css";
@@ -46,7 +46,16 @@ export function Mbti({
   watch,
   hasBirth,
   onSaved,
-}: { request: Request; watch: Watch; hasBirth: boolean; onSaved: () => void }) {
+  guessDraft,
+  setGuessDraft,
+}: {
+  request: Request;
+  watch: Watch;
+  hasBirth: boolean;
+  onSaved: () => void;
+  guessDraft: { description: string; charts: ("chinese" | "astro")[] };
+  setGuessDraft: Dispatch<SetStateAction<{ description: string; charts: ("chinese" | "astro")[] }>>;
+}) {
   const [state, setState] = useState<MbtiState>();
   const [mode, setMode] = useState<"test" | "manual" | "guess">("test");
   const [index, setIndex] = useState(0);
@@ -249,7 +258,14 @@ export function Mbti({
         )}
       </section>
       {mode === "guess" && (
-        <MbtiGuess request={request} watch={watch} hasBirth={hasBirth} onSaved={onSaved} />
+        <MbtiGuess
+          request={request}
+          watch={watch}
+          hasBirth={hasBirth}
+          onSaved={onSaved}
+          draft={guessDraft}
+          setDraft={setGuessDraft}
+        />
       )}
       {!!state?.records.length && (
         <section className={css.card} aria-labelledby="mbti-records">
