@@ -1,6 +1,6 @@
 {
   "name": "kaitu-fortune",
-  "version": "0.1.6",
+  "version": "0.1.7-rc.1",
   "description": "DSH 插件：MBTI、中式命理、西洋星盘与塔罗，本机测试、解读与新对话",
   "type": "module",
   "license": "AGPL-3.0-only",
@@ -73,19 +73,19 @@
     "lint": "biome check ."
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "~4.0.5"
+    "@deepseek-ai/cordis": "~4.1.0"
   },
   "devDependencies": {
     "@astrodraw/astrochart": "3.0.2",
     "@biomejs/biome": "1.9.4",
-    "@deepseek-ai/cordis": "4.0.5",
-    "@deepseek-ai/dsh-api-remotes": "0.2.1-rc.3",
-    "@deepseek-ai/dsh-client-ui-layout": "0.2.1-rc.3",
-    "@deepseek-ai/dsh-client-ui-renderer": "0.2.1-rc.3",
-    "@deepseek-ai/dsh-client-ui-sidebar": "0.2.1-rc.3",
-    "@deepseek-ai/dsh-client-ui-slots": "0.2.1-rc.3",
-    "@deepseek-ai/dsh-typert-generator": "0.2.1-rc.3",
-    "@deepseek-ai/dsh-typert-registry": "0.2.1-rc.3",
+    "@deepseek-ai/cordis": "4.1.0",
+    "@deepseek-ai/dsh-api-remotes": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-layout": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-renderer": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-sidebar": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-typert-generator": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-typert-registry": "0.2.2-rc.1",
     "@types/node": "^22.20.5",
     "@types/react": "18.3.31",
     "@types/react-test-renderer": "18.3.1",
@@ -103,10 +103,10 @@
   },
   "packageManager": "pnpm@11.22.0",
   "engines": {
-    "node": "^22.19.0 || >=24",
-    "dsh": "0.2.1-rc.3"
+    "node": ">=24.9.0",
+    "dsh": "0.2.2-rc.1"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-typert-protocol": "0.2.1-rc.3"
+    "@deepseek-ai/dsh-typert-protocol": "0.2.2-rc.1"
   }
 }
