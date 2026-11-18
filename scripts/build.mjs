@@ -81,6 +81,7 @@ try {
     if (artifact.remote) {
       writeFileSync(resolve(root, "lib/typert.remote-client.js"), artifact.remote.js);
       writeFileSync(resolve(root, "lib/typert.remote-client.d.ts"), artifact.remote.dts);
+      writeFileSync(resolve(root, "lib/typert.remote-client.d.ts.map"), artifact.remote.dtsMap);
     }
   }
 } finally {
