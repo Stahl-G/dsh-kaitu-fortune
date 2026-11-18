@@ -93,7 +93,7 @@ const host = await build({
   outfile: "dist/index.js",
   bundle: true,
   platform: "node",
-  target: "node22",
+  target: "node24.9",
   format: "esm",
   external: ["@deepseek-ai/cordis", "@deepseek-ai/dsh-typert-protocol"],
   legalComments: "none",
